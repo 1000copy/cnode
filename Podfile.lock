@@ -4,6 +4,7 @@ PODS:
     - Alamofire (~> 4.1)
     - ObjectMapper (~> 2.0)
   - Cartography (1.1.0)
+  - GTMRefresh (1.1.2)
   - Kingfisher (3.2.4)
   - ObjectMapper (2.2.6)
 
@@ -11,6 +12,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.4.0)
   - AlamofireObjectMapper (~> 4.0.1)
   - Cartography
+  - GTMRefresh
   - Kingfisher (~> 3.2.4)
   - ObjectMapper (= 2.2.6)
 
@@ -18,9 +20,10 @@ SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   AlamofireObjectMapper: 94923a4320bbe52c1d0d462093277a9d6a755a78
   Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
+  GTMRefresh: 9c3bad3dab260dee3e28a92304ee0bfaf33419c1
   Kingfisher: 8d80f39da403cd9c9ee11984e1655f4d6a566cdb
   ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
 
-PODFILE CHECKSUM: b613b0d04ce90f0246bdcca585891a776c637404
+PODFILE CHECKSUM: 69e2c6b4d93402a0c1dbf3cee1c546d1d70bcf9d
 
 COCOAPODS: 1.2.1

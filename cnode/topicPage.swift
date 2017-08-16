@@ -3,15 +3,23 @@ import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
 import Kingfisher
-class TopicPage : UITableViewController{
+//var lightReload = false
+class TopicPage : UITableViewController,UIWebViewDelegate{
+    var id: String?
     fileprivate var result : Result?
+    var contentHeights : [IndexPath:CGFloat] = [:]
     override func viewDidLoad() {
-        Bar.foo{
+        Bar.foo(id!){
             self.result = $0
-            print(self.result?.success)
             self.tableView.reloadData()
         }
+        tableView.register(Cell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(ReplyCell.self, forCellReuseIdentifier: "ReplyCell")
+        tableView.estimatedRowHeight = 40.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .none
     }
+    var count : Int = 0
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if result == nil {
             return 1
@@ -19,15 +27,39 @@ class TopicPage : UITableViewController{
             return (result?.data?.replies?.count)! + 1
         }
     }
+    var webHeight : CGFloat?
+    var heights : [IndexPath:CGFloat] = [:]
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        if indexPath.row == 0 {
+            var aheight :CGFloat = 44.0
+            if contentHeights[indexPath] != nil {
+                aheight = contentHeights[indexPath]!
+            }
+            let titleheight:CGFloat = 12.0
+            let avatarheight:CGFloat = 38.0
+            let inset:CGFloat = 5.0
+            let all:CGFloat = 4 * inset
+            let h = all + titleheight  + avatarheight + aheight
+            return CGFloat(h)
+        }else{
+            var aheight :CGFloat = 44.0
+            if contentHeights[indexPath] != nil {
+                aheight = contentHeights[indexPath]!
+            }
+            let titleheight:CGFloat = 12.0
+            let inset:CGFloat = 5.0
+            let all:CGFloat = 3 * inset
+            // - 10 also can remove black line
+            let h = all + titleheight  + aheight
+            return CGFloat(h)
+        }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let url = URL(string:"https://")
         if result != nil {
             if indexPath.row == 0 {
-                let a = Cell()
+                let a = tableView.dequeueReusableCell(withIdentifier: "Cell") as! Cell
                 a._title.text = result?.data?.title
                 a._avatar.kf.setImage(with:URL(string:(result?.data?.author?.avatar_url)!))
                 let topic = result?.data
@@ -39,13 +71,17 @@ class TopicPage : UITableViewController{
                 let e = date((topic?.last_reply_at)!)!
                 a._lastReplied.text = "\(e.getElapsedInterval())"
                 a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
+                a._content.delegate = self
+                a._content.indexPath = indexPath
                 a._content.loadHTMLString((topic?.content)!, baseURL: url)
                 return a
             }else{
-                let a = ReplyCell()
+                let a = tableView.dequeueReusableCell(withIdentifier: "ReplyCell")  as! ReplyCell
                 let r = result?.data?.replies?[indexPath.row - 1]
                 a._avatar.kf.setImage(with:URL(string:(r?.author?.avatar_url)!))
                 let html = r?.content
+                a._content.delegate = self
+                a._content.indexPath = indexPath
                 a._content.loadHTMLString((html)!, baseURL: url)
                 a._created.text = date((r?.created)!)?.getElapsedInterval()
                 a._author.text = r?.author?.loginname
@@ -54,53 +90,79 @@ class TopicPage : UITableViewController{
         }
         return UITableViewCell()
     }
-    
+    func webViewDidFinishLoad(_ webView: UIWebView)
+    {
+        let web = webView as! TJWeb
+        if (contentHeights[web.indexPath] != nil)
+        {
+            // we already know height, no need to reload cell
+            return
+        }
+        if web.scrollView.contentSize.height != 0 {
+            contentHeights[web.indexPath] = web.scrollView.contentSize.height
+//            print(contentHeights)
+            tableView.reloadRows(at: [web.indexPath], with: .automatic)
+        }
+    }
+}
+class TJWeb : UIWebView,UIWebViewDelegate{
+    var indexPath : IndexPath!
+    override func layoutSubviews() {
+        //Black line appearing at bottom of UIWebView. How to remove?
+        isOpaque = false
+        backgroundColor = .clear
+        isUserInteractionEnabled = false
+    }
 }
 import Kingfisher
 import Cartography
+extension UITableViewCell {
+    var tableView: UITableView? {
+        var view = self.superview
+        while (view != nil && view!.isKind(of: UITableView.self) == false) {
+            view = view!.superview
+        }
+        return view as? UITableView
+    }
+}
 fileprivate class ReplyCell : UITableViewCell,UIWebViewDelegate{
-    var _content = UIWebView()
+    var _content = TJWeb()
     var _author  = UILabel()
     var _created = UILabel()
     var _avatar  = UIImageView()
-    
+    var isNotified = false
     func webViewDidFinishLoad(_ webView: UIWebView) {
-//        let str = webView.stringByEvaluatingJavaScript(from: "document.body.scrollHeight;")
-//        let height = Int(str!)
-//        print(height)
-////        webView.frame.size.height = 1
-////        webView.frame.size = webView.sizeThatFits(CGSize.zero)
-////        print(webView.frame.size)
-//        let h = webView.scrollView.contentSize.height
-//        print(h)
-//        print(webView.frame.height)
         webView.frame.size.height = 1
-        webView.frame.size = webView.sizeThatFits(.zero)
+        let size = CGSize(width: webView.frame.size.width, height: CGFloat.greatestFiniteMagnitude)
+        let newSize = webView.sizeThatFits(size)
+        webView.frame.size.height = newSize.height
     }
     fileprivate override func layoutSubviews() {
+        
          self.contentView.addSubview(_content)
         self.contentView.addSubview(_author)
         self.contentView.addSubview(_created)
         self.contentView.addSubview(_avatar)
         _created.textAlignment = .right
         _content.isUserInteractionEnabled = false
-        _content.delegate = self
+        _content.scrollView.contentInset = UIEdgeInsets.zero;
         constrain(contentView,_avatar,_created,_content,_author){
             $1.left == $0.left + 5
             $1.top == $0.top + 5
             $1.height == 38
             $1.width == 38
             
-            $4.left == $1.right + 5
-            $4.top == $1.top
+            $2.top == $1.top
+            $2.right == $0.right - 5
             
-            $3.top == $1.bottom + 5
-            $3.left == $1.right + 5
+            $3.top == $4.bottom
+            $3.left == $1.right
             $3.right == $0.right
             $3.bottom == $0.bottom
             
-            $2.top == $1.top
-            $2.right == $0.right - 5
+            $4.left == $1.right + 5
+            $4.top == $1.top
+            
         }
     }
 }
@@ -112,11 +174,12 @@ fileprivate class Cell : UITableViewCell{
     var _hot = UILabel()
     var _created = UILabel()
     var _lastReplied = UILabel()
-    var _content = UIWebView()
+    var _content = TJWeb()
+    var isNotified = false
     override func layoutSubviews() {
+        
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_avatar)
-        //        _avatar.image = UIImage.imageWithColor(.blue)
         _top.text = "置顶"
         _top.backgroundColor = .green
         self.contentView.addSubview(_top)
@@ -127,7 +190,8 @@ fileprivate class Cell : UITableViewCell{
         self.contentView.addSubview(_content)
         _hot.textAlignment = .right
         _lastReplied.textAlignment = .right
-        //        _lastReplied.isHidden = true
+        _content.isUserInteractionEnabled = false
+        _content.scrollView.contentInset = UIEdgeInsets.zero;
         constrain(contentView,_title,_avatar,_top){
             $1.left == $2.right  + 20
             $1.top  == $0.top + 5
@@ -177,8 +241,8 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-    class func foo(done:@escaping (_ t : Result)->Void){
-        let id = "598f28a8e104026c52101860"
+    class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
+//        let id = "598f28a8e104026c52101860"
         let URL = "https://cnodejs.org/api/v1/topic/\(id)"
         Alamofire.request(URL).responseObject { (response: DataResponse<Result>) in
             let topics = response.result.value
@@ -192,7 +256,6 @@ fileprivate class Result: Mappable {
     required init?(map: Map){
         
     }
-    
     func mapping(map: Map) {
         success <- map["success"]
         data <- map["data"]
@@ -227,7 +290,6 @@ fileprivate class Data : Mappable{
         reply_count <- map["reply_count"]
         visit_count <- map["visit_count"]
         create_at <- map["create_at"]
-        //        author <- map["author"]
         tab <- map["tab"]
         replies <- map["replies"]
     }

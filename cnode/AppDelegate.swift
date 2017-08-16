@@ -18,11 +18,11 @@ class Nav: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+//        self.pushViewController(TopicPage(), animated: true)
         self.pushViewController(TopicsPage(), animated: true)
     }
 }
 func date(_ str : String)-> Date?{
-    print(str)
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     return dateformatter.date(from: str)

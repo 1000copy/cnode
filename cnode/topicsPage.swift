@@ -7,9 +7,12 @@ class TopicsPage : UITableViewController{
     let MyIdentifier = "cell"
     override func viewDidLoad() {
         super.viewDidLoad()
-        Bar.foo(){
+        setupRefresh()
+        scrollUp = up
+        scrollDown = down
+        Bar.foo(1){
             self.arr = $0
-            print(self.arr?.data?[0].top)
+//            print(self.arr?.data?[0].top)
             self.tableView.reloadData()
         }
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
@@ -17,6 +20,7 @@ class TopicsPage : UITableViewController{
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let id = self.arr?.data?[indexPath.row].id
         let t = TopicPage()
+        t.id = id
         self.navigationController?.pushViewController(t, animated: true)
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,6 +32,25 @@ class TopicsPage : UITableViewController{
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
+    }
+    var scrollUp : ((_ cb : @escaping Callback)-> Void)?
+    var scrollDown : ((_ cb : @escaping CallbackMore)-> Void)?
+    func up(_ cb : @escaping Callback){
+        Bar.foo(1){
+            self.arr = $0
+            self.tableView.reloadData()
+            cb()
+        }
+
+    }
+    var page = 1
+    func down(_ cb : @escaping CallbackMore){
+        page += 1
+        Bar.foo(page){
+            self.arr?.data! += $0.data!
+            self.tableView.reloadData()
+            cb(true)
+        }
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let a = tableView.dequeueReusableCell(withIdentifier: MyIdentifier) as! Cell
@@ -114,8 +137,8 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-    class func foo(done:@escaping (_ t : Topics)->Void){
-        let URL = "https://cnodejs.org/api/v1/topics?page=1"
+    class func foo(_ page : Int,done:@escaping (_ t : Topics)->Void){
+        let URL = "https://cnodejs.org/api/v1/topics?page=\(page)"
         Alamofire.request(URL).responseObject { (response: DataResponse<Topics>) in
             let topics = response.result.value
             done(topics!)
@@ -177,3 +200,43 @@ fileprivate class Topic: Mappable {
         tab <- map["tab"]
     }
 }
+typealias Callback = ()-> Void
+typealias CallbackMore = (_ b : Bool)-> Void
+extension  TopicsPage {
+    func setupRefresh(){
+        self.tableView.gtm_addRefreshHeaderView(delegate: self)
+        self.tableView.gtm_addLoadMoreFooterView(delegate: self)
+    }
+    func beginScrollUp(){
+        refresh()
+    }
+    func endScrollUp(){
+        self.tableView.endRefreshing(isSuccess: true)
+    }
+    func endScrollDown(_ hasMoreData : Bool = true){
+        self.tableView.endLoadMore(isNoMoreData: !hasMoreData)
+    }
+    func beginRefresh(){
+        self.refresh()
+    }
+}
+
+extension TopicsPage:GTMRefreshHeaderDelegate{
+    func refresh() {
+        if scrollUp != nil{
+            scrollUp!(){
+                self.tableView.endRefreshing(isSuccess: true)
+            }
+        }
+    }
+}
+extension TopicsPage: GTMLoadMoreFooterDelegate {
+    func loadMore() {
+        if scrollDown != nil{
+            scrollDown!(){
+                self.tableView.endLoadMore(isNoMoreData: !$0)
+            }
+        }
+    }
+}
+import GTMRefresh
