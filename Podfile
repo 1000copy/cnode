@@ -8,4 +8,6 @@ target 'cnode' do
     pod 'Cartography'
     pod 'Kingfisher', '~> 3.2.4'
     pod 'GTMRefresh'
+    pod 'DrawerController', '~> 3.2'
+    pod 'SwiftIcons'
 end

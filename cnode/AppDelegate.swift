@@ -1,80 +1,68 @@
 import UIKit
-
+import DrawerController
+var drawerController : DrawerPage?
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
-    var nav : Nav?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        nav = Nav()
-        self.window!.rootViewController = nav
+        drawerController = DrawerPage()
+        self.window!.rootViewController = drawerController
+//        self.window!.rootViewController = CenterPage()
+//        self.window!.rootViewController = LeftPage()
         self.window?.makeKeyAndVisible()
         return true
     }
 }
-class Nav: UINavigationController {
+class DrawerPage : DrawerBase{
+    init(){
+        super.init(CenterPage(),LeftPage(),RightPage())
+    }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+class DrawerBase : DrawerController{
+    init(_ center : UIViewController,_ left : UIViewController,_ right : UIViewController){
+        super.init(centerViewController: center, leftDrawerViewController: left, rightDrawerViewController: right)
+        openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
+        closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class CenterPage: UINavigationController {
     var count = 0
     var label : UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-//        self.pushViewController(TopicPage(), animated: true)
+        //        self.pushViewController(TopicPage(), animated: true)
         self.pushViewController(TopicsPage(), animated: true)
     }
-}
-func date(_ str : String)-> Date?{
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-    return dateformatter.date(from: str)
-}
-extension Date {
-    func getElapsedInterval() -> String {
+    func addTapped(){
         
-        var calendar = Calendar.current
-        calendar.locale = Locale(identifier: Bundle.main.preferredLocalizations[0]) //--> IF THE USER HAVE THE PHONE IN SPANISH BUT YOUR APP ONLY SUPPORTS I.E. ENGLISH AND GERMAN WE SHOULD CHANGE THE LOCALE OF THE FORMATTER TO THE PREFERRED ONE (IS THE LOCALE THAT THE USER IS SEEING THE APP), IF NOT, THIS ELAPSED TIME IS GOING TO APPEAR IN SPANISH
-        
-        let formatter = DateComponentsFormatter()
-        formatter.unitsStyle = .full
-        formatter.maximumUnitCount = 1
-        formatter.calendar = calendar
-        
-        var dateString: String?
-        
-        let interval = calendar.dateComponents([.year, .month, .weekOfYear, .day], from: self, to: Date())
-        
-        if let year = interval.year, year > 0 {
-            formatter.allowedUnits = [.year] //2 years
-        } else if let month = interval.month, month > 0 {
-            formatter.allowedUnits = [.month] //1 month
-        } else if let week = interval.weekOfYear, week > 0 {
-            formatter.allowedUnits = [.weekOfMonth] //3 weeks
-        } else if let day = interval.day, day > 0 {
-            formatter.allowedUnits = [.day] // 6 days
-        } else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: Bundle.main.preferredLocalizations[0]) //--> IF THE USER HAVE THE PHONE IN SPANISH BUT YOUR APP ONLY SUPPORTS I.E. ENGLISH AND GERMAN WE SHOULD CHANGE THE LOCALE OF THE FORMATTER TO THE PREFERRED ONE (IS THE LOCALE THAT THE USER IS SEEING THE APP), IF NOT, THIS ELAPSED TIME IS GOING TO APPEAR IN SPANISH
-            dateFormatter.dateStyle = .medium
-            dateFormatter.doesRelativeDateFormatting = true
-            
-            dateString = dateFormatter.string(from: self) // IS GOING TO SHOW 'TODAY'
-        }
-        
-        if dateString == nil {
-            dateString = formatter.string(from: self, to: Date())
-        }
-        
-        return dateString!
     }
 }
-extension UIImage {
-    class func imageWithColor(_ color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0.0, y: 0.0, width: 10.0,height: 10.0 )
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image!
+class RightPage: UIViewController {
+    var count = 0
+    var label : UILabel!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+        label   = UILabel()
+        label.frame = CGRect(x: 100, y: 100, width: 120, height: 50)
+        label.text =  "Right"
+        view.addSubview(label)
+        let button   = UIButton(type: .system)
+        button.frame = CGRect(x: 120, y: 150, width: 120, height: 50)
+        button.setTitle("Close",for: .normal)
+        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        view.addSubview(button)
+    }
+    func buttonAction(_ sender:UIButton!){
+        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
     }
 }

@@ -16,6 +16,15 @@ class TopicsPage : UITableViewController{
             self.tableView.reloadData()
         }
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Right Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("rtap"))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Left Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("ltap"))
+        
+    }
+    func ltap(){
+        drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
+    }
+    func rtap(){
+        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let id = self.arr?.data?[indexPath.row].id
