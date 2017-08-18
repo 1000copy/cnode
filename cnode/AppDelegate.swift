@@ -1,6 +1,7 @@
 import UIKit
 import DrawerController
-var drawerController : DrawerPage?
+var drawerController : DrawerPage!
+var homePage : TopicsPage!
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -40,7 +41,8 @@ class CenterPage: UINavigationController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         //        self.pushViewController(TopicPage(), animated: true)
-        self.pushViewController(TopicsPage(), animated: true)
+        homePage = TopicsPage()
+        self.pushViewController(homePage, animated: true)
     }
     func addTapped(){
         

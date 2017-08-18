@@ -57,26 +57,29 @@ import SwiftIcons
 class Item{
     var emoji : EmojiType!
     var title : String!
-    init(_ emoji : EmojiType,_ title : String){
+    var tab : String!
+    init(_ emoji : EmojiType,_ title : String,_ tab : String){
         self.emoji = emoji
         self.title = title
+        self.tab = tab
     }
 }
-fileprivate  class Table: UITableView,UITableViewDataSource{
+fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
     let arr : [Item] = [
-            Item(EmojiType.home,"全部"),
-            Item(EmojiType.enter,"问答"),
-            Item(EmojiType.bookmark,"招聘"),
-            Item(EmojiType.book,"精华"),
-            Item(EmojiType.previousPage,"分享"),
-            Item(EmojiType.gear,"设置"),
-            Item(EmojiType.anchor,"消息"),
-            Item(EmojiType.shield,"关于"),
+            Item(EmojiType.home,"全部","all"),
+            Item(EmojiType.enter,"问答","ask"),
+            Item(EmojiType.bookmark,"招聘","job"),
+            Item(EmojiType.book,"精华","good"),
+            Item(EmojiType.previousPage,"分享","share"),
+            Item(EmojiType.gear,"设置",""),
+            Item(EmojiType.anchor,"消息",""),
+            Item(EmojiType.shield,"关于",""),
     ]
     let MyIdentifier = "cell"
     override init(frame: CGRect, style: UITableViewStyle) {
         super.init(frame:frame,style:style)
         self.dataSource = self
+        self.delegate = self
         self.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
     }
     required init?(coder aDecoder: NSCoder) {
@@ -90,6 +93,13 @@ fileprivate  class Table: UITableView,UITableViewDataSource{
         a.label.text = String(arr[indexPath.row].title)
         a.icon.image = UIImage.init(icon: .emoji(arr[indexPath.row].emoji), size: CGSize(width: 35, height: 35), textColor: .black, backgroundColor: .white)
         return a
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        let tab = arr[indexPath.row].tab
+        if tab != ""{
+            homePage.reload(tab!)
+            drawerController.toggleLeftDrawerSide(animated: true, completion: nil)
+        }
     }
 }
 fileprivate class Cell : UITableViewCell{

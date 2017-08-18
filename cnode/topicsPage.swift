@@ -10,14 +10,11 @@ class TopicsPage : UITableViewController{
         setupRefresh()
         scrollUp = up
         scrollDown = down
-        Bar.foo(1){
-            self.arr = $0
-//            print(self.arr?.data?[0].top)
-            self.tableView.reloadData()
-        }
+        
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Right Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("rtap"))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Left Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("ltap"))
+        reload("all")
         
     }
     func ltap(){
@@ -44,8 +41,17 @@ class TopicsPage : UITableViewController{
     }
     var scrollUp : ((_ cb : @escaping Callback)-> Void)?
     var scrollDown : ((_ cb : @escaping CallbackMore)-> Void)?
+    var tab = "all"
+    func reload(_ tab : String){
+        self.tab = tab
+        Bar.foo(tab,1){
+            self.arr = $0
+            //            print(self.arr?.data?[0].top)
+            self.tableView.reloadData()
+        }
+    }
     func up(_ cb : @escaping Callback){
-        Bar.foo(1){
+        Bar.foo(tab,1){
             self.arr = $0
             self.tableView.reloadData()
             cb()
@@ -55,7 +61,7 @@ class TopicsPage : UITableViewController{
     var page = 1
     func down(_ cb : @escaping CallbackMore){
         page += 1
-        Bar.foo(page){
+        Bar.foo(tab,page){
             self.arr?.data! += $0.data!
             self.tableView.reloadData()
             cb(true)
@@ -146,8 +152,8 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-    class func foo(_ page : Int,done:@escaping (_ t : Topics)->Void){
-        let URL = "https://cnodejs.org/api/v1/topics?page=\(page)"
+    class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
+        let URL = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
         Alamofire.request(URL).responseObject { (response: DataResponse<Topics>) in
             let topics = response.result.value
             done(topics!)
