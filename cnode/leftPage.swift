@@ -91,15 +91,25 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let a = tableView.dequeueReusableCell(withIdentifier: MyIdentifier) as! Cell
         a.label.text = String(arr[indexPath.row].title)
-        a.icon.image = UIImage.init(icon: .emoji(arr[indexPath.row].emoji), size: CGSize(width: 35, height: 35), textColor: .black, backgroundColor: .white)
+        a.icon.image = UIImage.init(icon: .emoji(arr[indexPath.row].emoji), size: CGSize(width: 35, height: 35), textColor: .black,
+                                    backgroundColor: .white)
+        a.icon.image = a.icon.image?.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         return a
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let tab = arr[indexPath.row].tab
         if tab != ""{
             homePage.reload(tab!)
-            drawerController.toggleLeftDrawerSide(animated: true, completion: nil)
+        }else{
+            if arr[indexPath.row].title == "关于"{
+                centerPage.pushViewController(AboutPage(), animated: true)
+            }else if arr[indexPath.row].title == "设置"{
+                centerPage.pushViewController(SettingPage(), animated: true)
+            }else if arr[indexPath.row].title == "消息"{
+                centerPage.pushViewController(NotifyPage(), animated: true)
+            }
         }
+        drawerController.toggleLeftDrawerSide(animated: true, completion: nil)
     }
 }
 fileprivate class Cell : UITableViewCell{

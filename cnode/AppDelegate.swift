@@ -2,6 +2,7 @@ import UIKit
 import DrawerController
 var drawerController : DrawerPage!
 var homePage : TopicsPage!
+var centerPage : CenterPage!
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -17,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 class DrawerPage : DrawerBase{
     init(){
-        super.init(CenterPage(),LeftPage(),RightPage())
+        centerPage = CenterPage()
+        super.init(centerPage,LeftPage(),RightPage())
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -46,25 +48,5 @@ class CenterPage: UINavigationController {
     }
     func addTapped(){
         
-    }
-}
-class RightPage: UIViewController {
-    var count = 0
-    var label : UILabel!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
-        label   = UILabel()
-        label.frame = CGRect(x: 100, y: 100, width: 120, height: 50)
-        label.text =  "Right"
-        view.addSubview(label)
-        let button   = UIButton(type: .system)
-        button.frame = CGRect(x: 120, y: 150, width: 120, height: 50)
-        button.setTitle("Close",for: .normal)
-        button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
-        view.addSubview(button)
-    }
-    func buttonAction(_ sender:UIButton!){
-        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
     }
 }

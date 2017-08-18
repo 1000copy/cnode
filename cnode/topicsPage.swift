@@ -13,9 +13,10 @@ class TopicsPage : UITableViewController{
         
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Right Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("rtap"))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Left Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("ltap"))
+        var image = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 40, height: 40))
+        image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("ltap"))
         reload("all")
-        
     }
     func ltap(){
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
