@@ -68,6 +68,25 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             return CGFloat(h)
         }
     }
+    let htmlhead =  "<!DOCTYPE html>" +
+        "<html>" +
+        "<head>" +
+        "<meta charset=\"UTF-8\">" +
+        "<style type=\"text/css\">" +
+        "html{margin:0;padding:0;}" +
+        "body {" +
+        "margin: 0;" +
+        "padding: 0;" +
+        "}" +
+        "img{" +
+        "width: 90%;" +
+        "height: auto;" +
+        "display: block;" +
+        "margin-left: auto;" +
+        "margin-right: auto;" +
+        "}" +
+        "</style>" +
+    "</head>"
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let url = URL(string:"https://")
@@ -87,25 +106,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
                 a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
                 a._content.delegate = self
                 a._content.indexPath = indexPath
-                let html = "<!DOCTYPE html>" +
-                "<html>" +
-                "<head>" +
-                "<meta charset=\"UTF-8\">" +
-                "<style type=\"text/css\">" +
-                "html{margin:0;padding:0;}" +
-                "body {" +
-                "margin: 0;" +
-                "padding: 0;" +
-                "}" +
-                "img{" +
-                "width: 90%;" +
-                "height: auto;" +
-                "display: block;" +
-                "margin-left: auto;" +
-                "margin-right: auto;" +
-                "}" +
-                "</style>" +
-                "</head>" +  (topic?.content)!
+                let html = htmlhead +  (topic?.content)!
                 a._content.loadHTMLString(html, baseURL: url)
                 return a
             }else{

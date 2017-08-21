@@ -14,7 +14,11 @@ class TopicsPage : UITableViewController{
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
         var image = UIImage.init(icon: .emoji(.plus), size: CGSize(width: 20, height: 20))
         image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
+        self.navigationItem.rightBarButtonItems =
+            [
+                UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap")),
+                UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
+            ]
         
         var image1 = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 40, height: 40))
         image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)

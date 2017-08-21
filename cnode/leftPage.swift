@@ -54,6 +54,10 @@ class Top: UIView{
             
         }
         refill()
+        // 获取消息数量
+        //curl  https://cnodejs.org/api/v1/message/count?accesstoken=9c7d03d6-11ef-4637-b8d9-2be203140e5c
+        // 已读消息和未读消息
+        // curl https://cnodejs.org/api/v1//messages?accesstoken=9c7d03d6-11ef-4637-b8d9-2be203140e5c
     }
     func refill(){
         let t = AccessToken.loadFromKC()
