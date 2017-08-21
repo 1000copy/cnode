@@ -10,14 +10,16 @@ class LeftPage: UIViewController {
             $1.top == $0.top
             $1.left == $0.left
             $1.right == $0.right
-            $1.height == 100
+            $1.height == 150
             
             $2.top == $1.bottom
             $2.left == $0.left
             $2.right == $0.right
             $2.bottom == $0.bottom
         }
-        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        top.refill()
     }
 }
 class Avatar : UIImageView{
@@ -26,30 +28,55 @@ class Avatar : UIImageView{
 class Top: UIView{
     var label : UILabel!
     var avatar = Avatar()
+    var button = UIButton(type: .system)
     override func layoutSubviews() {
         self.backgroundColor = .white
         label   = UILabel()
         label.text =  "User Name"
         self.addSubview(label)
-        let button   = UIButton(type: .system)
         button.setTitle("登录",for: .normal)
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         self.addSubview(button)
         self.addSubview(avatar)
         label.textAlignment = .center
-        constrain(self,avatar,label){
+        constrain(self,avatar,label,button){
             $1.center == $0.center
             $1.width == 38
             $1.height == 38
-            $2.top == $1.bottom
-            $2.right == $0.right
-            $2.left == $0.left
+            
+            $2.top == $1.bottom + 5
+            $2.centerX == $0.centerX
             $2.height == 20
+            
+            $3.top == $2.bottom + 5
+            $3.centerX == $0.centerX
+            $3.height == 20
+            
         }
-        let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
-        avatar.kf.setImage(with:URL(string:(url)))
+        refill()
     }
+    func refill(){
+        let t = AccessToken.loadFromKC()
+        if t?.accesstoken != "" {
+            avatar.kf.setImage(with:URL(string:(t?.avatar_url!)!))
+            label.text = t?.loginname!
+            button.setTitle("登出",for: .normal)
+        }else{
+            let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
+            avatar.kf.setImage(with:URL(string:(url)))
+        }
+    }
+    
     func buttonAction(_ sender:UIButton!){
+        if button.titleLabel?.text == "登出"{
+            let token = AccessToken("","","","")
+            token.saveToKC()
+            label.text = ""
+            avatar.image = nil
+             button.setTitle("登录",for: .normal)
+        }else{
+            centerPage.pushViewController(LoginPage(), animated: true)
+        }
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
 }

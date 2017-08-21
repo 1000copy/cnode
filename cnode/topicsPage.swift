@@ -12,17 +12,23 @@ class TopicsPage : UITableViewController{
         scrollDown = down
         
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Right Drawer", style: UIBarButtonItemStyle.plain, target: self, action: Selector("rtap"))
-        var image = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 40, height: 40))
+        var image = UIImage.init(icon: .emoji(.plus), size: CGSize(width: 20, height: 20))
         image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("ltap"))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
+        
+        var image1 = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 40, height: 40))
+        image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("ltap"))
+        
         reload("all")
     }
     func ltap(){
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
     func rtap(){
-        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+//        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+        let t = CreatePage()
+        self.navigationController?.pushViewController(t, animated: true)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let id = self.arr?.data?[indexPath.row].id
@@ -86,16 +92,28 @@ class TopicsPage : UITableViewController{
 
     
 }
+class SizeLabel : UILabel{
+    init(_ fontSize : CGFloat){
+        super.init(frame: CGRect.zero)
+        font = v2Font(fontSize)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func v2Font(_ fontSize: CGFloat) -> UIFont {
+        return UIFont.systemFont(ofSize: fontSize);
+    }
+}
 import Kingfisher
 import Cartography
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()
     var _avatar = UIImageView()
-    var _author = UILabel()
-    var _hot = UILabel()
-    var _created = UILabel()
-    var _lastReplied = UILabel()
+    var _author = SizeLabel(12)
+    var _hot = SizeLabel(12)
+    var _created = SizeLabel(12)
+    var _lastReplied = SizeLabel(12)
     override func layoutSubviews() {
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_avatar)
@@ -110,6 +128,8 @@ fileprivate class Cell : UITableViewCell{
         _hot.textAlignment = .right
         _lastReplied.textAlignment = .right
         //        _lastReplied.isHidden = true
+       
+        
         constrain(contentView,_title,_avatar,_top){
             $1.left == $2.right  + 20
             $1.top  == $0.top + 5

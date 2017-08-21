@@ -10,6 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         drawerController = DrawerPage()
         self.window!.rootViewController = drawerController
+//        self.window!.rootViewController = LoginPage()
 //        self.window!.rootViewController = CenterPage()
 //        self.window!.rootViewController = LeftPage()
         self.window?.makeKeyAndVisible()
