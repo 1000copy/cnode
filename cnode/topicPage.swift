@@ -87,7 +87,26 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
                 a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
                 a._content.delegate = self
                 a._content.indexPath = indexPath
-                a._content.loadHTMLString((topic?.content)!, baseURL: url)
+                let html = "<!DOCTYPE html>" +
+                "<html>" +
+                "<head>" +
+                "<meta charset=\"UTF-8\">" +
+                "<style type=\"text/css\">" +
+                "html{margin:0;padding:0;}" +
+                "body {" +
+                "margin: 0;" +
+                "padding: 0;" +
+                "}" +
+                "img{" +
+                "width: 90%;" +
+                "height: auto;" +
+                "display: block;" +
+                "margin-left: auto;" +
+                "margin-right: auto;" +
+                "}" +
+                "</style>" +
+                "</head>" +  (topic?.content)!
+                a._content.loadHTMLString(html, baseURL: url)
                 return a
             }else{
                 let a = tableView.dequeueReusableCell(withIdentifier: "ReplyCell")  as! ReplyCell
@@ -117,6 +136,8 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
 //            print(contentHeights)
             tableView.reloadRows(at: [web.indexPath], with: .automatic)
         }
+        let zoom = webView.bounds.size.width / webView.scrollView.contentSize.width
+        webView.scrollView.setZoomScale(zoom, animated: true)
     }
 }
 class TJWeb : UIWebView,UIWebViewDelegate{
@@ -258,8 +279,11 @@ fileprivate class Bar{
     class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
 //        let id = "598f28a8e104026c52101860"
         let URL = "https://cnodejs.org/api/v1/topic/\(id)"
-        Alamofire.request(URL).responseObject { (response: DataResponse<Result>) in
+        var params :[String:Any] = [:]
+        params["mdrender"] = true
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject { (response: DataResponse<Result>) in
             let topics = response.result.value
+            print(topics)
             done(topics!)
         }
     }
