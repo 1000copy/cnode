@@ -18,8 +18,22 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         tableView.estimatedRowHeight = 40.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
+        var image = UIImage.init(icon: .emoji(.arrowReply), size: CGSize(width: 20, height: 20))
+        image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
     }
     var count : Int = 0
+    func rtap(){
+        let ip = tableView.indexPathForSelectedRow
+        let p = ReplyPage()
+        p.topicId = id
+        p.replyId = ""
+        if (ip?.row)! > 0 {
+            p.replyId = result?.data?.replies?[(ip?.row)! - 1].id
+            p.replyName = (result?.data?.replies?[(ip?.row)! - 1].author?.loginname)!
+        }
+        centerPage.pushViewController(p, animated: true)
+    }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if result == nil {
             return 1

@@ -30,7 +30,7 @@ class DrawerBase : DrawerController{
     init(_ center : UIViewController,_ left : UIViewController,_ right : UIViewController){
         super.init(centerViewController: center, leftDrawerViewController: left, rightDrawerViewController: right)
         openDrawerGestureModeMask=OpenDrawerGestureMode.panningCenterView
-        closeDrawerGestureModeMask=CloseDrawerGestureMode.all;
+        closeDrawerGestureModeMask=CloseDrawerGestureMode.all
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
