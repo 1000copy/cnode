@@ -9,7 +9,6 @@ class LoginPage: UIViewController {
         _add.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         _title.backgroundColor = .blue
         _title.placeholder = "accesstoken  here..."
-        _title.text = "9c7d03d6-11ef-4637-b8d9-2be203140e5c"
         _title.textColor = .white
         _title.setContentOffset(CGPoint.zero, animated: true)
         self.navigationController?.navigationBar.isTranslucent = false
