@@ -18,21 +18,58 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         tableView.estimatedRowHeight = 40.0
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .none
-        var image = UIImage.init(icon: .emoji(.arrowReply), size: CGSize(width: 20, height: 20))
+        refreshButtons()
+    }
+    func refreshButtons(){
+        var image = UIImage.init(icon: .icofont(.like), size: CGSize(width: 20, height: 20))
         image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
+        var image1 = UIImage.init(icon: .emoji(.arrowReply), size: CGSize(width: 20, height: 20))
+        image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        var image3 = UIImage.init(icon: .icofont(.abacus), size: CGSize(width: 20, height: 20))
+        image3 = image3.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+        Bar.likes(){
+            if !$0.contains(self.id!){
+                self.navigationItem.rightBarButtonItems =
+                    [
+                        UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("like")),
+                        UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("reply"))
+                ]
+            }else{
+                self.navigationItem.rightBarButtonItems =
+                    [
+                        UIBarButtonItem(image: image3, style: .plain, target: self, action: Selector("unlike")),
+                        UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("reply"))
+                ]
+            }
+        }
     }
     var count : Int = 0
-    func rtap(){
+    func reply(){
         let ip = tableView.indexPathForSelectedRow
         let p = ReplyPage()
         p.topicId = id
         p.replyId = ""
-        if (ip?.row)! > 0 {
+        if let row = ip?.row,row > 0 {
             p.replyId = result?.data?.replies?[(ip?.row)! - 1].id
             p.replyName = (result?.data?.replies?[(ip?.row)! - 1].author?.loginname)!
         }
         centerPage.pushViewController(p, animated: true)
+    }
+    func like(){
+        let token = AccessToken.loadFromKC()
+        if let t = token?.accesstoken ,t != ""{
+            Bar.like(id!,t){_ in
+                self.refreshButtons()
+            }
+        }
+    }
+    func unlike(){
+        let token = AccessToken.loadFromKC()
+        if let t = token?.accesstoken ,t != ""{
+            Bar.unlike(id!,t){_ in
+                self.refreshButtons()
+            }
+        }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if result == nil {
@@ -288,6 +325,123 @@ fileprivate class Bar{
             done(topics!)
         }
     }
+    class func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
+        //        let id = "598f28a8e104026c52101860"
+        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
+        var params :[String:Any] = [:]
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
+            let result = $0.value
+            let json = result as! [String:Any]
+            let success = json["success"] as! Bool
+            print(json)
+            if success{
+                HUDSuccess()
+                var topicIds :[String] = []
+                let data = json["data"] as! [[String:Any]]
+                for  item in data {
+                    let id = item["id"] as! String
+                    topicIds.append(id)
+                }
+                print(topicIds)
+                done(topicIds)
+            }else{
+                if let error = json["error_message"] ,error != nil{
+                    HUDError(json["error_message"] as! String)
+                }
+                HUDError("")
+            }
+        }
+    }
+    class func likes(done:@escaping (_ done : [String])->Void){
+        let token = AccessToken.loadFromKC()
+        if let t = token?.accesstoken ,t != ""{
+            Bar.likes((token?.loginname)!, done)
+        }
+    }
+    class func like(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
+        //        let id = "598f28a8e104026c52101860"
+        let URL = "https://cnodejs.org/api/v1/topic_collect/collect"
+        var params :[String:Any] = [:]
+        params["accesstoken"] = token
+        params["topic_id"] = id
+        Alamofire.request(URL, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
+            let result = $0.value
+            let json = result as! [String:Any]
+            let success = json["success"] as! Bool
+            print(json)
+            if success{
+                HUDSuccess()
+                var topicIds :[String] = []
+//                let data = json["data"] as! [[String:Any]]
+//                for  item in data {
+//                    let id = item["id"] as! String
+//                    topicIds.append(id)
+//                }
+//                print(topicIds)
+                done(1)
+            }else{
+                if let error = json["error_message"] ,error != nil{
+                    HUDError(json["error_message"] as! String)
+                }
+                HUDError("")
+            }
+        }
+    }
+    class func unlike(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
+        //        let id = "598f28a8e104026c52101860"
+        let URL = "https://cnodejs.org/api/v1/topic_collect/de_collect"
+        var params :[String:Any] = [:]
+        params["accesstoken"] = token
+        params["topic_id"] = id
+        Alamofire.request(URL, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
+            let result = $0.value
+            let json = result as! [String:Any]
+            let success = json["success"] as! Bool
+            print(json)
+            if success{
+                HUDSuccess()
+                done(1)
+            }else{
+                if let error = json["error_message"] ,error != nil{
+                    HUDError(json["error_message"] as! String)
+                }
+                HUDError("")
+            }
+        }
+    }
+    class func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
+        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
+        var params :[String:Any] = [:]
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
+            let result = $0.value
+            let json = result as! [String:Any]
+            let success = json["success"] as! Bool
+            print(json)
+            if success{
+                HUDSuccess()
+                done(result!)
+            }else{
+                if let error = json["error_message"] ,error != nil{
+                    HUDError(json["error_message"] as! String)
+                }
+                HUDError("")
+            }
+        }
+
+    }
+//
+}
+import PKHUD
+
+public func HUDSuccess(_ status:String!="") {
+    //    V2ProgressHUD.success(status)
+    HUD.hide()
+    HUD.flash(.success)
+}
+public func HUDError(_ status:String!) {
+    //    V2ProgressHUD.success(status)
+    HUD.hide()
+    HUD.flash(.error)
 }
 fileprivate class Result: Mappable {
     var success: Bool?
@@ -300,12 +454,24 @@ fileprivate class Result: Mappable {
         data <- map["data"]
     }
 }
+fileprivate class Author : Mappable{
+    var loginname: String?
+    var avatar_url: String?
+    required init?(map: Map){
+        
+    }
+    func mapping(map: Map) {
+        loginname <- map["loginname"]
+        avatar_url <- map["avatar_url"]
+    }
+}
+
 //content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
 fileprivate class Data : Mappable{
     var content : String?
     var title : String?
     var replies : [Reply]?
-    var author : Author?
+    fileprivate var author : Author?
     var author_id : String?
     var tab : String?
     var last_reply_at : String?
@@ -338,7 +504,7 @@ fileprivate class Reply: Mappable {
     var id: String?
     var content : String?
     var title : String?
-    var author : Author?
+    fileprivate var author : Author?
     var created : String?
     required init?(map: Map){
         

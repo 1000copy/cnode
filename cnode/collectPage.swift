@@ -2,7 +2,7 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
-class TopicsPage : UITableViewController{
+class CollectPage : UITableViewController{
     fileprivate var arr : Topics?
     let MyIdentifier = "cell"
     override func viewDidLoad() {
@@ -12,24 +12,13 @@ class TopicsPage : UITableViewController{
         scrollDown = down
         
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
-        var image = UIImage.init(icon: .emoji(.plus), size: CGSize(width: 20, height: 20))
-        image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.rightBarButtonItems =
-            [
-                UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
-            ]
-        
-        var image1 = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 40, height: 40))
-        image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("ltap"))
-        
         reload("all")
     }
     func ltap(){
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
     func rtap(){
-//        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+        //        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
         let t = CreatePage()
         self.navigationController?.pushViewController(t, animated: true)
     }
@@ -54,24 +43,24 @@ class TopicsPage : UITableViewController{
     var tab = "all"
     func reload(_ tab : String){
         self.tab = tab
-        Bar.foo(tab,1){
+        Bar.likes(){
             self.arr = $0
             //            print(self.arr?.data?[0].top)
             self.tableView.reloadData()
         }
     }
     func up(_ cb : @escaping Callback){
-        Bar.foo(tab,1){
+        Bar.likes(){
             self.arr = $0
             self.tableView.reloadData()
             cb()
         }
-
+        
     }
     var page = 1
     func down(_ cb : @escaping CallbackMore){
         page += 1
-        Bar.foo(tab,page){
+        Bar.likes(){
             self.arr?.data! += $0.data!
             self.tableView.reloadData()
             cb(true)
@@ -92,8 +81,20 @@ class TopicsPage : UITableViewController{
         a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
         return a
     }
-
     
+    
+}
+class SizeLabel : UILabel{
+    init(_ fontSize : CGFloat){
+        super.init(frame: CGRect.zero)
+        font = v2Font(fontSize)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    func v2Font(_ fontSize: CGFloat) -> UIFont {
+        return UIFont.systemFont(ofSize: fontSize);
+    }
 }
 import Kingfisher
 import Cartography
@@ -119,7 +120,7 @@ fileprivate class Cell : UITableViewCell{
         _hot.textAlignment = .right
         _lastReplied.textAlignment = .right
         //        _lastReplied.isHidden = true
-       
+        
         
         constrain(contentView,_title,_avatar,_top){
             $1.left == $2.right  + 20
@@ -164,11 +165,24 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-    class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
-        let URL = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
-        Alamofire.request(URL).responseObject { (response: DataResponse<Topics>) in
+    class func likes(done:@escaping (_ done : Topics)->Void){
+        let token = AccessToken.loadFromKC()
+        if let t = token?.accesstoken ,t != ""{
+            Bar.likes((token?.loginname)!, done)
+        }
+    }
+    class func likes(_ loginname : String ,_ done:@escaping (_ t : Topics)->Void){
+        //        let id = "598f28a8e104026c52101860"
+        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
+        var params :[String:Any] = [:]
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject() {(response: DataResponse<Topics>) in
             let topics = response.result.value
-            done(topics!)
+            if (topics?.success!)!{
+                HUDSuccess()
+                done(topics!)
+            }else{
+                HUDError("")
+            }
         }
     }
 }
@@ -227,9 +241,26 @@ fileprivate class Topic: Mappable {
         tab <- map["tab"]
     }
 }
-typealias Callback = ()-> Void
-typealias CallbackMore = (_ b : Bool)-> Void
-fileprivate extension  TopicsPage {
+import GTMRefresh
+extension CollectPage:GTMRefreshHeaderDelegate{
+    func refresh() {
+        if scrollUp != nil{
+            scrollUp!(){
+                self.tableView.endRefreshing(isSuccess: true)
+            }
+        }
+    }
+}
+extension CollectPage: GTMLoadMoreFooterDelegate {
+    func loadMore() {
+        if scrollDown != nil{
+            scrollDown!(){
+                self.tableView.endLoadMore(isNoMoreData: !$0)
+            }
+        }
+    }
+}
+extension  CollectPage {
     func setupRefresh(){
         self.tableView.gtm_addRefreshHeaderView(delegate: self)
         self.tableView.gtm_addLoadMoreFooterView(delegate: self)
@@ -247,23 +278,3 @@ fileprivate extension  TopicsPage {
         self.refresh()
     }
 }
-
-extension TopicsPage:GTMRefreshHeaderDelegate{
-    func refresh() {
-        if scrollUp != nil{
-            scrollUp!(){
-                self.tableView.endRefreshing(isSuccess: true)
-            }
-        }
-    }
-}
-extension TopicsPage: GTMLoadMoreFooterDelegate {
-    func loadMore() {
-        if scrollDown != nil{
-            scrollDown!(){
-                self.tableView.endLoadMore(isNoMoreData: !$0)
-            }
-        }
-    }
-}
-import GTMRefresh

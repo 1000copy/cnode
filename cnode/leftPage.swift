@@ -102,6 +102,7 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
             Item(EmojiType.bookmark,"招聘","job"),
             Item(EmojiType.book,"精华","good"),
             Item(EmojiType.previousPage,"分享","share"),
+            Item(EmojiType.starOfDavid,"收藏",""),
             Item(EmojiType.gear,"设置",""),
             Item(EmojiType.anchor,"消息",""),
             Item(EmojiType.shield,"关于",""),
@@ -137,7 +138,9 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
             }else if arr[indexPath.row].title == "设置"{
                 centerPage.pushViewController(SettingPage(), animated: true)
             }else if arr[indexPath.row].title == "消息"{
-                centerPage.pushViewController(NotifyPage(), animated: true)
+                centerPage.pushViewController(MessagePage(), animated: true)
+            }else if arr[indexPath.row].title == "收藏"{
+                centerPage.pushViewController(CollectPage(), animated: true)
             }
         }
         drawerController.toggleLeftDrawerSide(animated: true, completion: nil)
@@ -160,7 +163,6 @@ fileprivate class Cell : UITableViewCell{
             $2.height == 20
             $2.width == 200
         }
-        
     }
 }
 

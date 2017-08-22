@@ -10,4 +10,5 @@ target 'cnode' do
     pod 'GTMRefresh'
     pod 'DrawerController', '~> 3.2'
     pod 'SwiftIcons'
+    pod 'PKHUD'
 end
