@@ -32,7 +32,7 @@ class Top: UIView{
     override func layoutSubviews() {
         self.backgroundColor = .white
         label   = UILabel()
-        label.text =  "User Name"
+        label.text =  ""
         self.addSubview(label)
         button.setTitle("登录",for: .normal)
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
@@ -44,20 +44,16 @@ class Top: UIView{
             $1.width == 38
             $1.height == 38
             
-            $2.top == $1.bottom + 5
+            $2.top == $1.bottom + 2
             $2.centerX == $0.centerX
             $2.height == 20
             
-            $3.top == $2.bottom + 5
+            $3.top == $2.bottom + 2
             $3.centerX == $0.centerX
             $3.height == 20
             
         }
         refill()
-        // 获取消息数量
-        //curl  https://cnodejs.org/api/v1/message/count?accesstoken=9c7d03d6-11ef-4637-b8d9-2be203140e5c
-        // 已读消息和未读消息
-        // curl https://cnodejs.org/api/v1//messages?accesstoken=9c7d03d6-11ef-4637-b8d9-2be203140e5c
     }
     func refill(){
         let t = AccessToken.loadFromKC()
@@ -103,7 +99,7 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
             Item(EmojiType.book,"精华","good"),
             Item(EmojiType.previousPage,"分享","share"),
             Item(EmojiType.starOfDavid,"收藏",""),
-            Item(EmojiType.gear,"设置",""),
+//            Item(EmojiType.gear,"设置",""),
             Item(EmojiType.anchor,"消息",""),
             Item(EmojiType.shield,"关于",""),
     ]

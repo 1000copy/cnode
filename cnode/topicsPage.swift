@@ -101,10 +101,10 @@ fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()
     var _avatar = UIImageView()
-    var _author = SizeLabel(12)
-    var _hot = SizeLabel(12)
-    var _created = SizeLabel(12)
-    var _lastReplied = SizeLabel(12)
+    var _author = SizeLabel()
+    var _hot = SizeLabel()
+    var _created = SizeLabel()
+    var _lastReplied = SizeLabel()
     override func layoutSubviews() {
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_avatar)
@@ -122,7 +122,7 @@ fileprivate class Cell : UITableViewCell{
        
         
         constrain(contentView,_title,_avatar,_top){
-            $1.left == $2.right  + 20
+            $1.left == $2.right  + 5
             $1.top  == $0.top + 5
             $1.width  == 300
             $1.height  == 20

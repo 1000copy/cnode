@@ -6,6 +6,7 @@ import Kingfisher
 //var lightReload = false
 class TopicPage : UITableViewController,UIWebViewDelegate{
     var id: String?
+    var replyId : String?
     fileprivate var result : Result?
     var contentHeights : [IndexPath:CGFloat] = [:]
     override func viewDidLoad() {
@@ -72,7 +73,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if result == nil {
+        if result?.data?.replies?.count == nil {
             return 1
         }else{
             return (result?.data?.replies?.count)! + 1
@@ -127,7 +128,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let url = URL(string:"https://")
-        if result != nil {
+        if result?.data != nil {
             if indexPath.row == 0 {
                 let a = tableView.dequeueReusableCell(withIdentifier: "Cell") as! Cell
                 a._title.text = result?.data?.title
@@ -161,6 +162,25 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         }
         return UITableViewCell()
     }
+    func getRowByReplyId(_ replyId : String)-> Int{
+        var result = 0
+        for reply in (self.result?.data?.replies)!{
+            result += 1
+            if reply.id == replyId{
+                return result
+            }
+        }
+        return result
+    }
+    func scrollToRow(){
+        if let id = self.replyId{
+            let row = getRowByReplyId(id)
+            let ip = IndexPath(row: row, section: 0)
+            tableView.scrollToRow(at: ip, at: .bottom, animated: true)
+            scrolled = true
+        }
+    }
+    var scrolled = false
     func webViewDidFinishLoad(_ webView: UIWebView)
     {
         let web = webView as! TJWeb
@@ -176,6 +196,12 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         }
         let zoom = webView.bounds.size.width / webView.scrollView.contentSize.width
         webView.scrollView.setZoomScale(zoom, animated: true)
+        if !scrolled{
+            let when = DispatchTime.now() + 3
+            DispatchQueue.main.asyncAfter(deadline: when) {
+                self.scrollToRow()
+            }
+        }
     }
 }
 class TJWeb : UIWebView,UIWebViewDelegate{
@@ -200,8 +226,8 @@ extension UITableViewCell {
 }
 fileprivate class ReplyCell : UITableViewCell,UIWebViewDelegate{
     var _content = TJWeb()
-    var _author  = UILabel()
-    var _created = UILabel()
+    var _author  = SizeLabel()
+    var _created = SizeLabel()
     var _avatar  = UIImageView()
     var isNotified = false
     func webViewDidFinishLoad(_ webView: UIWebView) {
@@ -243,10 +269,10 @@ fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()
     var _avatar = UIImageView()
-    var _author = UILabel()
-    var _hot = UILabel()
-    var _created = UILabel()
-    var _lastReplied = UILabel()
+    var _author = SizeLabel()
+    var _hot = SizeLabel()
+    var _created = SizeLabel()
+    var _lastReplied = SizeLabel()
     var _content = TJWeb()
     var isNotified = false
     override func layoutSubviews() {
@@ -266,7 +292,7 @@ fileprivate class Cell : UITableViewCell{
         _content.isUserInteractionEnabled = false
         _content.scrollView.contentInset = UIEdgeInsets.zero;
         constrain(contentView,_title,_avatar,_top){
-            $1.left == $2.right  + 20
+            $1.left == $2.right  + 5
             $1.top  == $0.top + 5
             $1.width  == 300
             $1.height  == 20
@@ -315,7 +341,7 @@ fileprivate class Cell : UITableViewCell{
 }
 fileprivate class Bar{
     class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
-//        let id = "598f28a8e104026c52101860"
+//        let id = "599afc79ebaa046923a82644"
         let URL = "https://cnodejs.org/api/v1/topic/\(id)"
         var params :[String:Any] = [:]
         params["mdrender"] = true
@@ -335,7 +361,7 @@ fileprivate class Bar{
             let success = json["success"] as! Bool
             print(json)
             if success{
-                HUDSuccess()
+//                HUDSuccess()
                 var topicIds :[String] = []
                 let data = json["data"] as! [[String:Any]]
                 for  item in data {

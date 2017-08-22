@@ -85,9 +85,11 @@ class CollectPage : UITableViewController{
     
 }
 class SizeLabel : UILabel{
-    init(_ fontSize : CGFloat){
+    init(){
+        let fontSize : CGFloat = 12.0
         super.init(frame: CGRect.zero)
         font = v2Font(fontSize)
+        textColor = .lightGray
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -102,10 +104,10 @@ fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()
     var _avatar = UIImageView()
-    var _author = SizeLabel(12)
-    var _hot = SizeLabel(12)
-    var _created = SizeLabel(12)
-    var _lastReplied = SizeLabel(12)
+    var _author = SizeLabel()
+    var _hot = SizeLabel()
+    var _created = SizeLabel()
+    var _lastReplied = SizeLabel()
     override func layoutSubviews() {
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_avatar)
@@ -178,7 +180,7 @@ fileprivate class Bar{
         Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject() {(response: DataResponse<Topics>) in
             let topics = response.result.value
             if (topics?.success!)!{
-                HUDSuccess()
+                
                 done(topics!)
             }else{
                 HUDError("")

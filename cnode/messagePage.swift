@@ -10,10 +10,8 @@ class MessagePage : UITableViewController{
         super.viewDidLoad()
         setupRefresh()
         scrollUp = up
-//        scrollDown = down
-        
         tableView.register(Cell.self, forCellReuseIdentifier: MyIdentifier)
-        reload("all")
+        reload()
     }
     func ltap(){
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
@@ -24,10 +22,11 @@ class MessagePage : UITableViewController{
         self.navigationController?.pushViewController(t, animated: true)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let id = self.arr?.data?.has_read_messages?[indexPath.row].id
-//        let t = TopicPage()
-//        t.id = id
-//        self.navigationController?.pushViewController(t, animated: true)
+        let id = items?[indexPath.row].topic?.id
+        let t = TopicPage()
+        t.id = id
+        t.replyId = items?[indexPath.row].reply?.id
+        self.navigationController?.pushViewController(t, animated: true)
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if arr != nil {
@@ -42,11 +41,12 @@ class MessagePage : UITableViewController{
     var scrollUp : ((_ cb : @escaping Callback)-> Void)?
     var scrollDown : ((_ cb : @escaping CallbackMore)-> Void)?
     var tab = "all"
-    func reload(_ tab : String){
-        self.tab = tab
+    func reload(){
         Bar.likes(){
             self.arr = $0
-            //            print(self.arr?.data?[0].top)
+            self.items! = []
+            self.items! += ($0.data?.has_read_messages)!
+            self.items! += ($0.data?.hasnot_read_messages)!
             self.tableView.reloadData()
         }
     }
@@ -60,21 +60,16 @@ class MessagePage : UITableViewController{
         }
         
     }
-//    var page = 1
-//    func down(_ cb : @escaping CallbackMore){
-//        page += 1
-//        Bar.likes(){
-//            self.arr?.data! += $0.data!
-//            self.tableView.reloadData()
-//            cb(true)
-//        }
-//    }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let a = tableView.dequeueReusableCell(withIdentifier: MyIdentifier) as! Cell
         let obj = items?[indexPath.row]
         a._title.text = obj?.topic?.title
-        a._type.text = obj?.type
         a._author.text = obj?.author?.loginname
+        let read = (obj?.has_read)! ?"已读":"未读"
+        let author = (obj?.author?.loginname)!
+        let type =  obj?.type == "at" ?"@":"回复"
+        let str = "\(read):\(author)\(type)了你"
+        a._author.text = str
         return a
     }
     
@@ -84,13 +79,13 @@ import Kingfisher
 import Cartography
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
-    var _author = SizeLabel(12)
-    var _type = SizeLabel(12)
+    var _author = SizeLabel()
     override func layoutSubviews() {
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_author)
-        self.contentView.addSubview(_type)
-        constrain(contentView,_title,_author,_type){
+//        self.contentView.addSubview(_type)
+//        self.contentView.addSubview(_read)
+        constrain(contentView,_title,_author){
             $1.left == $0.left  + 5
             $1.top  == $0.top + 5
             $1.width  == 300
@@ -98,13 +93,18 @@ fileprivate class Cell : UITableViewCell{
             
             $2.left == $1.left
             $2.top  == $1.bottom + 5
-            $2.width  == 100
-            $2.height  == 38
-            
-            $3.left == $2.right  + 5
-            $3.top  == $2.top
-            $3.width  == 40
-            $3.height  == 20
+            $2.width  == 300
+            $2.height  == 20
+//            
+//            $3.left == $2.right  + 5
+//            $3.top  == $2.top
+//            $3.width  == 40
+//            $3.height  == 20
+//            
+//            $4.left == $3.right  + 5
+//            $4.top  == $2.top
+//            $3.width  == 40
+//            $3.height  == 20
         }
     }
 }
