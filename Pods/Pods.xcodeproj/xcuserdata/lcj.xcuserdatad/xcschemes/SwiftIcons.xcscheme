@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '9793A56331F1C8A518F9140E9E90DA60'
+               BlueprintIdentifier = '5B3EF4D8E0A6D04242E9DF7D2A02E94D'
                BlueprintName = 'SwiftIcons'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SwiftIcons.framework'>

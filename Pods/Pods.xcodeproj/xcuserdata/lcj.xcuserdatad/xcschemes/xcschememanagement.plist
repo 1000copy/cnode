@@ -39,11 +39,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>PKHUD.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-cnode.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -72,12 +67,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5D83B1936E5112B3C4A8D000F967F230</key>
+		<key>5692FF2C78BD5D9978DCB7A5E6C20146</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8015B580BB8D3D82C760F8ABF75DE855</key>
+		<key>5B3EF4D8E0A6D04242E9DF7D2A02E94D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +87,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9793A56331F1C8A518F9140E9E90DA60</key>
+		<key>BD323A2ED830B46BC775141AF4C68126</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -103,11 +98,6 @@
 			<true/>
 		</dict>
 		<key>CBE94243F118D8A91394EF9904B66ABE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D7A75F149082140741FC1E0B5B2863C8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

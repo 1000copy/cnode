@@ -57,7 +57,7 @@ class Top: UIView{
     }
     func refill(){
         let t = AccessToken.loadFromKC()
-        if t?.accesstoken != "" {
+        if t != nil ,t?.accesstoken != "" {
             avatar.kf.setImage(with:URL(string:(t?.avatar_url!)!))
             label.text = t?.loginname!
             button.setTitle("登出",for: .normal)

@@ -1,19 +1,24 @@
 class LoginPage: UIViewController {
     var _title = UITextView()
-    var _add = UIButton()
+    var _scan = UIButton()
+    var _login = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(_title)
-        view.addSubview(_add)
-        _add.setTitle("Add",for: .normal)
-        _add.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        view.addSubview(_scan)
+        view.addSubview(_login)
+        _scan.setTitle("scan",for: .normal)
+        _scan.addTarget(self, action: #selector(scan(_:)), for: .touchUpInside)
+        _login.setTitle("login",for: .normal)
+        _login.addTarget(self, action: #selector(login(_:)), for: .touchUpInside)
         _title.backgroundColor = .blue
         _title.placeholder = "accesstoken  here..."
         _title.textColor = .white
         _title.setContentOffset(CGPoint.zero, animated: true)
         self.navigationController?.navigationBar.isTranslucent = false
-        _add.backgroundColor = .blue
-        constrain(self.view, _title,_add){
+        _scan.backgroundColor = .blue
+        _login.backgroundColor = .blue
+        constrain(self.view, _title,_scan,_login){
             
             $1.top == $0.top + 5
             $1.left == $0.left + 5
@@ -22,12 +27,22 @@ class LoginPage: UIViewController {
             
             $2.top == $1.bottom + 5
             $2.left == $1.left
-            $2.right == $0.right - 5
+            $2.width == 100
             $2.height == 30
+            
+            $3.top == $2.top
+            $3.left == $2.right + 5
+            $3.width == 100
+            $3.height == 30
         }
     }
-    func buttonAction(_ sender:UIButton!){
-        print(_title.text)
+    func scan(_ sender:UIButton!){
+        QRScanner.Run(self){
+            self._title.placeholder = ""
+            self._title.text =  $0
+        }
+    }
+    func login(_ sender:UIButton!){
         Bar.foo (_title.text){
             let token = $0
             token.saveToKC()
@@ -45,6 +60,7 @@ fileprivate class Bar{
         let params: [String: String] = [
             "accesstoken":accesstoken
         ]
+        HUD.progress("登录...")
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
             .responseJSON{ response in
                 //                print(response.request as Any)  // original URL request
@@ -58,6 +74,7 @@ fileprivate class Bar{
                 }else{
                     //tip error
                 }
+                HUD.success()
         }
     }
 }
@@ -95,7 +112,12 @@ class AccessToken:NSObject,NSCoding{
     }
     class func loadFromKC()-> AccessToken?{
         let data = Keychain.load(key: "AccessToken")
-        return  NSKeyedUnarchiver.unarchiveObject(with: data!) as! AccessToken
+        if data != nil{
+            return  NSKeyedUnarchiver.unarchiveObject(with: data!) as! AccessToken
+        }
+        else{
+            return nil
+        }
     }
 }
 import UIKit

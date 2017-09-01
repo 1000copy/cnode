@@ -81,7 +81,6 @@ class CreatePage: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
 import UIKit
 import Cartography
 import Alamofire
-import PKHUD
 let accesstoken = "9c7d03d6-11ef-4637-b8d9-2be203140e5c"
 fileprivate class Bar{
     class func foo(_ tab : String ,_ title : String ,_ content : String, done:@escaping ()->Void){
