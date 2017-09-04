@@ -2,12 +2,11 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
-class TopicsPage : UITableViewController{
+class TopicsPage : TJTablePage{
     fileprivate var arr : Topics?
     let MyIdentifier = "cell"
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupRefresh()
         scrollUp = up
         scrollDown = down
         self.navigationItem.title = "cnodejs-swift"
@@ -16,20 +15,17 @@ class TopicsPage : UITableViewController{
         image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         self.navigationItem.rightBarButtonItems =
             [
-                UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("rtap"))
-            ]
-        
+                UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rtap))
+        ]
         var image1 = UIImage.init(icon: .emoji(.menu), size: CGSize(width: 20, height: 20))
         image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("ltap"))
-        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image1, style: .plain, target: self, action: #selector(ltap))
         reload("all")
     }
     func ltap(){
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
     func rtap(){
-//        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
         let t = CreatePage()
         self.navigationController?.pushViewController(t, animated: true)
     }
@@ -49,8 +45,6 @@ class TopicsPage : UITableViewController{
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
-    var scrollUp : ((_ cb : @escaping Callback)-> Void)?
-    var scrollDown : ((_ cb : @escaping CallbackMore)-> Void)?
     var tab = "all"
     func reload(_ tab : String){
         self.tab = tab
@@ -66,9 +60,8 @@ class TopicsPage : UITableViewController{
             self.tableView.reloadData()
             cb()
         }
-
+        
     }
-    var page = 1
     func down(_ cb : @escaping CallbackMore){
         page += 1
         Bar.foo(tab,page){
@@ -77,6 +70,7 @@ class TopicsPage : UITableViewController{
             cb(true)
         }
     }
+    var page = 1
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let a = tableView.dequeueReusableCell(withIdentifier: MyIdentifier) as! Cell
         let topic = arr?.data![indexPath.row]
@@ -93,8 +87,9 @@ class TopicsPage : UITableViewController{
         return a
     }
 
-    
 }
+
+
 import Kingfisher
 import Cartography
 fileprivate class Cell : UITableViewCell{
@@ -227,43 +222,3 @@ fileprivate class Topic: Mappable {
         tab <- map["tab"]
     }
 }
-typealias Callback = ()-> Void
-typealias CallbackMore = (_ b : Bool)-> Void
-fileprivate extension  TopicsPage {
-    func setupRefresh(){
-        self.tableView.gtm_addRefreshHeaderView(delegate: self)
-        self.tableView.gtm_addLoadMoreFooterView(delegate: self)
-    }
-    func beginScrollUp(){
-        refresh()
-    }
-    func endScrollUp(){
-        self.tableView.endRefreshing(isSuccess: true)
-    }
-    func endScrollDown(_ hasMoreData : Bool = true){
-        self.tableView.endLoadMore(isNoMoreData: !hasMoreData)
-    }
-    func beginRefresh(){
-        self.refresh()
-    }
-}
-
-extension TopicsPage:GTMRefreshHeaderDelegate{
-    func refresh() {
-        if scrollUp != nil{
-            scrollUp!(){
-                self.tableView.endRefreshing(isSuccess: true)
-            }
-        }
-    }
-}
-extension TopicsPage: GTMLoadMoreFooterDelegate {
-    func loadMore() {
-        if scrollDown != nil{
-            scrollDown!(){
-                self.tableView.endLoadMore(isNoMoreData: !$0)
-            }
-        }
-    }
-}
-import GTMRefresh
