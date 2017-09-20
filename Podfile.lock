@@ -10,7 +10,6 @@ PODS:
   - DrawerController/Core (3.2.1)
   - DrawerController/DrawerVisualStates (3.2.1):
     - DrawerController/Core
-  - GTMRefresh (1.1.2)
   - Kingfisher (3.2.4)
   - ObjectMapper (2.2.6)
   - SwiftIcons (1.5.1)
@@ -20,7 +19,6 @@ DEPENDENCIES:
   - AlamofireObjectMapper (~> 4.0.1)
   - Cartography
   - DrawerController (~> 3.2)
-  - GTMRefresh
   - Kingfisher (~> 3.2.4)
   - ObjectMapper (= 2.2.6)
   - SwiftIcons
@@ -30,11 +28,10 @@ SPEC CHECKSUMS:
   AlamofireObjectMapper: 94923a4320bbe52c1d0d462093277a9d6a755a78
   Cartography: 0538ccb4044acbbda2266335fc58cb4228794d90
   DrawerController: d2f25c567a1786476d74bfe8cde9a5bdd39972a9
-  GTMRefresh: 9c3bad3dab260dee3e28a92304ee0bfaf33419c1
   Kingfisher: 8d80f39da403cd9c9ee11984e1655f4d6a566cdb
   ObjectMapper: 042708195cc46c20871cbcbec0453826398273fd
   SwiftIcons: 287593643898af5a9ef16be4b1f9cf91a436cbc7
 
-PODFILE CHECKSUM: a2c280c6c18bd7caaaeca5b23babb120aa703e6d
+PODFILE CHECKSUM: ea08717f128eda731f4debccda6c4d923972348e
 
 COCOAPODS: 1.2.1

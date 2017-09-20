@@ -27,6 +27,8 @@
 		6F9FD6EF1F4ACC6700EF2B68 /* loginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6EE1F4ACC6700EF2B68 /* loginPage.swift */; };
 		6F9FD6F11F4AD0A500EF2B68 /* keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */; };
 		6F9FD6F31F4ADB0F00EF2B68 /* replyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6F21F4ADB0F00EF2B68 /* replyPage.swift */; };
+		6FB38FF21F72517500E5A179 /* cjrefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB38FF11F72517500E5A179 /* cjrefresh.swift */; };
+		6FD09BCF1F5D28FB00C2741F /* tablePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD09BCE1F5D28FB00C2741F /* tablePage.swift */; };
 		6FEB6E821F595A9600D021AD /* QRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEB6E811F595A9600D021AD /* QRScan.swift */; };
 		6FEB6E841F59603600D021AD /* hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEB6E831F59603600D021AD /* hud.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +57,8 @@
 		6F9FD6EE1F4ACC6700EF2B68 /* loginPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loginPage.swift; sourceTree = "<group>"; };
 		6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keychain.swift; sourceTree = "<group>"; };
 		6F9FD6F21F4ADB0F00EF2B68 /* replyPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = replyPage.swift; sourceTree = "<group>"; };
+		6FB38FF11F72517500E5A179 /* cjrefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cjrefresh.swift; sourceTree = "<group>"; };
+		6FD09BCE1F5D28FB00C2741F /* tablePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tablePage.swift; sourceTree = "<group>"; };
 		6FEB6E811F595A9600D021AD /* QRScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScan.swift; sourceTree = "<group>"; };
 		6FEB6E831F59603600D021AD /* hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = hud.swift; sourceTree = "<group>"; };
 		E649AB49D37E2DA39763EE99 /* Pods-cnode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cnode.release.xcconfig"; path = "Pods/Target Support Files/Pods-cnode/Pods-cnode.release.xcconfig"; sourceTree = "<group>"; };
@@ -110,15 +114,12 @@
 				6F6D9D4E1F3B11DF00CB3CC0 /* Info.plist */,
 				6F57DC821F4148BF00F086D1 /* topicPage.swift */,
 				6F57DC841F4148F300F086D1 /* topicsPage.swift */,
-				6F481AD71F4574790008F1CA /* util.swift */,
 				6F481AD91F4582EC0008F1CA /* leftPage.swift */,
 				6F33B47E1F46B91400E87CB0 /* rightPage.swift */,
 				6F33B4801F46B93100E87CB0 /* aboutPage.swift */,
 				6F33B4821F46BA9000E87CB0 /* settingPage.swift */,
 				6F9FD6EA1F4AB9C500EF2B68 /* createPage.swift */,
-				6F9FD6EC1F4ACABB00EF2B68 /* textViewPlaceHolder.swift */,
 				6F9FD6EE1F4ACC6700EF2B68 /* loginPage.swift */,
-				6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */,
 				6F9FD6F21F4ADB0F00EF2B68 /* replyPage.swift */,
 				6F995FF71F4BCE5F0023DCD6 /* collectPage.swift */,
 				6F995FF91F4BD5E20023DCD6 /* messagePage.swift */,
@@ -129,8 +130,13 @@
 		6FEB6E801F595A8500D021AD /* fx */ = {
 			isa = PBXGroup;
 			children = (
+				6F481AD71F4574790008F1CA /* util.swift */,
+				6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */,
+				6F9FD6EC1F4ACABB00EF2B68 /* textViewPlaceHolder.swift */,
 				6FEB6E811F595A9600D021AD /* QRScan.swift */,
 				6FEB6E831F59603600D021AD /* hud.swift */,
+				6FD09BCE1F5D28FB00C2741F /* tablePage.swift */,
+				6FB38FF11F72517500E5A179 /* cjrefresh.swift */,
 			);
 			name = fx;
 			sourceTree = "<group>";
@@ -274,6 +280,7 @@
 				6F9FD6F31F4ADB0F00EF2B68 /* replyPage.swift in Sources */,
 				6F6D9D451F3B11DF00CB3CC0 /* ViewController.swift in Sources */,
 				6F9FD6ED1F4ACABB00EF2B68 /* textViewPlaceHolder.swift in Sources */,
+				6FB38FF21F72517500E5A179 /* cjrefresh.swift in Sources */,
 				6F33B4811F46B93100E87CB0 /* aboutPage.swift in Sources */,
 				6F57DC831F4148BF00F086D1 /* topicPage.swift in Sources */,
 				6F9FD6F11F4AD0A500EF2B68 /* keychain.swift in Sources */,
@@ -285,6 +292,7 @@
 				6F995FFA1F4BD5E20023DCD6 /* messagePage.swift in Sources */,
 				6F6D9D431F3B11DF00CB3CC0 /* AppDelegate.swift in Sources */,
 				6F481ADA1F4582EC0008F1CA /* leftPage.swift in Sources */,
+				6FD09BCF1F5D28FB00C2741F /* tablePage.swift in Sources */,
 				6F995FF81F4BCE5F0023DCD6 /* collectPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

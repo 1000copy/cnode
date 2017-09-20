@@ -11,8 +11,12 @@ typealias Callback = ()-> Void
 typealias CallbackMore = (_ b : Bool)-> Void
 fileprivate extension  TJTablePage {
     func setupRefresh(){
-        self.tableView.gtm_addRefreshHeaderView(delegate: self)
-        self.tableView.gtm_addLoadMoreFooterView(delegate: self)
+        self.tableView.gtm_addRefreshHeaderView(){
+            self.refresh()
+        }
+        self.tableView.gtm_addLoadMoreFooterView(){
+            self.loadMore()
+        }
     }
     func beginScrollUp(){
         refresh()
@@ -28,7 +32,7 @@ fileprivate extension  TJTablePage {
     }
 }
 
-extension TJTablePage:GTMRefreshHeaderDelegate{
+extension TJTablePage{
     func refresh() {
         if scrollUp != nil{
             scrollUp!(){
@@ -37,7 +41,7 @@ extension TJTablePage:GTMRefreshHeaderDelegate{
         }
     }
 }
-extension TJTablePage: GTMLoadMoreFooterDelegate {
+extension TJTablePage {
     func loadMore() {
         if scrollDown != nil{
             scrollDown!(){
@@ -46,4 +50,4 @@ extension TJTablePage: GTMLoadMoreFooterDelegate {
         }
     }
 }
-import GTMRefresh
+import UIKit

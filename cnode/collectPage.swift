@@ -243,8 +243,8 @@ fileprivate class Topic: Mappable {
         tab <- map["tab"]
     }
 }
-import GTMRefresh
-extension CollectPage:GTMRefreshHeaderDelegate{
+//import GTMRefresh
+extension CollectPage{
     func refresh() {
         if scrollUp != nil{
             scrollUp!(){
@@ -253,7 +253,7 @@ extension CollectPage:GTMRefreshHeaderDelegate{
         }
     }
 }
-extension CollectPage: GTMLoadMoreFooterDelegate {
+extension CollectPage {
     func loadMore() {
         if scrollDown != nil{
             scrollDown!(){
@@ -264,8 +264,12 @@ extension CollectPage: GTMLoadMoreFooterDelegate {
 }
 extension  CollectPage {
     func setupRefresh(){
-        self.tableView.gtm_addRefreshHeaderView(delegate: self)
-        self.tableView.gtm_addLoadMoreFooterView(delegate: self)
+        self.tableView.gtm_addRefreshHeaderView(){
+            self.refresh()
+        }
+        self.tableView.gtm_addLoadMoreFooterView(){
+            self.loadMore()
+        }
     }
     func beginScrollUp(){
         refresh()

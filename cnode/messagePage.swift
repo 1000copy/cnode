@@ -210,8 +210,8 @@ fileprivate class Reply: Mappable {
         last_reply_at <- map["last_reply_at"]
     }
 }
-import GTMRefresh
-extension MessagePage:GTMRefreshHeaderDelegate{
+//import GTMRefresh
+extension MessagePage{
     func refresh() {
         if scrollUp != nil{
             scrollUp!(){
@@ -220,7 +220,7 @@ extension MessagePage:GTMRefreshHeaderDelegate{
         }
     }
 }
-extension MessagePage: GTMLoadMoreFooterDelegate {
+extension MessagePage {
     func loadMore() {
         if scrollDown != nil{
             scrollDown!(){
@@ -231,8 +231,12 @@ extension MessagePage: GTMLoadMoreFooterDelegate {
 }
 extension  MessagePage {
     func setupRefresh(){
-        self.tableView.gtm_addRefreshHeaderView(delegate: self)
-        self.tableView.gtm_addLoadMoreFooterView(delegate: self)
+        self.tableView.gtm_addRefreshHeaderView(){
+            self.refresh()
+        }
+        self.tableView.gtm_addLoadMoreFooterView(){
+            self.loadMore()
+        }
     }
     func beginScrollUp(){
         refresh()

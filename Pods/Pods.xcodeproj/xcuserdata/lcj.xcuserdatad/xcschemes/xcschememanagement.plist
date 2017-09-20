@@ -24,11 +24,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>GTMRefresh.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Kingfisher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -67,12 +62,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5692FF2C78BD5D9978DCB7A5E6C20146</key>
+		<key>638D68F67A8A50BB68F4087E1AD5F359</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5B3EF4D8E0A6D04242E9DF7D2A02E94D</key>
+		<key>694263CEB498B9A69802CB38BF9013C9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -87,17 +82,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BD323A2ED830B46BC775141AF4C68126</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>C4944FEC314D1A66588651D006273ADE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CBE94243F118D8A91394EF9904B66ABE</key>
+		<key>E1BBBA866A9F2505790F08417F3925E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
