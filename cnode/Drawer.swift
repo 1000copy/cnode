@@ -1,23 +1,3 @@
-// Copyright (c) 2017 evolved.io (http://evolved.io)
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 import UIKit
 
 public extension UIViewController {
@@ -34,7 +14,6 @@ public extension UIViewController {
         
         return nil
     }
-    
     var evo_visibleDrawerFrame: CGRect {
         if let drawerController = self.evo_drawerController {
             if drawerController.leftDrawerViewController != nil {
@@ -54,42 +33,14 @@ public extension UIViewController {
                 }
             }
         }
-        
         return CGRect.null
     }
 }
-
-private func bounceKeyFrameAnimation(forDistance distance: CGFloat, on view: UIView) -> CAKeyframeAnimation {
-    let factors: [CGFloat] = [0, 32, 60, 83, 100, 114, 124, 128, 128, 124, 114, 100, 83, 60, 32, 0, 24, 42, 54, 62, 64, 62, 54, 42, 24, 0, 18, 28, 32, 28, 18, 0]
-    
-    let values = factors.map { x -> NSNumber in
-        // This could be refactored as `NSNumber(value: Float(x / 128 * distance + view.bounds.midX))`
-        // but unfortunately that would require 400ms+ more compile time
-        var value = x
-        value /= 128
-        value *= distance
-        value += view.bounds.midX
-
-        return NSNumber(value: Float(value))
-    }
-    
-    let animation = CAKeyframeAnimation(keyPath: "position.x")
-    animation.repeatCount = 1
-    animation.duration = 0.8
-    animation.fillMode = kCAFillModeForwards
-    animation.values = values
-    animation.isRemovedOnCompletion = true
-    animation.autoreverses = false
-    
-    return animation
-}
-
 public enum DrawerSide: Int {
     case none
     case left
     case right
 }
-
 public struct OpenDrawerGestureMode: OptionSet {
     public let rawValue: UInt
     public init(rawValue: UInt) { self.rawValue = rawValue }
@@ -164,7 +115,7 @@ private class DrawerCenterContainerView: UIView {
                 hitView = nil
             } else if let navBar = self.navigationBarContained(withinSubviewsOf: self) {
                 let navBarFrame = navBar.convert(navBar.bounds, to: self)
-
+                
                 if self.centerInteractionMode == .navigationBarOnly && navBarFrame.contains(point) == false {
                     hitView = nil
                 }
@@ -201,10 +152,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate var _maximumRightDrawerWidth = DrawerDefaultWidth
     
     /**
-    The center view controller.
-    
-    This can only be set via the init methods, as well as the `setNewCenterViewController:...` methods. The size of this view controller will automatically be set to the size of the drawer container view controller, and it's position is modified from within this class. Do not modify the frame externally.
-    */
+     The center view controller.
+     
+     This can only be set via the init methods, as well as the `setNewCenterViewController:...` methods. The size of this view controller will automatically be set to the size of the drawer container view controller, and it's position is modified from within this class. Do not modify the frame externally.
+     */
     open var centerViewController: UIViewController? {
         get {
             return self._centerViewController
@@ -216,10 +167,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The left drawer view controller.
-    
-    The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumLeftDrawerWidth`. Do not modify the frame externally.
-    */
+     The left drawer view controller.
+     
+     The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumLeftDrawerWidth`. Do not modify the frame externally.
+     */
     open var leftDrawerViewController: UIViewController? {
         get {
             return self._leftDrawerViewController
@@ -231,10 +182,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The right drawer view controller.
-    
-    The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumRightDrawerWidth`. Do not modify the frame externally.
-    */
+     The right drawer view controller.
+     
+     The size of this view controller is managed within this class, and is automatically set to the appropriate size based on the `maximumRightDrawerWidth`. Do not modify the frame externally.
+     */
     open var rightDrawerViewController: UIViewController? {
         get {
             return self._rightDrawerViewController
@@ -246,10 +197,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The maximum width of the `leftDrawerViewController`.
-    
-    By default, this is set to 280. If the `leftDrawerViewController` is nil, this property will return 0.0;
-    */
+     The maximum width of the `leftDrawerViewController`.
+     
+     By default, this is set to 280. If the `leftDrawerViewController` is nil, this property will return 0.0;
+     */
     open var maximumLeftDrawerWidth: CGFloat {
         get {
             if self.leftDrawerViewController != nil {
@@ -265,11 +216,11 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The maximum width of the `rightDrawerViewController`.
-    
-    By default, this is set to 280. If the `rightDrawerViewController` is nil, this property will return 0.0;
-    
-    */
+     The maximum width of the `rightDrawerViewController`.
+     
+     By default, this is set to 280. If the `rightDrawerViewController` is nil, this property will return 0.0;
+     
+     */
     open var maximumRightDrawerWidth: CGFloat {
         get {
             if self.rightDrawerViewController != nil {
@@ -285,10 +236,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The visible width of the `leftDrawerViewController`.
-    
-    Note this value can be greater than `maximumLeftDrawerWidth` during the full close animation when setting a new center view controller;
-    */
+     The visible width of the `leftDrawerViewController`.
+     
+     Note this value can be greater than `maximumLeftDrawerWidth` during the full close animation when setting a new center view controller;
+     */
     open var visibleLeftDrawerWidth: CGFloat {
         get {
             return max(0.0, self.centerContainerView.frame.minX)
@@ -296,10 +247,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    The visible width of the `rightDrawerViewController`.
-    
-    Note this value can be greater than `maximumRightDrawerWidth` during the full close animation when setting a new center view controller;
-    */
+     The visible width of the `rightDrawerViewController`.
+     
+     Note this value can be greater than `maximumRightDrawerWidth` during the full close animation when setting a new center view controller;
+     */
     open var visibleRightDrawerWidth: CGFloat {
         get {
             if self.centerContainerView.frame.minX < 0 {
@@ -311,10 +262,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    A boolean that determines whether or not the panning gesture will "hard-stop" at the maximum width for a given drawer side.
-    
-    By default, this value is set to YES. Enabling `shouldStretchDrawer` will give the pan a gradual asymptotic stopping point much like `UIScrollView` behaves. Note that if this value is set to YES, the `drawerVisualStateBlock` can be passed a `percentVisible` greater than 1.0, so be sure to handle that case appropriately.
-    */
+     A boolean that determines whether or not the panning gesture will "hard-stop" at the maximum width for a given drawer side.
+     
+     By default, this value is set to YES. Enabling `shouldStretchDrawer` will give the pan a gradual asymptotic stopping point much like `UIScrollView` behaves. Note that if this value is set to YES, the `drawerVisualStateBlock` can be passed a `percentVisible` greater than 1.0, so be sure to handle that case appropriately.
+     */
     open var shouldStretchDrawer = true
     open var drawerDampingFactor = DrawerDefaultDampingFactor
     open var shadowRadius = DrawerDefaultShadowRadius
@@ -322,10 +273,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     open var bezelRange = DrawerBezelRange
     
     /**
-    The flag determining if a shadow should be drawn off of `centerViewController` when a drawer is open.
-    
-    By default, this is set to YES.
-    */
+     The flag determining if a shadow should be drawn off of `centerViewController` when a drawer is open.
+     
+     By default, this is set to YES.
+     */
     open var showsShadows: Bool = true {
         didSet {
             self.updateShadowForCenterView()
@@ -348,7 +299,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         self.view.addSubview(childControllerContainerView)
         
         return childControllerContainerView
-        }()
+    }()
     
     fileprivate lazy var centerContainerView: DrawerCenterContainerView = {
         let centerFrame = self.childControllerContainerView.bounds
@@ -361,13 +312,13 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         self.childControllerContainerView.addSubview(centerContainerView)
         
         return centerContainerView
-        }()
+    }()
     
     /**
-    The current open side of the drawer.
-    
-    Note this value will change as soon as a pan gesture opens a drawer, or when a open/close animation is finished.
-    */
+     The current open side of the drawer.
+     
+     Note this value will change as soon as a pan gesture opens a drawer, or when a open/close animation is finished.
+     */
     open fileprivate(set) var openSide: DrawerSide = .none {
         didSet {
             self.centerContainerView.openSide = self.openSide
@@ -383,59 +334,59 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate var startingPanRect: CGRect = CGRect.null
     
     /**
-    Sets a callback to be called when a gesture has been completed.
-    
-    This block is called when a gesture action has been completed. You can query the `openSide` of the `drawerController` to determine what the new state of the drawer is.
-    
-    - parameter gestureCompletionBlock: A block object to be called that allows the implementer be notified when a gesture action has been completed.
-    */
+     Sets a callback to be called when a gesture has been completed.
+     
+     This block is called when a gesture action has been completed. You can query the `openSide` of the `drawerController` to determine what the new state of the drawer is.
+     
+     - parameter gestureCompletionBlock: A block object to be called that allows the implementer be notified when a gesture action has been completed.
+     */
     open var gestureCompletionBlock: DrawerGestureCompletionBlock?
     
     /**
-    Sets a callback to be called when a drawer visual state needs to be updated.
-    
-    This block is responsible for updating the drawer's view state, and the drawer controller will handle animating to that state from the current state. This block will be called when the drawer is opened or closed, as well when the user is panning the drawer. This block is not responsible for doing animations directly, but instead just updating the state of the properies (such as alpha, anchor point, transform, etc). Note that if `shouldStretchDrawer` is set to YES, it is possible for `percentVisible` to be greater than 1.0. If `shouldStretchDrawer` is set to NO, `percentVisible` will never be greater than 1.0.
-    
-    Note that when the drawer is finished opening or closing, the side drawer controller view will be reset with the following properies:
-    
-    - alpha: 1.0
-    - transform: CATransform3DIdentity
-    - anchorPoint: (0.5,0.5)
-    
-    - parameter drawerVisualStateBlock: A block object to be called that allows the implementer to update visual state properties on the drawer. `percentVisible` represents the amount of the drawer space that is current visible, with drawer space being defined as the edge of the screen to the maxmimum drawer width. Note that you do have access to the drawerController, which will allow you to update things like the anchor point of the side drawer layer.
-    */
+     Sets a callback to be called when a drawer visual state needs to be updated.
+     
+     This block is responsible for updating the drawer's view state, and the drawer controller will handle animating to that state from the current state. This block will be called when the drawer is opened or closed, as well when the user is panning the drawer. This block is not responsible for doing animations directly, but instead just updating the state of the properies (such as alpha, anchor point, transform, etc). Note that if `shouldStretchDrawer` is set to YES, it is possible for `percentVisible` to be greater than 1.0. If `shouldStretchDrawer` is set to NO, `percentVisible` will never be greater than 1.0.
+     
+     Note that when the drawer is finished opening or closing, the side drawer controller view will be reset with the following properies:
+     
+     - alpha: 1.0
+     - transform: CATransform3DIdentity
+     - anchorPoint: (0.5,0.5)
+     
+     - parameter drawerVisualStateBlock: A block object to be called that allows the implementer to update visual state properties on the drawer. `percentVisible` represents the amount of the drawer space that is current visible, with drawer space being defined as the edge of the screen to the maxmimum drawer width. Note that you do have access to the drawerController, which will allow you to update things like the anchor point of the side drawer layer.
+     */
     open var drawerVisualStateBlock: DrawerControllerDrawerVisualStateBlock?
     
     /**
-    Sets a callback to be called to determine if a UIGestureRecognizer should recieve the given UITouch.
-    
-    This block provides a way to allow a gesture to be recognized with custom logic. For example, you may have a certain part of your view that should accept a pan gesture recognizer to open the drawer, but not another a part. If you return YES, the gesture is recognized and the appropriate action is taken. This provides similar support to how Facebook allows you to pan on the background view of the main table view, but not the content itself. You can inspect the `openSide` property of the `drawerController` to determine the current state of the drawer, and apply the appropriate logic within your block.
-    
-    Note that either `openDrawerGestureModeMask` must contain `OpenDrawerGestureModeCustom`, or `closeDrawerGestureModeMask` must contain `CloseDrawerGestureModeCustom` for this block to be consulted.
-    
-    - parameter gestureShouldRecognizeTouchBlock: A block object to be called to determine if the given `touch` should be recognized by the given gesture.
-    */
+     Sets a callback to be called to determine if a UIGestureRecognizer should recieve the given UITouch.
+     
+     This block provides a way to allow a gesture to be recognized with custom logic. For example, you may have a certain part of your view that should accept a pan gesture recognizer to open the drawer, but not another a part. If you return YES, the gesture is recognized and the appropriate action is taken. This provides similar support to how Facebook allows you to pan on the background view of the main table view, but not the content itself. You can inspect the `openSide` property of the `drawerController` to determine the current state of the drawer, and apply the appropriate logic within your block.
+     
+     Note that either `openDrawerGestureModeMask` must contain `OpenDrawerGestureModeCustom`, or `closeDrawerGestureModeMask` must contain `CloseDrawerGestureModeCustom` for this block to be consulted.
+     
+     - parameter gestureShouldRecognizeTouchBlock: A block object to be called to determine if the given `touch` should be recognized by the given gesture.
+     */
     open var gestureShouldRecognizeTouchBlock: DrawerGestureShouldRecognizeTouchBlock?
     
     /**
-    How a user is allowed to open a drawer using gestures.
-    
-    By default, this is set to `OpenDrawerGestureModeNone`. Note these gestures may affect user interaction with the `centerViewController`, so be sure to use appropriately.
-    */
+     How a user is allowed to open a drawer using gestures.
+     
+     By default, this is set to `OpenDrawerGestureModeNone`. Note these gestures may affect user interaction with the `centerViewController`, so be sure to use appropriately.
+     */
     open var openDrawerGestureModeMask: OpenDrawerGestureMode = []
     
     /**
-    How a user is allowed to close a drawer.
-    
-    By default, this is set to `CloseDrawerGestureModeNone`. Note these gestures may affect user interaction with the `centerViewController`, so be sure to use appropriately.
-    */
+     How a user is allowed to close a drawer.
+     
+     By default, this is set to `CloseDrawerGestureModeNone`. Note these gestures may affect user interaction with the `centerViewController`, so be sure to use appropriately.
+     */
     open var closeDrawerGestureModeMask: CloseDrawerGestureMode = []
     
     /**
-    The value determining if the user can interact with the `centerViewController` when a side drawer is open.
-    
-    By default, it is `DrawerOpenCenterInteractionModeNavigationBarOnly`, meaning that the user can only interact with the buttons on the `UINavigationBar`, if the center view controller is a `UINavigationController`. Otherwise, the user cannot interact with any other center view controller elements.
-    */
+     The value determining if the user can interact with the `centerViewController` when a side drawer is open.
+     
+     By default, it is `DrawerOpenCenterInteractionModeNavigationBarOnly`, meaning that the user can only interact with the buttons on the `UINavigationBar`, if the center view controller is a `UINavigationController`. Otherwise, the user cannot interact with any other center view controller elements.
+     */
     open var centerHiddenInteractionMode: DrawerOpenCenterInteractionMode = .navigationBarOnly {
         didSet {
             self.centerContainerView.centerInteractionMode = self.centerHiddenInteractionMode
@@ -453,14 +404,14 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    Creates and initializes an `DrawerController` object with the specified center view controller, left drawer view controller, and right drawer view controller.
-    
-    - parameter centerViewController: The center view controller. This argument must not be `nil`.
-    - parameter leftDrawerViewController: The left drawer view controller.
-    - parameter rightDrawerViewController: The right drawer controller.
-    
-    - returns: The newly-initialized drawer container view controller.
-    */
+     Creates and initializes an `DrawerController` object with the specified center view controller, left drawer view controller, and right drawer view controller.
+     
+     - parameter centerViewController: The center view controller. This argument must not be `nil`.
+     - parameter leftDrawerViewController: The left drawer view controller.
+     - parameter rightDrawerViewController: The right drawer controller.
+     
+     - returns: The newly-initialized drawer container view controller.
+     */
     public init(centerViewController: UIViewController, leftDrawerViewController: UIViewController?, rightDrawerViewController: UIViewController?) {
         super.init(nibName: nil, bundle: nil)
         
@@ -470,25 +421,25 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    Creates and initializes an `DrawerController` object with the specified center view controller, left drawer view controller.
-    
-    - parameter centerViewController: The center view controller. This argument must not be `nil`.
-    - parameter leftDrawerViewController: The left drawer view controller.
-    
-    - returns: The newly-initialized drawer container view controller.
-    */
+     Creates and initializes an `DrawerController` object with the specified center view controller, left drawer view controller.
+     
+     - parameter centerViewController: The center view controller. This argument must not be `nil`.
+     - parameter leftDrawerViewController: The left drawer view controller.
+     
+     - returns: The newly-initialized drawer container view controller.
+     */
     public convenience init(centerViewController: UIViewController, leftDrawerViewController: UIViewController?) {
         self.init(centerViewController: centerViewController, leftDrawerViewController: leftDrawerViewController, rightDrawerViewController: nil)
     }
     
     /**
-    Creates and initializes an `DrawerController` object with the specified center view controller, right drawer view controller.
-    
-    - parameter centerViewController: The center view controller. This argument must not be `nil`.
-    - parameter rightDrawerViewController: The right drawer controller.
-    
-    - returns: The newly-initialized drawer container view controller.
-    */
+     Creates and initializes an `DrawerController` object with the specified center view controller, right drawer view controller.
+     
+     - parameter centerViewController: The center view controller. This argument must not be `nil`.
+     - parameter rightDrawerViewController: The right drawer controller.
+     
+     - returns: The newly-initialized drawer container view controller.
+     */
     public convenience init(centerViewController: UIViewController, rightDrawerViewController: UIViewController?) {
         self.init(centerViewController: centerViewController, leftDrawerViewController: nil, rightDrawerViewController: rightDrawerViewController)
     }
@@ -724,10 +675,10 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             self.centerContainerView.layer.shadowOpacity = shadowOpacity
             
             /** In the event this gets called a lot, we won't update the shadowPath
-            unless it needs to be updated (like during rotation) */
+             unless it needs to be updated (like during rotation) */
             if let shadowPath = centerContainerView.layer.shadowPath {
                 let currentPath = shadowPath.boundingBoxOfPath
-
+                
                 if currentPath.equalTo(centerContainerView.bounds) == false {
                     centerContainerView.layer.shadowPath = UIBezierPath(rect: centerContainerView.bounds).cgPath
                 }
@@ -749,29 +700,29 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     // MARK: - Size Methods
     
     /**
-    Sets the maximum width of the left drawer view controller.
-    
-    If the drawer is open, and `animated` is YES, it will animate the drawer frame as well as adjust the center view controller. If the drawer is not open, this change will take place immediately.
-    
-    - parameter width: The new width of left drawer view controller. This must be greater than zero.
-    - parameter animated: Determines whether the drawer should be adjusted with an animation.
-    - parameter completion: The block called when the animation is finished.
-    
-    */
+     Sets the maximum width of the left drawer view controller.
+     
+     If the drawer is open, and `animated` is YES, it will animate the drawer frame as well as adjust the center view controller. If the drawer is not open, this change will take place immediately.
+     
+     - parameter width: The new width of left drawer view controller. This must be greater than zero.
+     - parameter animated: Determines whether the drawer should be adjusted with an animation.
+     - parameter completion: The block called when the animation is finished.
+     
+     */
     open func setMaximumLeftDrawerWidth(_ width: CGFloat, animated: Bool, completion: ((Bool) -> Void)?) {
         self.setMaximumDrawerWidth(width, forSide: .left, animated: animated, completion: completion)
     }
     
     /**
-    Sets the maximum width of the right drawer view controller.
-    
-    If the drawer is open, and `animated` is YES, it will animate the drawer frame as well as adjust the center view controller. If the drawer is not open, this change will take place immediately.
-    
-    - parameter width: The new width of right drawer view controller. This must be greater than zero.
-    - parameter animated: Determines whether the drawer should be adjusted with an animation.
-    - parameter completion: The block called when the animation is finished.
-    
-    */
+     Sets the maximum width of the right drawer view controller.
+     
+     If the drawer is open, and `animated` is YES, it will animate the drawer frame as well as adjust the center view controller. If the drawer is not open, this change will take place immediately.
+     
+     - parameter width: The new width of right drawer view controller. This must be greater than zero.
+     - parameter animated: Determines whether the drawer should be adjusted with an animation.
+     - parameter completion: The block called when the animation is finished.
+     
+     */
     open func setMaximumRightDrawerWidth(_ width: CGFloat, animated: Bool, completion: ((Bool) -> Void)?) {
         self.setMaximumDrawerWidth(width, forSide: .right, animated: animated, completion: completion)
     }
@@ -779,11 +730,11 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate func setMaximumDrawerWidth(_ width: CGFloat, forSide drawerSide: DrawerSide, animated: Bool, completion: ((Bool) -> Void)?) {
         assert({ () -> Bool in
             return width > 0
-            }(), "width must be greater than 0")
+        }(), "width must be greater than 0")
         
         assert({ () -> Bool in
             return drawerSide != .none
-            }(), "drawerSide cannot be .None")
+        }(), "drawerSide cannot be .None")
         
         if let sideDrawerViewController = self.sideDrawerViewController(for: drawerSide) {
             var oldWidth: CGFloat = 0.0
@@ -808,9 +759,9 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                 UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: self.drawerDampingFactor, initialSpringVelocity: self.animationVelocity / distance, options: [], animations: { () -> Void in
                     self.centerContainerView.frame = newCenterRect
                     sideDrawerViewController.view.frame = sideDrawerViewController.evo_visibleDrawerFrame
-                    }, completion: { (finished) -> Void in
-                        completion?(finished)
-                        return
+                }, completion: { (finished) -> Void in
+                    completion?(finished)
+                    return
                 })
             } else {
                 sideDrawerViewController.view.frame = sideDrawerViewController.evo_visibleDrawerFrame
@@ -832,7 +783,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate func setDrawer(_ viewController: UIViewController?, for drawerSide: DrawerSide) {
         assert({ () -> Bool in
             return drawerSide != .none
-            }(), "drawerSide cannot be .None")
+        }(), "drawerSide cannot be .None")
         
         let currentSideViewController = self.sideDrawerViewController(for: drawerSide)
         
@@ -868,6 +819,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
             } else {
                 self.childControllerContainerView.addSubview(viewController!.view)
                 self.childControllerContainerView.sendSubview(toBack: viewController!.view)
+                //                self.childControllerContainerView.bringSubview(toFront: viewController!.view)
                 viewController!.view.isHidden = true
             }
             
@@ -921,190 +873,89 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    //
+    //
+    //    // MARK: - Bounce Methods
+    //
+    //    /**
+    //    Bounce preview for the specified `drawerSide` a distance of 40 points.
+    //
+    //    - parameter drawerSide: The drawer to preview. This value cannot be `DrawerSideNone`.
+    //    - parameter completion: The block called when the animation is finsihed.
+    //
+    //    */
+    //    open func bouncePreview(for drawerSide: DrawerSide, completion: ((Bool) -> Void)?) {
+    //        assert({ () -> Bool in
+    //            return drawerSide != .none
+    //            }(), "drawerSide cannot be .None")
+    //
+    //        self.bouncePreview(for: drawerSide, distance: DrawerDefaultBounceDistance, completion: nil)
+    //    }
+    //
     /**
-    Sets the new `centerViewController`.
-    
-    This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeAnimated` is YES, it will immediately change the center view controller, and close the drawer from its current position.
-    
-    - parameter centerViewController: The new `centerViewController`.
-    - parameter closeAnimated: Determines whether the drawer should be closed with an animation.
-    - parameter completion: The block called when the animation is finsihed.
-    
-    */
-    open func setCenter(_ newCenterViewController: UIViewController, withCloseAnimation animated: Bool, completion: ((Bool) -> Void)?) {
-        var animated = animated
-
-        if self.openSide == .none {
-            // If a side drawer isn't open, there is nothing to animate
-            animated = false
-        }
-        
-        let forwardAppearanceMethodsToCenterViewController = (self.centerViewController! == newCenterViewController) == false
-        self.setCenter(newCenterViewController, animated: animated)
-        
-        if animated {
-            self.updateDrawerVisualState(for: self.openSide, percentVisible: 1.0)
-            
-            if forwardAppearanceMethodsToCenterViewController {
-                self.centerViewController!.beginAppearanceTransition(true, animated: animated)
-            }
-            
-            self.closeDrawer(animated: animated, completion: { (finished) in
-                if forwardAppearanceMethodsToCenterViewController {
-                    self.centerViewController!.endAppearanceTransition()
-                    self.centerViewController!.didMove(toParentViewController: self)
-                }
-                
-                completion?(finished)
-            })
-        } else {
-            completion?(true)
-        }
-    }
-    
-    /**
-    Sets the new `centerViewController`.
-    
-    This sets the view controller and will automatically adjust the frame based on the current state of the drawer controller. If `closeFullAnimated` is YES, the current center view controller will animate off the screen, the new center view controller will then be set, followed by the drawer closing across the full width of the screen.
-    
-    - parameter newCenterViewController: The new `centerViewController`.
-    - parameter fullCloseAnimated: Determines whether the drawer should be closed with an animation.
-    - parameter completion: The block called when the animation is finsihed.
-    
-    */
-    open func setCenter(_ newCenterViewController: UIViewController, withFullCloseAnimation animated: Bool, completion: ((Bool) -> Void)?) {
-        if self.openSide != .none && animated {
-            let forwardAppearanceMethodsToCenterViewController = (self.centerViewController! == newCenterViewController) == false
-            let sideDrawerViewController = self.sideDrawerViewController(for: self.openSide)
-            
-            var targetClosePoint: CGFloat = 0.0
-            
-            if self.openSide == .right {
-                targetClosePoint = -self.childControllerContainerView.bounds.width
-            } else if self.openSide == .left {
-                targetClosePoint = self.childControllerContainerView.bounds.width
-            }
-            
-            let distance: CGFloat = abs(self.centerContainerView.frame.origin.x - targetClosePoint)
-            let firstDuration = self.animationDuration(forAnimationDistance: distance)
-            
-            var newCenterRect = self.centerContainerView.frame
-            
-            self.animatingDrawer = animated
-            
-            let oldCenterViewController = self.centerViewController
-            
-            if forwardAppearanceMethodsToCenterViewController {
-                oldCenterViewController?.beginAppearanceTransition(false, animated: animated)
-            }
-            
-            newCenterRect.origin.x = targetClosePoint
-            
-            UIView.animate(withDuration: firstDuration, delay: 0.0, usingSpringWithDamping: self.drawerDampingFactor, initialSpringVelocity: distance / self.animationVelocity, options: [], animations: { () -> Void in
-                self.centerContainerView.frame = newCenterRect
-                sideDrawerViewController?.view.frame = self.childControllerContainerView.bounds
-                }, completion: { (finished) -> Void in
-                    let oldCenterRect = self.centerContainerView.frame
-                    self.setCenter(newCenterViewController, animated: animated)
-                    self.centerContainerView.frame = oldCenterRect
-                    self.updateDrawerVisualState(for: self.openSide, percentVisible: 1.0)
-                    
-                    if forwardAppearanceMethodsToCenterViewController {
-                        oldCenterViewController?.endAppearanceTransition()
-                        self.centerViewController?.beginAppearanceTransition(true, animated: animated)
-                    }
-                    
-                    sideDrawerViewController?.beginAppearanceTransition(false, animated: animated)
-                    
-                    UIView.animate(withDuration: self.animationDuration(forAnimationDistance: self.childControllerContainerView.bounds.width), delay: DrawerDefaultFullAnimationDelay, usingSpringWithDamping: self.drawerDampingFactor, initialSpringVelocity: self.childControllerContainerView.bounds.width / self.animationVelocity, options: [], animations: { () -> Void in
-                        self.centerContainerView.frame = self.childControllerContainerView.bounds
-                        self.updateDrawerVisualState(for: self.openSide, percentVisible: 0.0)
-                        }, completion: { (finished) -> Void in
-                            if forwardAppearanceMethodsToCenterViewController {
-                                self.centerViewController?.endAppearanceTransition()
-                                self.centerViewController?.didMove(toParentViewController: self)
-                            }
-                            
-                            sideDrawerViewController?.endAppearanceTransition()
-                            self.resetDrawerVisualState(for: self.openSide)
-                            
-                            if sideDrawerViewController != nil {
-                                sideDrawerViewController!.view.frame = sideDrawerViewController!.evo_visibleDrawerFrame
-                            }
-                            
-                            self.openSide = .none
-                            self.animatingDrawer = false
-                            
-                            completion?(finished)
-                    })
-            })
-        } else {
-            self.setCenter(newCenterViewController, animated: animated)
-            
-            if self.openSide != .none {
-                self.closeDrawer(animated: animated, completion: completion)
-            } else if completion != nil {
-                completion!(true)
-            }
-        }
-    }
-    
-    // MARK: - Bounce Methods
-    
-    /**
-    Bounce preview for the specified `drawerSide` a distance of 40 points.
-    
-    - parameter drawerSide: The drawer to preview. This value cannot be `DrawerSideNone`.
-    - parameter completion: The block called when the animation is finsihed.
-    
-    */
-    open func bouncePreview(for drawerSide: DrawerSide, completion: ((Bool) -> Void)?) {
-        assert({ () -> Bool in
-            return drawerSide != .none
-            }(), "drawerSide cannot be .None")
-        
-        self.bouncePreview(for: drawerSide, distance: DrawerDefaultBounceDistance, completion: nil)
-    }
-    
-    /**
-    Bounce preview for the specified `drawerSide`.
-    
-    - parameter drawerSide: The drawer side to preview. This value cannot be `DrawerSideNone`.
-    - parameter distance: The distance to bounce.
-    - parameter completion: The block called when the animation is finsihed.
-    
-    */
-    open func bouncePreview(for drawerSide: DrawerSide, distance: CGFloat, completion: ((Bool) -> Void)?) {
-        assert({ () -> Bool in
-            return drawerSide != .none
-            }(), "drawerSide cannot be .None")
-        
-        let sideDrawerViewController = self.sideDrawerViewController(for: drawerSide)
-        
-        if sideDrawerViewController == nil || self.openSide != .none {
-            completion?(false)
-            return
-        } else {
-            self.prepareToPresentDrawer(for: drawerSide, animated: true)
-            
-            self.updateDrawerVisualState(for: drawerSide, percentVisible: 1.0)
-            
-            CATransaction.begin()
-            CATransaction.setCompletionBlock {
-                sideDrawerViewController!.endAppearanceTransition()
-                sideDrawerViewController!.beginAppearanceTransition(false, animated: false)
-                sideDrawerViewController!.endAppearanceTransition()
-                
-                completion?(true)
-            }
-            
-            let modifier: CGFloat = (drawerSide == .left) ? 1.0 : -1.0
-            let animation = bounceKeyFrameAnimation(forDistance: distance * modifier, on: self.centerContainerView)
-            self.centerContainerView.layer.add(animation, forKey: "bouncing")
-            
-            CATransaction.commit()
-        }
-    }
+     Bounce preview for the specified `drawerSide`.
+     
+     - parameter drawerSide: The drawer side to preview. This value cannot be `DrawerSideNone`.
+     - parameter distance: The distance to bounce.
+     - parameter completion: The block called when the animation is finsihed.
+     
+     */
+    //    open func bouncePreview(for drawerSide: DrawerSide, distance: CGFloat, completion: ((Bool) -> Void)?) {
+    //      func bounceKeyFrameAnimation(forDistance distance: CGFloat, on view: UIView) -> CAKeyframeAnimation {
+    //            let factors: [CGFloat] = [0, 32, 60, 83, 100, 114, 124, 128, 128, 124, 114, 100, 83, 60, 32, 0, 24, 42, 54, 62, 64, 62, 54, 42, 24, 0, 18, 28, 32, 28, 18, 0]
+    //
+    //            let values = factors.map { x -> NSNumber in
+    //                // This could be refactored as `NSNumber(value: Float(x / 128 * distance + view.bounds.midX))`
+    //                // but unfortunately that would require 400ms+ more compile time
+    //                var value = x
+    //                value /= 128
+    //                value *= distance
+    //                value += view.bounds.midX
+    //
+    //                return NSNumber(value: Float(value))
+    //            }
+    //
+    //            let animation = CAKeyframeAnimation(keyPath: "position.x")
+    //            animation.repeatCount = 1
+    //            animation.duration = 0.8
+    //            animation.fillMode = kCAFillModeForwards
+    //            animation.values = values
+    //            animation.isRemovedOnCompletion = true
+    //            animation.autoreverses = false
+    //
+    //            return animation
+    //        }
+    //        assert({ () -> Bool in
+    //            return drawerSide != .none
+    //            }(), "drawerSide cannot be .None")
+    //
+    //        let sideDrawerViewController = self.sideDrawerViewController(for: drawerSide)
+    //
+    //        if sideDrawerViewController == nil || self.openSide != .none {
+    //            completion?(false)
+    //            return
+    //        } else {
+    //            self.prepareToPresentDrawer(for: drawerSide, animated: true)
+    //
+    //            self.updateDrawerVisualState(for: drawerSide, percentVisible: 1.0)
+    //
+    //            CATransaction.begin()
+    //            CATransaction.setCompletionBlock {
+    //                sideDrawerViewController!.endAppearanceTransition()
+    //                sideDrawerViewController!.beginAppearanceTransition(false, animated: false)
+    //                sideDrawerViewController!.endAppearanceTransition()
+    //
+    //                completion?(true)
+    //            }
+    //
+    //            let modifier: CGFloat = (drawerSide == .left) ? 1.0 : -1.0
+    //            let animation = bounceKeyFrameAnimation(forDistance: distance * modifier, on: self.centerContainerView)
+    //            self.centerContainerView.layer.add(animation, forKey: "bouncing")
+    //
+    //            CATransaction.commit()
+    //        }
+    //
+    //    }
     
     // MARK: - Gesture Handlers
     
@@ -1191,19 +1042,19 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    Toggles the drawer open/closed based on the `drawer` passed in.
-    
-    Note that if you attempt to toggle a drawer closed while the other is open, nothing will happen. For example, if you pass in DrawerSideLeft, but the right drawer is open, nothing will happen. In addition, the completion block will be called with the finished flag set to NO.
-    
-    - parameter drawerSide: The `DrawerSide` to toggle. This value cannot be `DrawerSideNone`.
-    - parameter animated: Determines whether the `drawer` should be toggle animated.
-    - parameter completion: The block that is called when the toggle is complete, or if no toggle took place at all.
-    
-    */
+     Toggles the drawer open/closed based on the `drawer` passed in.
+     
+     Note that if you attempt to toggle a drawer closed while the other is open, nothing will happen. For example, if you pass in DrawerSideLeft, but the right drawer is open, nothing will happen. In addition, the completion block will be called with the finished flag set to NO.
+     
+     - parameter drawerSide: The `DrawerSide` to toggle. This value cannot be `DrawerSideNone`.
+     - parameter animated: Determines whether the `drawer` should be toggle animated.
+     - parameter completion: The block that is called when the toggle is complete, or if no toggle took place at all.
+     
+     */
     open func toggleDrawerSide(_ drawerSide: DrawerSide, animated: Bool, completion: ((Bool) -> Void)?) {
         assert({ () -> Bool in
             return drawerSide != .none
-            }(), "drawerSide cannot be .None")
+        }(), "drawerSide cannot be .None")
         
         if self.openSide == DrawerSide.none {
             self.openDrawerSide(drawerSide, animated: animated, completion: completion)
@@ -1217,17 +1068,17 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /**
-    Opens the `drawer` passed in.
-    
-    - parameter drawerSide: The `DrawerSide` to open. This value cannot be `DrawerSideNone`.
-    - parameter animated: Determines whether the `drawer` should be open animated.
-    - parameter completion: The block that is called when the toggle is open.
-    
-    */
+     Opens the `drawer` passed in.
+     
+     - parameter drawerSide: The `DrawerSide` to open. This value cannot be `DrawerSideNone`.
+     - parameter animated: Determines whether the `drawer` should be open animated.
+     - parameter completion: The block that is called when the toggle is open.
+     
+     */
     open func openDrawerSide(_ drawerSide: DrawerSide, animated: Bool, completion: ((Bool) -> Void)?) {
         assert({ () -> Bool in
             return drawerSide != .none
-            }(), "drawerSide cannot be .None")
+        }(), "drawerSide cannot be .None")
         
         self.openDrawerSide(drawerSide, animated: animated, velocity: self.animationVelocity, animationOptions: [], completion: completion)
     }
@@ -1235,7 +1086,7 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     fileprivate func openDrawerSide(_ drawerSide: DrawerSide, animated: Bool, velocity: CGFloat, animationOptions options: UIViewAnimationOptions, completion: ((Bool) -> Void)?) {
         assert({ () -> Bool in
             return drawerSide != .none
-            }(), "drawerSide cannot be .None")
+        }(), "drawerSide cannot be .None")
         
         if self.animatingDrawer {
             completion?(false)
@@ -1266,29 +1117,29 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                     self.setNeedsStatusBarAppearanceUpdate()
                     self.centerContainerView.frame = newFrame
                     self.updateDrawerVisualState(for: drawerSide, percentVisible: 1.0)
-                    }, completion: { (finished) -> Void in
-                        if drawerSide != self.openSide {
-                            sideDrawerViewController!.endAppearanceTransition()
-                        }
-                        
-                        self.openSide = drawerSide
-                        
-                        self.resetDrawerVisualState(for: drawerSide)
-                        self.animatingDrawer = false
-                        
-                        completion?(finished)
+                }, completion: { (finished) -> Void in
+                    if drawerSide != self.openSide {
+                        sideDrawerViewController!.endAppearanceTransition()
+                    }
+                    
+                    self.openSide = drawerSide
+                    
+                    self.resetDrawerVisualState(for: drawerSide)
+                    self.animatingDrawer = false
+                    //
+                    completion?(finished)
                 })
             }
         }
     }
     
     /**
-    Closes the open drawer.
-    
-    - parameter animated: Determines whether the drawer side should be closed animated
-    - parameter completion: The block that is called when the close is complete
-    
-    */
+     Closes the open drawer.
+     
+     - parameter animated: Determines whether the drawer side should be closed animated
+     - parameter completion: The block that is called when the close is complete
+     
+     */
     open func closeDrawer(animated: Bool, completion: ((Bool) -> Void)?) {
         self.closeDrawer(animated: animated, velocity: self.animationVelocity, animationOptions: [], completion: completion)
     }
@@ -1328,12 +1179,12 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
                 self.setNeedsStatusBarAppearanceUpdate()
                 self.centerContainerView.frame = newFrame
                 self.updateDrawerVisualState(for: visibleSide, percentVisible: 0.0)
-                }, completion: { (finished) -> Void in
-                    sideDrawerViewController?.endAppearanceTransition()
-                    self.openSide = .none
-                    self.resetDrawerVisualState(for: visibleSide)
-                    self.animatingDrawer = false
-                    completion?(finished)
+            }, completion: { (finished) -> Void in
+                sideDrawerViewController?.endAppearanceTransition()
+                self.openSide = .none
+                self.resetDrawerVisualState(for: visibleSide)
+                self.animatingDrawer = false
+                completion?(finished)
             })
         }
     }
@@ -1402,18 +1253,18 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
         if let controller = centerViewController {
             return controller.shouldAutorotate
         }
-
+        
         return super.shouldAutorotate
     }
-
+    
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if let controller = centerViewController {
             return controller.supportedInterfaceOrientations
         }
-
+        
         return super.supportedInterfaceOrientations
     }
-
+    
     // MARK: - Rotation
     
     open override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -1566,14 +1417,13 @@ open class DrawerController: UIViewController, UIGestureRecognizerDelegate {
     
     func isPointContained(withinLeftBezelRect point: CGPoint) -> Bool {
         let (leftBezelRect, _) = childControllerContainerView.bounds.divided(atDistance: bezelRange, from: .minXEdge)
-
+        
         return leftBezelRect.contains(point) && self.isPointContained(withinCenterViewContentRect: point)
     }
     
     func isPointContained(withinRightBezelRect point: CGPoint) -> Bool {
         let (rightBezelRect, _) = childControllerContainerView.bounds.divided(atDistance: bezelRange, from: .maxXEdge)
-
+        
         return rightBezelRect.contains(point) && self.isPointContained(withinCenterViewContentRect: point)
     }
 }
-
