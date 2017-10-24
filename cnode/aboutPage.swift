@@ -46,7 +46,8 @@ class AboutPage: UIViewController {
             $4.height == 30
         }
         let url = "https://avatars2.githubusercontent.com/u/4485958?v=4&s=400"
-        avatar.kf.setImage(with:URL(string:url))
+//        avatar.kf.setImage(with:URL(string:url))
+        avatar.setImage2(url)
         //
         let homepage : String = "https://lcj.sxl.cn"
         let attributedString = NSMutableAttributedString(string: homepage, attributes: nil)

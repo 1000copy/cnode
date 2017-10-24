@@ -83,14 +83,15 @@ class TopicsPage : TJTablePage{
         a._created.text = "创建于：\(d.getElapsedInterval())"
         let e = date((topic?.last_reply_at)!)!
         a._lastReplied.text = "\(e.getElapsedInterval())"
-        a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
+//        a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
+        a._avatar.setImage2((topic?.author?.avatar_url)!)
         return a
     }
 
 }
 
 
-import Kingfisher
+//import Kingfisher
 import Cartography
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()

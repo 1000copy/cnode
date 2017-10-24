@@ -2,7 +2,7 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
-import Kingfisher
+
 //var lightReload = false
 class TopicPage : UITableViewController,UIWebViewDelegate{
     var id: String?
@@ -132,7 +132,8 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             if indexPath.row == 0 {
                 let a = tableView.dequeueReusableCell(withIdentifier: "Cell") as! Cell
                 a._title.text = result?.data?.title
-                a._avatar.kf.setImage(with:URL(string:(result?.data?.author?.avatar_url)!))
+//                a._avatar.kf.setImage(with:URL(string:(result?.data?.author?.avatar_url)!))
+                a._avatar.setImage2((result?.data?.author?.avatar_url)!)
                 let topic = result?.data
                 a._top.isHidden = !(topic?.top)!
                 a._author.text = topic?.author?.loginname
@@ -141,7 +142,8 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
                 a._created.text = "创建于：\(d.getElapsedInterval())"
                 let e = date((topic?.last_reply_at)!)!
                 a._lastReplied.text = "\(e.getElapsedInterval())"
-                a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
+//                a._avatar.kf.setImage(with:URL(string:(topic?.author?.avatar_url)!))
+                a._avatar.setImage2((topic?.author?.avatar_url)!)
                 a._content.delegate = self
                 a._content.indexPath = indexPath
                 let html = htmlhead +  (topic?.content)!
@@ -150,7 +152,8 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             }else{
                 let a = tableView.dequeueReusableCell(withIdentifier: "ReplyCell")  as! ReplyCell
                 let r = result?.data?.replies?[indexPath.row - 1]
-                a._avatar.kf.setImage(with:URL(string:(r?.author?.avatar_url)!))
+//                a._avatar.kf.setImage(with:URL(string:(r?.author?.avatar_url)!))
+                a._avatar.setImage2((r?.author?.avatar_url)!)
                 let html = r?.content
                 a._content.delegate = self
                 a._content.indexPath = indexPath
@@ -213,7 +216,7 @@ class TJWeb : UIWebView,UIWebViewDelegate{
         isUserInteractionEnabled = false
     }
 }
-import Kingfisher
+//import Kingfisher
 import Cartography
 extension UITableViewCell {
     var tableView: UITableView? {
