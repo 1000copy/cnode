@@ -22,11 +22,11 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         refreshButtons()
     }
     func refreshButtons(){
-        var image = UIImage.init(icon: .icofont(.like), size: CGSize(width: 20, height: 20))
+        var image = UIImage.init(icon: .emoji(.link), size: CGSize(width: 20, height: 20))
         image = image.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         var image1 = UIImage.init(icon: .emoji(.arrowReply), size: CGSize(width: 20, height: 20))
         image1 = image1.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-        var image3 = UIImage.init(icon: .icofont(.abacus), size: CGSize(width: 20, height: 20))
+        var image3 = UIImage.init(icon: .emoji(.alien), size: CGSize(width: 20, height: 20))
         image3 = image3.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
         Bar.likes(){
             if !$0.contains(self.id!){

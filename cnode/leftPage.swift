@@ -82,7 +82,7 @@ class Top: UIView{
         drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
     }
 }
-import SwiftIcons
+
 class Item{
     var emoji : EmojiType!
     var title : String!
