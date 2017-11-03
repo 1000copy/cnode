@@ -92,7 +92,7 @@ class TopicsPage : TJTablePage{
 
 
 //import Kingfisher
-import Cartography
+
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()

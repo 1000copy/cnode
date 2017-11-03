@@ -217,7 +217,7 @@ class TJWeb : UIWebView,UIWebViewDelegate{
     }
 }
 //import Kingfisher
-import Cartography
+
 extension UITableViewCell {
     var tableView: UITableView? {
         var view = self.superview

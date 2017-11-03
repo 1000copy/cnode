@@ -41,7 +41,7 @@ class ReplyPage: UIViewController {
     }
 }
 import UIKit
-import Cartography
+
 import Alamofire
 fileprivate class Bar{
     class func foo(_ topicId : String ,_ replyId:String,_ content : String, done:@escaping ()->Void){

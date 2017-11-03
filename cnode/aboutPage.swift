@@ -74,7 +74,7 @@ class AboutPage: UIViewController {
     }
 }
 import UIKit
-import Cartography
+
 
 class CustomLabel: UILabel {
     

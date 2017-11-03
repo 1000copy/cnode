@@ -51,7 +51,7 @@ class LoginPage: UIViewController {
     }
 }
 import UIKit
-import Cartography
+
 import Alamofire
 
 fileprivate class Bar{
