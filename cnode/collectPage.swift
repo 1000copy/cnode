@@ -1,5 +1,5 @@
 import Alamofire
-import AlamofireObjectMapper
+//import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
 class CollectPage : UITableViewController{

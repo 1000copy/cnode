@@ -1,5 +1,4 @@
 import Alamofire
-import AlamofireObjectMapper
 import ObjectMapper
 import UIKit
 class TopicsPage : TJTablePage{
@@ -89,10 +88,6 @@ class TopicsPage : TJTablePage{
     }
 
 }
-
-
-//import Kingfisher
-
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _top = UILabel()
