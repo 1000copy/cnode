@@ -54,6 +54,30 @@ import UIKit
 
 import Alamofire
 
+//fileprivate class Bar1{
+//    class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
+//        let url = "https://cnodejs.org/api/v1/accesstoken"
+//        let params: [String: String] = [
+//            "accesstoken":accesstoken
+//        ]
+//        HUD.progress("登录...")
+//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
+//            .responseJSON{ response in
+//                //                print(response.request as Any)  // original URL request
+//                //                print(response.response as Any) // URL response
+//                print(response.result.value)   // result of response serialization
+//                let json = response.result.value as! [String:Any]
+//                print(json["success"])
+//                let s = json["success"]
+//                if s as! Bool {
+//                    done(AccessToken(accesstoken,json["loginname"] as! String,json["avatar_url"] as! String,json["id"] as! String))
+//                }else{
+//                    //tip error
+//                }
+//                HUD.success()
+//        }
+//    }
+//}
 fileprivate class Bar{
     class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
         let url = "https://cnodejs.org/api/v1/accesstoken"
@@ -62,21 +86,30 @@ fileprivate class Bar{
         ]
         HUD.progress("登录...")
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-            .responseJSON{ response in
-                //                print(response.request as Any)  // original URL request
-                //                print(response.response as Any) // URL response
-                print(response.result.value)   // result of response serialization
-                let json = response.result.value as! [String:Any]
-                print(json["success"])
-                let s = json["success"]
+            .responseData{ response in
+                let at = toObject(response.data!)
+                let s = at.success
                 if s as! Bool {
-                    done(AccessToken(accesstoken,json["loginname"] as! String,json["avatar_url"] as! String,json["id"] as! String))
+                    done(AccessToken(accesstoken,at.loginname,at.avatar_url,at.id))
                 }else{
                     //tip error
                 }
                 HUD.success()
         }
     }
+}
+fileprivate func toObject(_ jsonData : Data)-> AT{
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    let at = try! decoder.decode(AT.self, from: jsonData)
+    return at
+}
+fileprivate struct AT : Codable{
+    let success: Bool?
+    let loginname:String
+    let avatar_url:String
+    let id : String
+//    let accesstoken : String
 }
 class AccessToken:NSObject,NSCoding{
     var accesstoken : String!

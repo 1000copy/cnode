@@ -1,6 +1,5 @@
-//import Kingfisher
+
 import UIKit
-//import DrawerController
 var drawerController : DrawerPage!
 var homePage : TopicsPage!
 var centerPage : CenterPage!
@@ -11,9 +10,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         drawerController = DrawerPage()
         self.window!.rootViewController = drawerController
-//        self.window!.rootViewController = LoginPage()
-//        self.window!.rootViewController = CenterPage()
-//        self.window!.rootViewController = LeftPage()
         self.window?.makeKeyAndVisible()
         return true
     }
@@ -51,6 +47,7 @@ class CenterPage: UINavigationController {
         self.pushViewController(homePage, animated: true)
     }
     func addTapped(){
-        
+
     }
 }
+
