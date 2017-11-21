@@ -108,108 +108,7 @@ fileprivate class Cell : UITableViewCell{
         }
     }
 }
-fileprivate class Bar{
-    class func likes(done:@escaping (_ done : Message)->Void){
-        let token = AccessToken.loadFromKC()
-        if let t = token?.accesstoken ,t != ""{
-            Bar.likes(t, done)
-        }
-    }
-    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
-        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
-        var params :[String:Any] = [:]
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject() {(response: DataResponse<Message>) in
-            let message = response.result.value
-            if (message?.success!)!{
-                HUDSuccess()
-                done(message!)
-            }else{
-                HUDError("")
-            }
-        }
-    }
-}
-fileprivate class Message: Mappable {
-    var success: Bool?
-    var data : Data?
-    required init?(map: Map){
-        
-    }
-    
-    func mapping(map: Map) {
-        success <- map["success"]
-        data <- map["data"]
-    }
-}
-fileprivate class Data: Mappable {
-    var has_read_messages: [MessageItem]?
-    var hasnot_read_messages :[MessageItem]?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        has_read_messages <- map["has_read_messages"]
-        hasnot_read_messages <- map["hasnot_read_messages"]
-    }
-}
-//content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
-fileprivate class MessageItem : Mappable{
-    var id: String?
-    var type: String?
-    var has_read: Bool?
-    var author: Author?
-    var topic: Topic?
-    var reply: Reply?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        id <- map["id"]
-        type <- map["type"]
-        has_read <- map["has_read"]
-        author <- map["author"]
-        topic <- map["topic"]
-        reply <- map["reply"]
-    }
-}
-//content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
-fileprivate class Author : Mappable{
-    var loginname: String?
-    var avatar_url: String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        loginname <- map["loginname"]
-        avatar_url <- map["avatar_url"]
-    }
-}
-fileprivate class Topic: Mappable {
-    var id: String?
-    var title : String?
-    var last_reply_at : String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        id <- map["id"]
-        title <- map["title"]
-        last_reply_at <- map["last_reply_at"]
-    }
-}
-fileprivate class Reply: Mappable {
-    var id: String?
-    var content : String?
-    var last_reply_at : String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        id <- map["id"]
-        content <- map["content"]
-        last_reply_at <- map["last_reply_at"]
-    }
-}
+
 //import GTMRefresh
 extension MessagePage{
     func refresh() {
@@ -251,3 +150,62 @@ extension  MessagePage {
         self.refresh()
     }
 }
+//
+fileprivate class Bar{
+    class func likes(done:@escaping (_ done : Message)->Void){
+        let token = AccessToken.loadFromKC()
+        if let t = token?.accesstoken ,t != ""{
+            Bar.likes(t, done)
+        }
+    }
+    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
+        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
+        var params :[String:Any] = [:]
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
+            let message1 = response.data
+            let decoder = JSONDecoder()
+            let message = try! decoder.decode(Message.self, from: message1!)
+            
+            if (message.success!){
+                HUDSuccess()
+                done(message)
+            }else{
+                HUDError("")
+            }
+        }
+    }
+}
+//struct
+fileprivate struct Message: Codable {
+    var success: Bool?
+    var data : Data?
+    
+}
+fileprivate struct Data: Codable {
+    var has_read_messages: [MessageItem]?
+    var hasnot_read_messages :[MessageItem]?
+    
+}
+fileprivate struct MessageItem : Codable{
+    var id: String?
+    var type: String?
+    var has_read: Bool?
+    var author: Author?
+    var topic: Topic?
+    var reply: Reply?
+}
+fileprivate struct Author : Codable{
+    var loginname: String?
+    var avatar_url: String?
+}
+fileprivate struct Topic: Codable {
+    var id: String?
+    var title : String?
+    var last_reply_at : String?
+}
+fileprivate struct Reply: Codable {
+    var id: String?
+    var content : String?
+    var last_reply_at : String?
+}
+

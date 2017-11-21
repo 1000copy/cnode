@@ -1,3 +1,4 @@
+
 import Alamofire
 import ObjectMapper
 import UIKit
@@ -52,6 +53,7 @@ class TopicsPage : TJTablePage{
             //            print(self.arr?.data?[0].top)
             //不套一个外壳调用，会慢得惊人，并且xcode会提示：
             //Main Thread Checker: UI API called on a background thread: -[UIApplication applicationState]
+//            self.tableView.reloadData()
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -270,4 +272,5 @@ fileprivate struct TopicFF: Codable {
     var create_at : String?
     var author : AuthorFF?
 }
+
 

@@ -1,6 +1,6 @@
 import Alamofire
-import AlamofireObjectMapper
-import ObjectMapper
+//import AlamofireObjectMapper
+//import ObjectMapper
 import UIKit
 
 //var lightReload = false
@@ -518,79 +518,4 @@ fileprivate struct ReplyFF: Codable {
     fileprivate var author : AuthorFF?
     var created : String?
 }
-
-//class
-//fileprivate class Result: Mappable {
-//    var success: Bool?
-//    var data : Data?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        success <- map["success"]
-//        data <- map["data"]
-//    }
-//}
-//fileprivate class Author : Mappable{
-//    var loginname: String?
-//    var avatar_url: String?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        loginname <- map["loginname"]
-//        avatar_url <- map["avatar_url"]
-//    }
-//}
-//
-//fileprivate class Data : Mappable{
-//    var content : String?
-//    var title : String?
-//    var replies : [Reply]?
-//    fileprivate var author : Author?
-//    var author_id : String?
-//    var tab : String?
-//    var last_reply_at : String?
-//    var good : String?
-//    var top : Bool?
-//    var reply_count : Int?
-//    var visit_count : Int?
-//    var create_at : String?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        author <- map["author"]
-//        content <- map["content"]
-//        title <- map["title"]
-//        author_id <- map["author_id"]
-//
-//        last_reply_at <- map["last_reply_at"]
-//        good <- map["good"]
-//        top <- map["top"]
-//        reply_count <- map["reply_count"]
-//        visit_count <- map["visit_count"]
-//        create_at <- map["create_at"]
-//        tab <- map["tab"]
-//        replies <- map["replies"]
-//    }
-//}
-//
-//fileprivate class Reply: Mappable {
-//    var id: String?
-//    var content : String?
-//    var title : String?
-//    fileprivate var author : Author?
-//    var created : String?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        id <- map["id"]
-//        content <- map["content"]
-//        title <- map["title"]
-//        author <- map["author"]
-//        created <- map["create_at"]
-//    }
-//}
 
