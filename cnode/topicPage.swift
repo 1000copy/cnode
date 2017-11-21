@@ -7,7 +7,7 @@ import UIKit
 class TopicPage : UITableViewController,UIWebViewDelegate{
     var id: String?
     var replyId : String?
-    fileprivate var result : Result?
+    fileprivate var result : ResultFF?
     var contentHeights : [IndexPath:CGFloat] = [:]
     override func viewDidLoad() {
         Bar.foo(id!){
@@ -158,7 +158,9 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
                 a._content.delegate = self
                 a._content.indexPath = indexPath
                 a._content.loadHTMLString((html)!, baseURL: url)
-                a._created.text = date((r?.created)!)?.getElapsedInterval()
+                if (r?.created != nil){
+                    a._created.text = date((r?.created)!)?.getElapsedInterval()
+                }
                 a._author.text = r?.author?.loginname
                 return a
             }
@@ -343,15 +345,28 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-    class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
-//        let id = "599afc79ebaa046923a82644"
+//    class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
+////        let id = "599afc79ebaa046923a82644"
+//        let URL = "https://cnodejs.org/api/v1/topic/\(id)"
+//        var params :[String:Any] = [:]
+//        params["mdrender"] = true
+//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject { (response: DataResponse<Result>) in
+//            let topics = response.result.value
+//            print(topics)
+//            done(topics!)
+//        }
+//    }
+    class func foo(_ id : String,done:@escaping (_ t : ResultFF)->Void){
+        //        let id = "599afc79ebaa046923a82644"
         let URL = "https://cnodejs.org/api/v1/topic/\(id)"
         var params :[String:Any] = [:]
         params["mdrender"] = true
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject { (response: DataResponse<Result>) in
-            let topics = response.result.value
-            print(topics)
-            done(topics!)
+        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData { (response) in
+            let topics = response.data
+            let decoder = JSONDecoder()
+            let topics1 = try! decoder.decode(ResultFF.self, from: topics!)
+            print(topics1)
+            done(topics1)
         }
     }
     class func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
@@ -472,77 +487,110 @@ public func HUDError(_ status:String!) {
     HUD.hide()
     HUD.flash(.error)
 }
-fileprivate class Result: Mappable {
+fileprivate struct ResultFF: Codable {
     var success: Bool?
-    var data : Data?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        success <- map["success"]
-        data <- map["data"]
-    }
+    var data : DataFF?
 }
-fileprivate class Author : Mappable{
+fileprivate struct AuthorFF : Codable{
     var loginname: String?
     var avatar_url: String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        loginname <- map["loginname"]
-        avatar_url <- map["avatar_url"]
-    }
 }
 
-//content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
-fileprivate class Data : Mappable{
+fileprivate struct DataFF : Codable{
     var content : String?
     var title : String?
-    var replies : [Reply]?
-    fileprivate var author : Author?
+    var replies : [ReplyFF]?
+    fileprivate var author : AuthorFF?
     var author_id : String?
     var tab : String?
     var last_reply_at : String?
-    var good : String?
+    var good : Int?
     var top : Bool?
     var reply_count : Int?
     var visit_count : Int?
     var create_at : String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        author <- map["author"]
-        content <- map["content"]
-        title <- map["title"]
-        author_id <- map["author_id"]
-
-        last_reply_at <- map["last_reply_at"]
-        good <- map["good"]
-        top <- map["top"]
-        reply_count <- map["reply_count"]
-        visit_count <- map["visit_count"]
-        create_at <- map["create_at"]
-        tab <- map["tab"]
-        replies <- map["replies"]
-    }
 }
 
-fileprivate class Reply: Mappable {
+fileprivate struct ReplyFF: Codable {
     var id: String?
     var content : String?
     var title : String?
-    fileprivate var author : Author?
+    fileprivate var author : AuthorFF?
     var created : String?
-    required init?(map: Map){
-        
-    }
-    func mapping(map: Map) {
-        id <- map["id"]
-        content <- map["content"]
-        title <- map["title"]
-        author <- map["author"]
-        created <- map["create_at"]
-    }
 }
+
+//class
+//fileprivate class Result: Mappable {
+//    var success: Bool?
+//    var data : Data?
+//    required init?(map: Map){
+//
+//    }
+//    func mapping(map: Map) {
+//        success <- map["success"]
+//        data <- map["data"]
+//    }
+//}
+//fileprivate class Author : Mappable{
+//    var loginname: String?
+//    var avatar_url: String?
+//    required init?(map: Map){
+//
+//    }
+//    func mapping(map: Map) {
+//        loginname <- map["loginname"]
+//        avatar_url <- map["avatar_url"]
+//    }
+//}
+//
+//fileprivate class Data : Mappable{
+//    var content : String?
+//    var title : String?
+//    var replies : [Reply]?
+//    fileprivate var author : Author?
+//    var author_id : String?
+//    var tab : String?
+//    var last_reply_at : String?
+//    var good : String?
+//    var top : Bool?
+//    var reply_count : Int?
+//    var visit_count : Int?
+//    var create_at : String?
+//    required init?(map: Map){
+//
+//    }
+//    func mapping(map: Map) {
+//        author <- map["author"]
+//        content <- map["content"]
+//        title <- map["title"]
+//        author_id <- map["author_id"]
+//
+//        last_reply_at <- map["last_reply_at"]
+//        good <- map["good"]
+//        top <- map["top"]
+//        reply_count <- map["reply_count"]
+//        visit_count <- map["visit_count"]
+//        create_at <- map["create_at"]
+//        tab <- map["tab"]
+//        replies <- map["replies"]
+//    }
+//}
+//
+//fileprivate class Reply: Mappable {
+//    var id: String?
+//    var content : String?
+//    var title : String?
+//    fileprivate var author : Author?
+//    var created : String?
+//    required init?(map: Map){
+//
+//    }
+//    func mapping(map: Map) {
+//        id <- map["id"]
+//        content <- map["content"]
+//        title <- map["title"]
+//        author <- map["author"]
+//        created <- map["create_at"]
+//    }
+//}
+
