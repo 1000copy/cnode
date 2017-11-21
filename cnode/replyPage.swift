@@ -59,7 +59,7 @@ fileprivate class Bar{
         ]
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
             .responseString { response in
-                print(response.result.value)   // result of response serialization
+                print(response.result.value!)   // result of response serialization
                 done()
         }
     }

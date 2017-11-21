@@ -3,7 +3,4 @@
 use_frameworks!
 target 'cnode' do
 	pod 'Alamofire', '~> 4.4.0'
-    pod 'ObjectMapper', '= 2.2.6'
-    pod 'AlamofireObjectMapper', '~> 4.0.1'
-    
 end

@@ -1,6 +1,4 @@
 import Alamofire
-//import AlamofireObjectMapper
-import ObjectMapper
 import UIKit
 class CollectPage : UITableViewController{
     fileprivate var arr : Topics?
@@ -218,7 +216,7 @@ fileprivate class Bar{
     class func likes(_ loginname : String ,_ done:@escaping (_ t : Topics)->Void){
         //        let id = "598f28a8e104026c52101860"
         let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-        var params :[String:Any] = [:]
+        let params :[String:Any] = [:]
         Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
             let data = response.data
             let decoder = JSONDecoder()

@@ -1,6 +1,5 @@
 
 import Alamofire
-import ObjectMapper
 import UIKit
 class TopicsPage : TJTablePage{
     fileprivate var arr : Topics?
@@ -224,7 +223,7 @@ fileprivate class Cell : UITableViewCell{
 //            let topics = response.result.value
 //            done(topics!)
 //        }
-//    }
+//    }expression implicitly coerced from error to any
 //}
 //
 fileprivate class Bar{
@@ -232,7 +231,7 @@ fileprivate class Bar{
         let url = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
         let task = URLSession.shared.dataTask(with: URL(string:url)!) { (data, response, error) in
             if error != nil {
-                print(error)
+                print(error!)
             } else {
                 if let usableData = data {
                     do {

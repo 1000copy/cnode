@@ -32,14 +32,14 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             if !$0.contains(self.id!){
                 self.navigationItem.rightBarButtonItems =
                     [
-                        UIBarButtonItem(image: image, style: .plain, target: self, action: Selector("like")),
-                        UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("reply"))
+                        UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(self.like)),
+                        UIBarButtonItem(image: image1, style: .plain, target: self, action:#selector(self.reply))
                 ]
             }else{
                 self.navigationItem.rightBarButtonItems =
                     [
-                        UIBarButtonItem(image: image3, style: .plain, target: self, action: Selector("unlike")),
-                        UIBarButtonItem(image: image1, style: .plain, target: self, action: Selector("reply"))
+                        UIBarButtonItem(image: image3, style: .plain, target: self, action: #selector(self.unlike)),
+                        UIBarButtonItem(image: image1, style: .plain, target: self, action: #selector(self.reply))
                 ]
             }
         }
@@ -372,7 +372,7 @@ fileprivate class Bar{
     class func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
         //        let id = "598f28a8e104026c52101860"
         let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-        var params :[String:Any] = [:]
+        let params :[String:Any] = [:]
         Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
             let result = $0.value
             let json = result as! [String:Any]
@@ -389,7 +389,7 @@ fileprivate class Bar{
                 print(topicIds)
                 done(topicIds)
             }else{
-                if let error = json["error_message"] ,error != nil{
+                if let _ = json["error_message"]{
                     HUDError(json["error_message"] as! String)
                 }
                 HUDError("")
@@ -415,16 +415,9 @@ fileprivate class Bar{
             print(json)
             if success{
                 HUDSuccess()
-                var topicIds :[String] = []
-//                let data = json["data"] as! [[String:Any]]
-//                for  item in data {
-//                    let id = item["id"] as! String
-//                    topicIds.append(id)
-//                }
-//                print(topicIds)
                 done(1)
             }else{
-                if let error = json["error_message"] ,error != nil{
+                if let _ = json["error_message"] {
                     HUDError(json["error_message"] as! String)
                 }
                 HUDError("")
@@ -446,7 +439,7 @@ fileprivate class Bar{
                 HUDSuccess()
                 done(1)
             }else{
-                if let error = json["error_message"] ,error != nil{
+                if let _ = json["error_message"] {
                     HUDError(json["error_message"] as! String)
                 }
                 HUDError("")
@@ -455,7 +448,7 @@ fileprivate class Bar{
     }
     class func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
         let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-        var params :[String:Any] = [:]
+        let params :[String:Any] = [:]
         Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
             let result = $0.value
             let json = result as! [String:Any]
@@ -465,7 +458,7 @@ fileprivate class Bar{
                 HUDSuccess()
                 done(result!)
             }else{
-                if let error = json["error_message"] ,error != nil{
+                if let _ = json["error_message"] {
                     HUDError(json["error_message"] as! String)
                 }
                 HUDError("")

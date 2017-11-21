@@ -75,7 +75,7 @@ class CreatePage: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
         }
     }
     func isEmpty(_ str : String)->Bool{
-        return str != nil && str != ""
+        return  str == ""
     }
 }
 import UIKit
@@ -99,9 +99,6 @@ fileprivate class Bar{
         ]
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
             .responseString { response in
-//                print(response.request as Any)  // original URL request
-//                print(response.response as Any) // URL response
-                print(response.result.value)   // result of response serialization
                 done()
         }
     }

@@ -88,8 +88,7 @@ fileprivate class Bar{
         Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
             .responseData{ response in
                 let at = toObject(response.data!)
-                let s = at.success
-                if s as! Bool {
+                if let _ = at.success   {
                     done(AccessToken(accesstoken,at.loginname,at.avatar_url,at.id))
                 }else{
                     //tip error
@@ -146,7 +145,7 @@ class AccessToken:NSObject,NSCoding{
     class func loadFromKC()-> AccessToken?{
         let data = Keychain.load(key: "AccessToken")
         if data != nil{
-            return  NSKeyedUnarchiver.unarchiveObject(with: data!) as! AccessToken
+            return  NSKeyedUnarchiver.unarchiveObject(with: data!) as? AccessToken
         }
         else{
             return nil
