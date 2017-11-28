@@ -51,52 +51,7 @@ class LoginPage: UIViewController {
         }
     }
 }
-import UIKit
-
-
-
-//fileprivate class Bar1{
-//    class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
-//        let url = "https://cnodejs.org/api/v1/accesstoken"
-//        let params: [String: String] = [
-//            "accesstoken":accesstoken
-//        ]
-//        HUD.progress("登录...")
-//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-//            .responseJSON{ response in
-//                //                print(response.request as Any)  // original URL request
-//                //                print(response.response as Any) // URL response
-//                print(response.result.value)   // result of response serialization
-//                let json = response.result.value as! [String:Any]
-//                print(json["success"])
-//                let s = json["success"]
-//                if s as! Bool {
-//                    done(AccessToken(accesstoken,json["loginname"] as! String,json["avatar_url"] as! String,json["id"] as! String))
-//                }else{
-//                    //tip error
-//                }
-//                HUD.success()
-//        }
-//    }
-//}
 fileprivate class Bar{
-//    class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
-//        let url = "https://cnodejs.org/api/v1/accesstoken"
-//        let params: [String: String] = [
-//            "accesstoken":accesstoken
-//        ]
-//        HUD.progress("登录...")
-//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-//            .responseData{ response in
-//                let at = toObject(response.data!)
-//                if let _ = at.success   {
-//                    done(AccessToken(accesstoken,at.loginname,at.avatar_url,at.id))
-//                }else{
-//                    //tip error
-//                }
-//                HUD.success()
-//        }
-//    }
     class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
         let url = "https://cnodejs.org/api/v1/accesstoken"
         let params: [String: String] = [

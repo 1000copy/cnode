@@ -30,15 +30,13 @@ class ImageCache{
         let filename = MD5(url)
         if let cachedVersion = _innerCache.object(forKey:NSString(string: filename)) {
             // use the cached version
-            print("hitted cache")
+//            print("hitted cache")
             return cachedVersion
         } else {
             // create it from scratch then store in the cache
             let path = getPath1(filename)
-            print("try \(path)")
             let fileVersionData = NSData(contentsOfFile:path)
             if fileVersionData !=  nil {
-                print("hitted file")
                 self._innerCache.setObject(fileVersionData!, forKey:NSString(string: filename))
             }
             return fileVersionData

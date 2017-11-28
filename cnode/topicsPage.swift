@@ -159,72 +159,6 @@ fileprivate class Cell : UITableViewCell{
         }
     }
 }
-
-//fileprivate class Topics: Mappable {
-//    var success: Bool?
-//    var data : [Topic]?
-//    required init?(map: Map){
-//
-//    }
-//
-//    func mapping(map: Map) {
-//        success <- map["success"]
-//        data <- map["data"]
-//    }
-//}
-////content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
-//fileprivate class Author : Mappable{
-//    var loginname: String?
-//    var avatar_url: String?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        loginname <- map["loginname"]
-//        avatar_url <- map["avatar_url"]
-//    }
-//}
-//fileprivate class Topic: Mappable {
-//    var id: String?
-//    var author_id : String?
-//    var tab : String?
-//    var content : String?
-//    var title : String?
-//    var last_reply_at : String?
-//    var good : String?
-//    var top : Bool?
-//    var reply_count : Int?
-//    var visit_count : Int?
-//    var create_at : String?
-//    var author : Author?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        id <- map["id"]
-//        author_id <- map["author_id"]
-//        content <- map["content"]
-//        title <- map["title"]
-//        last_reply_at <- map["last_reply_at"]
-//        good <- map["good"]
-//        top <- map["top"]
-//        reply_count <- map["reply_count"]
-//        visit_count <- map["visit_count"]
-//        create_at <- map["create_at"]
-//        author <- map["author"]
-//        tab <- map["tab"]
-//    }
-//}
-//fileprivate class Bar{
-//    class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
-//        let URL = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
-//        Alamofire.request(URL).responseObject { (response: DataResponse<Topics>) in
-//            let topics = response.result.value
-//            done(topics!)
-//        }
-//    }expression implicitly coerced from error to any
-//}
-//
 fileprivate class Bar{
     class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
         let url = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
@@ -238,26 +172,6 @@ fileprivate class Bar{
             }
         }
     }
-//    class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
-//        let url = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
-//        let task = URLSession.shared.dataTask(with: URL(string:url)!) { (data, response, error) in
-//            if error != nil {
-//                print(error!)
-//            } else {
-//                if let usableData = data {
-//                    do {
-//                        let decoder = JSONDecoder()
-//                        let t = try decoder.decode(Topics.self, from: usableData)
-//                        done(t)
-//                    }
-//                    catch {
-//                        print("Error: \(error)")
-//                    }
-//                }
-//            }
-//        }
-//        task.resume()
-//    }
 }
 // struct
 fileprivate struct Topics: Codable {

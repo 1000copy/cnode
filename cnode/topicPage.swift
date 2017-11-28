@@ -339,30 +339,6 @@ fileprivate class Cell : UITableViewCell{
     }
 }
 fileprivate class Bar{
-//    class func foo(_ id : String,done:@escaping (_ t : Result)->Void){
-////        let id = "599afc79ebaa046923a82644"
-//        let URL = "https://cnodejs.org/api/v1/topic/\(id)"
-//        var params :[String:Any] = [:]
-//        params["mdrender"] = true
-//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject { (response: DataResponse<Result>) in
-//            let topics = response.result.value
-//            print(topics)
-//            done(topics!)
-//        }
-//    }
-//    class func foo(_ id : String,done:@escaping (_ t : ResultFF)->Void){
-//        //        let id = "599afc79ebaa046923a82644"
-//        let URL = "https://cnodejs.org/api/v1/topic/\(id)?mdrender=true"
-//        var params :[String:Any] = [:]
-////        params["mdrender"] = true
-//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData { (response) in
-//            let topics = response.data
-//            let decoder = JSONDecoder()
-//            let topics1 = try! decoder.decode(ResultFF.self, from: topics!)
-//            print(topics1)
-//            done(topics1)
-//        }
-//    }
     class func foo(_ id : String,done:@escaping (_ t : ResultFF)->Void){
         let URL = "https://cnodejs.org/api/v1/topic/\(id)?mdrender=true"
         getJson(URL){data in

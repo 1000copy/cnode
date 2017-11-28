@@ -212,21 +212,6 @@ fileprivate class Bar{
             Bar.likes((token?.loginname)!, done)
         }
     }
-//    class func likes(_ loginname : String ,_ done:@escaping (_ t : Topics)->Void){
-//        //        let id = "598f28a8e104026c52101860"
-//        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-//        let params :[String:Any] = [:]
-//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
-//            let data = response.data
-//            let decoder = JSONDecoder()
-//            let topics = try! decoder.decode(Topics.self, from: data!)
-//            if (topics.success!){
-//                done(topics)
-//            }else{
-//                HUDError("")
-//            }
-//        }
-//    }
     class func likes(_ loginname : String ,_ done:@escaping (_ t : Topics)->Void){
         //        let id = "598f28a8e104026c52101860"
         let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
@@ -265,82 +250,4 @@ fileprivate struct Topic: Codable {
     var create_at : String?
     var author : Author?
 }
-
-//fileprivate class Bar{
-//    class func likes(done:@escaping (_ done : Topics)->Void){
-//        let token = AccessToken.loadFromKC()
-//        if let t = token?.accesstoken ,t != ""{
-//            Bar.likes((token?.loginname)!, done)
-//        }
-//    }
-//    class func likes(_ loginname : String ,_ done:@escaping (_ t : Topics)->Void){
-//        //        let id = "598f28a8e104026c52101860"
-//        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-//        var params :[String:Any] = [:]
-//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseObject() {(response: DataResponse<Topics>) in
-//            let topics = response.result.value
-//            if (topics?.success!)!{
-//
-//                done(topics!)
-//            }else{
-//                HUDError("")
-//            }
-//        }
-//    }
-//}
-//fileprivate class Topics: Mappable {
-//    var success: Bool?
-//    var data : [Topic]?
-//    required init?(map: Map){
-//
-//    }
-//
-//    func mapping(map: Map) {
-//        success <- map["success"]
-//        data <- map["data"]
-//    }
-//}
-////content title last_reply_at good top reply_count visit_count create_at author{loginname,avatar_url}
-//fileprivate class Author : Mappable{
-//    var loginname: String?
-//    var avatar_url: String?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        loginname <- map["loginname"]
-//        avatar_url <- map["avatar_url"]
-//    }
-//}
-//fileprivate class Topic: Mappable {
-//    var id: String?
-//    var author_id : String?
-//    var tab : String?
-//    var content : String?
-//    var title : String?
-//    var last_reply_at : String?
-//    var good : String?
-//    var top : Bool?
-//    var reply_count : Int?
-//    var visit_count : Int?
-//    var create_at : String?
-//    var author : Author?
-//    required init?(map: Map){
-//
-//    }
-//    func mapping(map: Map) {
-//        id <- map["id"]
-//        author_id <- map["author_id"]
-//        content <- map["content"]
-//        title <- map["title"]
-//        last_reply_at <- map["last_reply_at"]
-//        good <- map["good"]
-//        top <- map["top"]
-//        reply_count <- map["reply_count"]
-//        visit_count <- map["visit_count"]
-//        create_at <- map["create_at"]
-//        author <- map["author"]
-//        tab <- map["tab"]
-//    }
-//}
 

@@ -9,7 +9,6 @@ class CreatePage: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
         view.addSubview(_content)
         view.addSubview(_add)
         view.addSubview(_picker)
-//        p.frame =  CGRect(x: 10,y: 50,width: 320,height: 200)
         _picker.dataSource = self
         _picker.delegate = self
         
@@ -82,12 +81,6 @@ let accesstoken = "9c7d03d6-11ef-4637-b8d9-2be203140e5c"
 fileprivate class Bar{
     class func foo(_ tab : String ,_ title : String ,_ content : String, done:@escaping ()->Void){
         let url = "https://cnodejs.org/api/v1/topics"
-//        let params: [String: String] = [
-//                "title":"abc",
-//                "tab":"dev",
-//                "content":"http%3a%2f%2flcj.sxl.cn",
-//                "accesstoken":"9c7d03d6-11ef-4637-b8d9-2be203140e5c"
-//            ]
         let params: [String: String] = [
             "title":title,
             "tab":tab,
@@ -97,10 +90,6 @@ fileprivate class Bar{
         postParameter(url, params){data in
             done()
         }
-//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-//            .responseString { response in
-//                done()
-//        }
     }
 }
 import UIKit

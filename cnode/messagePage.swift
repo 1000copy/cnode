@@ -77,16 +77,12 @@ class MessagePage : UITableViewController{
     
     
 }
-//import Kingfisher
-
 fileprivate class Cell : UITableViewCell{
     var _title = UILabel()
     var _author = SizeLabel()
     override func layoutSubviews() {
         self.contentView.addSubview(_title)
         self.contentView.addSubview(_author)
-//        self.contentView.addSubview(_type)
-//        self.contentView.addSubview(_read)
         constrain(contentView,_title,_author){
             $1.left == $0.left  + 5
             $1.top  == $0.top + 5
@@ -97,21 +93,9 @@ fileprivate class Cell : UITableViewCell{
             $2.top  == $1.bottom + 5
             $2.width  == 300
             $2.height  == 20
-//            
-//            $3.left == $2.right  + 5
-//            $3.top  == $2.top
-//            $3.width  == 40
-//            $3.height  == 20
-//            
-//            $4.left == $3.right  + 5
-//            $4.top  == $2.top
-//            $3.width  == 40
-//            $3.height  == 20
         }
     }
 }
-
-//import GTMRefresh
 extension MessagePage{
     func refresh() {
         if scrollUp != nil{
@@ -160,23 +144,6 @@ fileprivate class Bar{
             Bar.likes(t, done)
         }
     }
-//    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
-//        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
-//        let params :[String:Any] = [:]
-//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
-//            let message1 = response.data
-//            let decoder = JSONDecoder()
-//            let message = try! decoder.decode(Message.self, from: message1!)
-//
-//            if (message.success!){
-//                HUDSuccess()
-//                done(message)
-//            }else{
-//                HUDError("")
-//            }
-//        }
-//    }
-    
     class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
         let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
         getJson(URL){

@@ -19,10 +19,6 @@ class AboutPage: UIViewController {
         slogan.isUserInteractionEnabled = false
 
         site.text = "https://lcj.sxl.cn/"
-//        site.isUserInteractionEnabled = false
-//        site.isEditable = false
-//        site.dataDetectorTypes = .link
-//        site.backgroundColor = .blue
         site.textAlignment = .center
         dismiss.setTitle("Close",for: .normal)
         dismiss.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)

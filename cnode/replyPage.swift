@@ -46,27 +46,14 @@ import UIKit
 fileprivate class Bar{
     class func foo(_ topicId : String ,_ replyId:String,_ content : String, done:@escaping ()->Void){
         let url = "https://cnodejs.org/api/v1/topic/\(topicId)/replies"
-        //        let params: [String: String] = [
-        //                "title":"abc",
-        //                "tab":"dev",
-        //                "content":"http%3a%2f%2flcj.sxl.cn",
-        //                "accesstoken":"9c7d03d6-11ef-4637-b8d9-2be203140e5c"
-        //            ]
         let params: [String: String] = [
             "content":content,
             "reply_id":replyId,
             "accesstoken":accesstoken
         ]
-//        let params: [String: String]=[:]
-//        let url1 = url +  "?content=\(content)&reply_id=\(replyId)&accesstoken=\(accesstoken)"
         postParameter(url, params){data in
             done()
         }
-//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-//            .responseString { response in
-//                print(response.result.value!)   // result of response serialization
-//                done()
-//        }
     }
 }
 import UIKit
