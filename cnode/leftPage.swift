@@ -55,17 +55,19 @@ class Top: UIView{
         }
         refill()
     }
+    var refilled = false
     func refill(){
-        let t = AccessToken.loadFromKC()
-        if t != nil ,t?.accesstoken != "" {
-//            avatar.kf.setImage(with:URL(string:(t?.avatar_url!)!))
-            avatar.setImage2((t?.avatar_url!)!)
-            label.text = t?.loginname!
-            button.setTitle("登出",for: .normal)
-        }else{
-            let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
-//            avatar.kf.setImage(with:URL(string:(url)))
-            avatar.setImage2(url)
+        if !refilled{
+            let t = AccessToken.loadFromKC()
+            if t != nil ,t?.accesstoken != "" {
+                avatar.setImage2((t?.avatar_url!)!)
+                label.text = t?.loginname!
+                button.setTitle("登出",for: .normal)
+            }else{
+                let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
+                avatar.setImage2(url)
+            }
+            refilled = true
         }
     }
     
