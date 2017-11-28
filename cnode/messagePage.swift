@@ -1,4 +1,3 @@
-import Alamofire
 import UIKit
 class MessagePage : UITableViewController{
     fileprivate var arr : Message?
@@ -161,28 +160,13 @@ fileprivate class Bar{
             Bar.likes(t, done)
         }
     }
-    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
-        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
-        let params :[String:Any] = [:]
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
-            let message1 = response.data
-            let decoder = JSONDecoder()
-            let message = try! decoder.decode(Message.self, from: message1!)
-
-            if (message.success!){
-                HUDSuccess()
-                done(message)
-            }else{
-                HUDError("")
-            }
-        }
-    }
-    
 //    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
 //        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
-//        getJson(URL){
+//        let params :[String:Any] = [:]
+//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData() {(response) in
+//            let message1 = response.data
 //            let decoder = JSONDecoder()
-//            let message = try! decoder.decode(Message.self, from: $0)
+//            let message = try! decoder.decode(Message.self, from: message1!)
 //
 //            if (message.success!){
 //                HUDSuccess()
@@ -192,6 +176,22 @@ fileprivate class Bar{
 //            }
 //        }
 //    }
+    
+    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
+        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
+        getJson(URL){
+            let decoder = JSONDecoder()
+            let message = try! decoder.decode(Message.self, from: $0)
+            DispatchQueue.main.async {
+                if (message.success!){
+                    HUDSuccess()
+                    done(message)
+                }else{
+                    HUDError("")
+                }
+            }
+        }
+    }
 }
 //struct
 fileprivate struct Message: Codable {

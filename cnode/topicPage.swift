@@ -1,9 +1,3 @@
-import Alamofire
-//import AlamofireObjectMapper
-//import ObjectMapper
-import UIKit
-
-//var lightReload = false
 class TopicPage : UITableViewController,UIWebViewDelegate{
     var id: String?
     var replyId : String?
@@ -59,7 +53,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
     func like(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            Bar.like(id!,t){_ in
+            cnode.like(id!,t){_ in
                 self.refreshButtons()
             }
         }
@@ -67,7 +61,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
     func unlike(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            Bar.unlike(id!,t){_ in
+            cnode.unlike(id!,t){_ in
                 self.refreshButtons()
             }
         }
@@ -356,116 +350,37 @@ fileprivate class Bar{
 //            done(topics!)
 //        }
 //    }
+//    class func foo(_ id : String,done:@escaping (_ t : ResultFF)->Void){
+//        //        let id = "599afc79ebaa046923a82644"
+//        let URL = "https://cnodejs.org/api/v1/topic/\(id)?mdrender=true"
+//        var params :[String:Any] = [:]
+////        params["mdrender"] = true
+//        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData { (response) in
+//            let topics = response.data
+//            let decoder = JSONDecoder()
+//            let topics1 = try! decoder.decode(ResultFF.self, from: topics!)
+//            print(topics1)
+//            done(topics1)
+//        }
+//    }
     class func foo(_ id : String,done:@escaping (_ t : ResultFF)->Void){
-        //        let id = "599afc79ebaa046923a82644"
-        let URL = "https://cnodejs.org/api/v1/topic/\(id)"
-        var params :[String:Any] = [:]
-        params["mdrender"] = true
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseData { (response) in
-            let topics = response.data
+        let URL = "https://cnodejs.org/api/v1/topic/\(id)?mdrender=true"
+        getJson(URL){data in
+            let topics = data
             let decoder = JSONDecoder()
-            let topics1 = try! decoder.decode(ResultFF.self, from: topics!)
+            let topics1 = try! decoder.decode(ResultFF.self, from: topics)
             print(topics1)
             done(topics1)
         }
     }
-    class func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
-        //        let id = "598f28a8e104026c52101860"
-        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-        let params :[String:Any] = [:]
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
-            let result = $0.value
-            let json = result as! [String:Any]
-            let success = json["success"] as! Bool
-            print(json)
-            if success{
-//                HUDSuccess()
-                var topicIds :[String] = []
-                let data = json["data"] as! [[String:Any]]
-                for  item in data {
-                    let id = item["id"] as! String
-                    topicIds.append(id)
-                }
-                print(topicIds)
-                done(topicIds)
-            }else{
-                if let _ = json["error_message"]{
-                    HUDError(json["error_message"] as! String)
-                }
-                HUDError("")
-            }
-        }
-    }
+
     class func likes(done:@escaping (_ done : [String])->Void){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            Bar.likes((token?.loginname)!, done)
+            cnode.likes((token?.loginname)!, done)
         }
     }
-    class func like(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
-        //        let id = "598f28a8e104026c52101860"
-        let URL = "https://cnodejs.org/api/v1/topic_collect/collect"
-        var params :[String:Any] = [:]
-        params["accesstoken"] = token
-        params["topic_id"] = id
-        Alamofire.request(URL, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
-            let result = $0.value
-            let json = result as! [String:Any]
-            let success = json["success"] as! Bool
-            print(json)
-            if success{
-                HUDSuccess()
-                done(1)
-            }else{
-                if let _ = json["error_message"] {
-                    HUDError(json["error_message"] as! String)
-                }
-                HUDError("")
-            }
-        }
-    }
-    class func unlike(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
-        //        let id = "598f28a8e104026c52101860"
-        let URL = "https://cnodejs.org/api/v1/topic_collect/de_collect"
-        var params :[String:Any] = [:]
-        params["accesstoken"] = token
-        params["topic_id"] = id
-        Alamofire.request(URL, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
-            let result = $0.value
-            let json = result as! [String:Any]
-            let success = json["success"] as! Bool
-            print(json)
-            if success{
-                HUDSuccess()
-                done(1)
-            }else{
-                if let _ = json["error_message"] {
-                    HUDError(json["error_message"] as! String)
-                }
-                HUDError("")
-            }
-        }
-    }
-    class func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
-        let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
-        let params :[String:Any] = [:]
-        Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
-            let result = $0.value
-            let json = result as! [String:Any]
-            let success = json["success"] as! Bool
-            print(json)
-            if success{
-                HUDSuccess()
-                done(result!)
-            }else{
-                if let _ = json["error_message"] {
-                    HUDError(json["error_message"] as! String)
-                }
-                HUDError("")
-            }
-        }
-
-    }
+   
 //
 }
 
@@ -511,4 +426,4 @@ fileprivate struct ReplyFF: Codable {
     fileprivate var author : AuthorFF?
     var created : String?
 }
-
+import UIKit

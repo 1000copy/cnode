@@ -42,7 +42,7 @@ class ReplyPage: UIViewController {
 }
 import UIKit
 
-import Alamofire
+
 fileprivate class Bar{
     class func foo(_ topicId : String ,_ replyId:String,_ content : String, done:@escaping ()->Void){
         let url = "https://cnodejs.org/api/v1/topic/\(topicId)/replies"
@@ -57,11 +57,16 @@ fileprivate class Bar{
             "reply_id":replyId,
             "accesstoken":accesstoken
         ]
-        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-            .responseString { response in
-                print(response.result.value!)   // result of response serialization
-                done()
+//        let params: [String: String]=[:]
+//        let url1 = url +  "?content=\(content)&reply_id=\(replyId)&accesstoken=\(accesstoken)"
+        postParameter(url, params){data in
+            done()
         }
+//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
+//            .responseString { response in
+//                print(response.result.value!)   // result of response serialization
+//                done()
+//        }
     }
 }
 import UIKit

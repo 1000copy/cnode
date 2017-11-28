@@ -56,21 +56,23 @@ class Top: UIView{
         refill()
     }
     var refilled = false
-    func refill(){
+    fileprivate func refill(){
         if !refilled{
-            let t = AccessToken.loadFromKC()
-            if t != nil ,t?.accesstoken != "" {
-                avatar.setImage2((t?.avatar_url!)!)
-                label.text = t?.loginname!
-                button.setTitle("登出",for: .normal)
-            }else{
-                let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
-                avatar.setImage2(url)
-            }
+            dorefill()
             refilled = true
         }
     }
-    
+    func dorefill(){
+        let t = AccessToken.loadFromKC()
+        if t != nil ,t?.accesstoken != "" {
+            avatar.setImage2((t?.avatar_url!)!)
+            label.text = t?.loginname!
+            button.setTitle("登出",for: .normal)
+        }else{
+            let url = "https://avatars3.githubusercontent.com/u/20022617?v=4&s=120"
+            avatar.setImage2(url)
+        }
+    }
     func buttonAction(_ sender:UIButton!){
         if button.titleLabel?.text == "登出"{
             let token = AccessToken("","","","")
@@ -167,4 +169,3 @@ fileprivate class Cell : UITableViewCell{
 }
 
 import UIKit
-

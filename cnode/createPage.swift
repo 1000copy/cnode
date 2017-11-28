@@ -78,9 +78,6 @@ class CreatePage: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
         return  str == ""
     }
 }
-import UIKit
-
-import Alamofire
 let accesstoken = "9c7d03d6-11ef-4637-b8d9-2be203140e5c"
 fileprivate class Bar{
     class func foo(_ tab : String ,_ title : String ,_ content : String, done:@escaping ()->Void){
@@ -97,10 +94,13 @@ fileprivate class Bar{
             "content":content,
             "accesstoken":accesstoken
         ]
-        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-            .responseString { response in
-                done()
+        postParameter(url, params){data in
+            done()
         }
+//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
+//            .responseString { response in
+//                done()
+//        }
     }
 }
 import UIKit

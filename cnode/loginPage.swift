@@ -46,13 +46,14 @@ class LoginPage: UIViewController {
         Bar.foo (_title.text){
             let token = $0
             token.saveToKC()
+            
             centerPage.popViewController(animated: true)
         }
     }
 }
 import UIKit
 
-import Alamofire
+
 
 //fileprivate class Bar1{
 //    class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
@@ -79,21 +80,39 @@ import Alamofire
 //    }
 //}
 fileprivate class Bar{
+//    class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
+//        let url = "https://cnodejs.org/api/v1/accesstoken"
+//        let params: [String: String] = [
+//            "accesstoken":accesstoken
+//        ]
+//        HUD.progress("登录...")
+//        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
+//            .responseData{ response in
+//                let at = toObject(response.data!)
+//                if let _ = at.success   {
+//                    done(AccessToken(accesstoken,at.loginname,at.avatar_url,at.id))
+//                }else{
+//                    //tip error
+//                }
+//                HUD.success()
+//        }
+//    }
     class func foo(_ accesstoken :String, done:@escaping (_ token : AccessToken)->Void){
         let url = "https://cnodejs.org/api/v1/accesstoken"
         let params: [String: String] = [
             "accesstoken":accesstoken
         ]
         HUD.progress("登录...")
-        Alamofire.request(url, method: .post, parameters: params, encoding: URLEncoding.default, headers: nil)
-            .responseData{ response in
-                let at = toObject(response.data!)
+       postParameter(url,params){ data in
+                let at = toObject(data)
+        DispatchQueue.main.async {
                 if let _ = at.success   {
                     done(AccessToken(accesstoken,at.loginname,at.avatar_url,at.id))
                 }else{
                     //tip error
                 }
                 HUD.success()
+            }
         }
     }
 }
