@@ -45,6 +45,11 @@ class MessagePage : UITableViewController{
             self.items! = []
             self.items! += ($0.data?.has_read_messages)!
             self.items! += ($0.data?.hasnot_read_messages)!
+            self.reloadTableView()
+        }
+    }
+    func reloadTableView(){
+        DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
@@ -53,7 +58,7 @@ class MessagePage : UITableViewController{
             self.arr = $0
             self.items! += ($0.data?.has_read_messages)!
             self.items! += ($0.data?.hasnot_read_messages)!
-            self.tableView.reloadData()
+            self.reloadTableView()
             cb()
         }
         
@@ -163,7 +168,7 @@ fileprivate class Bar{
             let message1 = response.data
             let decoder = JSONDecoder()
             let message = try! decoder.decode(Message.self, from: message1!)
-            
+
             if (message.success!){
                 HUDSuccess()
                 done(message)
@@ -172,6 +177,21 @@ fileprivate class Bar{
             }
         }
     }
+    
+//    class func likes(_ token : String ,_ done:@escaping (_ t : Message)->Void){
+//        let URL = "https://cnodejs.org/api/v1/messages?accesstoken=\(token)"
+//        getJson(URL){
+//            let decoder = JSONDecoder()
+//            let message = try! decoder.decode(Message.self, from: $0)
+//
+//            if (message.success!){
+//                HUDSuccess()
+//                done(message)
+//            }else{
+//                HUDError("")
+//            }
+//        }
+//    }
 }
 //struct
 fileprivate struct Message: Codable {

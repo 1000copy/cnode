@@ -1,4 +1,3 @@
-
 import Alamofire
 import UIKit
 class TopicsPage : TJTablePage{
@@ -53,9 +52,10 @@ class TopicsPage : TJTablePage{
             //不套一个外壳调用，会慢得惊人，并且xcode会提示：
             //Main Thread Checker: UI API called on a background thread: -[UIApplication applicationState]
 //            self.tableView.reloadData()
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+            self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: true)
+//            }
             
         }
     }
@@ -229,24 +229,36 @@ fileprivate class Cell : UITableViewCell{
 fileprivate class Bar{
     class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
         let url = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
-        let task = URLSession.shared.dataTask(with: URL(string:url)!) { (data, response, error) in
-            if error != nil {
-                print(error!)
-            } else {
-                if let usableData = data {
-                    do {
-                        let decoder = JSONDecoder()
-                        let t = try decoder.decode(Topics.self, from: usableData)
-                        done(t)
-                    }
-                    catch {
-                        print("Error: \(error)")
-                    }
-                }
+        getJson(url){
+            do{
+            let decoder = JSONDecoder()
+            let t = try decoder.decode(Topics.self, from: $0)
+            done(t)
+            }catch{
+                print(error)
             }
         }
-        task.resume()
     }
+//    class func foo(_ tab : String ,_ page : Int,done:@escaping (_ t : Topics)->Void){
+//        let url = "https://cnodejs.org/api/v1/topics?tab=\(tab)&page=\(page)"
+//        let task = URLSession.shared.dataTask(with: URL(string:url)!) { (data, response, error) in
+//            if error != nil {
+//                print(error!)
+//            } else {
+//                if let usableData = data {
+//                    do {
+//                        let decoder = JSONDecoder()
+//                        let t = try decoder.decode(Topics.self, from: usableData)
+//                        done(t)
+//                    }
+//                    catch {
+//                        print("Error: \(error)")
+//                    }
+//                }
+//            }
+//        }
+//        task.resume()
+//    }
 }
 // struct
 fileprivate struct Topics: Codable {
@@ -271,5 +283,3 @@ fileprivate struct TopicFF: Codable {
     var create_at : String?
     var author : AuthorFF?
 }
-
-
