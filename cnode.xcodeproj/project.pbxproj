@@ -34,6 +34,7 @@
 		6F9FD6EF1F4ACC6700EF2B68 /* loginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6EE1F4ACC6700EF2B68 /* loginPage.swift */; };
 		6F9FD6F11F4AD0A500EF2B68 /* keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */; };
 		6F9FD6F31F4ADB0F00EF2B68 /* replyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F9FD6F21F4ADB0F00EF2B68 /* replyPage.swift */; };
+		6FA421711FCEBFFB007DE79F /* cjhttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA421701FCEBFFB007DE79F /* cjhttp.swift */; };
 		6FB38FF21F72517500E5A179 /* cjrefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FB38FF11F72517500E5A179 /* cjrefresh.swift */; };
 		6FD09BCF1F5D28FB00C2741F /* tablePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD09BCE1F5D28FB00C2741F /* tablePage.swift */; };
 		6FEB6E821F595A9600D021AD /* QRScan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FEB6E811F595A9600D021AD /* QRScan.swift */; };
@@ -71,6 +72,7 @@
 		6F9FD6EE1F4ACC6700EF2B68 /* loginPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = loginPage.swift; sourceTree = "<group>"; };
 		6F9FD6F01F4AD0A500EF2B68 /* keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = keychain.swift; sourceTree = "<group>"; };
 		6F9FD6F21F4ADB0F00EF2B68 /* replyPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = replyPage.swift; sourceTree = "<group>"; };
+		6FA421701FCEBFFB007DE79F /* cjhttp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cjhttp.swift; sourceTree = "<group>"; };
 		6FB38FF11F72517500E5A179 /* cjrefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = cjrefresh.swift; sourceTree = "<group>"; };
 		6FD09BCE1F5D28FB00C2741F /* tablePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tablePage.swift; sourceTree = "<group>"; };
 		6FEB6E811F595A9600D021AD /* QRScan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScan.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				6F422F611F9F16DB0023C2A5 /* imgcache.swift */,
 				6F7DF3071FAC6570001EA4B3 /* cjlayout.swift */,
 				6F32E67F1FCD284F0061DEAC /* httpData.swift */,
+				6FA421701FCEBFFB007DE79F /* cjhttp.swift */,
 			);
 			name = fx;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				6F9FD6ED1F4ACABB00EF2B68 /* textViewPlaceHolder.swift in Sources */,
 				6FB38FF21F72517500E5A179 /* cjrefresh.swift in Sources */,
 				6F7DF3081FAC6570001EA4B3 /* cjlayout.swift in Sources */,
+				6FA421711FCEBFFB007DE79F /* cjhttp.swift in Sources */,
 				6F33B4811F46B93100E87CB0 /* aboutPage.swift in Sources */,
 				6F57DC831F4148BF00F086D1 /* topicPage.swift in Sources */,
 				6F9FD6F11F4AD0A500EF2B68 /* keychain.swift in Sources */,
