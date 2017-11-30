@@ -12,7 +12,8 @@ class CollectPage : UITableViewController{
         reload("all")
     }
     func ltap(){
-        drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
+        CJApp.shared.toggleLeftDrawer()
+        
     }
     func rtap(){
         //        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)

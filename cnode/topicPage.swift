@@ -48,7 +48,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             p.replyId = result?.data?.replies?[(ip?.row)! - 1].id
             p.replyName = (result?.data?.replies?[(ip?.row)! - 1].author?.loginname)!
         }
-        centerPage.pushViewController(p, animated: true)
+        CJApp.shared.centerPage.pushViewController(p, animated: true)
     }
     func like(){
         let token = AccessToken.loadFromKC()

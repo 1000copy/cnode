@@ -15,7 +15,7 @@ class SettingPage: UIViewController {
         view.addSubview(button)
     }
     func buttonAction(_ sender:UIButton!){
-        drawerController?.toggleRightDrawerSide(animated: true, completion: nil)
+        CJApp.shared.toggleRightDrawer()
     }
 }
 import UIKit

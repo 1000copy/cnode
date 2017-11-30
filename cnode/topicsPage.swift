@@ -20,7 +20,8 @@ class TopicsPage : TJTablePage{
         reload("all")
     }
     func ltap(){
-        drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
+        
+        CJApp.shared.toggleLeftDrawer()
     }
     func rtap(){
         let t = CreatePage()

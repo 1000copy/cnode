@@ -66,7 +66,7 @@ class AboutPage: UIViewController {
         }
     }
     func buttonAction(_ sender:UIButton!){
-        centerPage.popViewController(animated: true)
+        CJApp.shared.centerPage.popViewController(animated: true)
     }
 }
 import UIKit

@@ -47,7 +47,7 @@ class LoginPage: UIViewController {
             let token = $0
             token.saveToKC()
             
-            centerPage.popViewController(animated: true)
+            CJApp.shared.centerPage.popViewController(animated: true)
         }
     }
 }

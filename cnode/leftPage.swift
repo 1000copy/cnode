@@ -26,12 +26,11 @@ class Avatar : UIImageView{
     
 }
 class Top: UIView{
-    var label : UILabel!
+    var label : UILabel! = UILabel()
     var avatar = Avatar()
     var button = UIButton(type: .system)
     override func layoutSubviews() {
         self.backgroundColor = .white
-        label   = UILabel()
         label.text =  ""
         self.addSubview(label)
         button.setTitle("登录",for: .normal)
@@ -81,9 +80,9 @@ class Top: UIView{
             avatar.image = nil
              button.setTitle("登录",for: .normal)
         }else{
-            centerPage.pushViewController(LoginPage(), animated: true)
+            CJApp.shared.centerPage.pushViewController(LoginPage(), animated: true)
         }
-        drawerController?.toggleLeftDrawerSide(animated: true, completion: nil)
+        CJApp.shared.toggleLeftDrawer()
     }
 }
 
@@ -136,16 +135,16 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
             homePage.reload(tab!)
         }else{
             if arr[indexPath.row].title == "关于"{
-                centerPage.pushViewController(AboutPage(), animated: true)
+                CJApp.shared.centerPage.pushViewController(AboutPage(), animated: true)
             }else if arr[indexPath.row].title == "设置"{
-                centerPage.pushViewController(SettingPage(), animated: true)
+                CJApp.shared.centerPage.pushViewController(SettingPage(), animated: true)
             }else if arr[indexPath.row].title == "消息"{
-                centerPage.pushViewController(MessagePage(), animated: true)
+                CJApp.shared.centerPage.pushViewController(MessagePage(), animated: true)
             }else if arr[indexPath.row].title == "收藏"{
-                centerPage.pushViewController(CollectPage(), animated: true)
+                CJApp.shared.centerPage.pushViewController(CollectPage(), animated: true)
             }
         }
-        drawerController.toggleLeftDrawerSide(animated: true, completion: nil)
+        CJApp.shared.toggleLeftDrawer()
     }
 }
 fileprivate class Cell : UITableViewCell{
