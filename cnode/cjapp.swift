@@ -13,6 +13,12 @@ class CJApp: UIResponder, UIApplicationDelegate {
             return centerPage_ as! UINavigationController
         }
     }
+    var homePage_ : UIViewController?
+    var homePage : UIViewController?{
+        get{
+            return homePage_
+        }
+    }
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         if isDrawerApp(){
@@ -67,7 +73,6 @@ class DrawerBase : DrawerController{
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 class CenterPage: UINavigationController {
     var count = 0
     var label : UILabel!
@@ -75,7 +80,8 @@ class CenterPage: UINavigationController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         //        self.pushViewController(TopicPage(), animated: true)
-        homePage = CJApp.shared.queryHomePage() as! TopicsPage
-        self.pushViewController(homePage, animated: true)
+        let homePage_ = CJApp.shared.queryHomePage()
+        self.pushViewController(homePage_!, animated: true)
     }
 }
+

@@ -132,7 +132,7 @@ fileprivate  class Table: UITableView,UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
         let tab = arr[indexPath.row].tab
         if tab != ""{
-            homePage.reload(tab!)
+            (CJApp.shared.homePage as! TopicsPage).reload(tab!)
         }else{
             if arr[indexPath.row].title == "关于"{
                 CJApp.shared.centerPage.pushViewController(AboutPage(), animated: true)
