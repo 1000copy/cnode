@@ -1,4 +1,5 @@
 import UIKit
+import sfx
 class CollectPage : UITableViewController{
     fileprivate var arr : Topics?
     let MyIdentifier = "cell"
@@ -251,4 +252,4 @@ fileprivate struct Topic: Codable {
     var create_at : String?
     var author : Author?
 }
-
+import sfx

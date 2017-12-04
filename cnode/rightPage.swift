@@ -19,3 +19,4 @@ class RightPage: UIViewController {
     }
 }
 import UIKit
+import sfx

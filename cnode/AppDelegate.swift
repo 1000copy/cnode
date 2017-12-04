@@ -1,5 +1,6 @@
 
 import UIKit
+import sfx
 //var homePage : TopicsPage!
 @UIApplicationMain
 class App: CJApp{

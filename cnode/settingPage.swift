@@ -19,3 +19,4 @@ class SettingPage: UIViewController {
     }
 }
 import UIKit
+import sfx

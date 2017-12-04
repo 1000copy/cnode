@@ -1,4 +1,5 @@
 import UIKit
+import sfx
 class TopicsPage : TJTablePage{
     fileprivate var arr : Topics?
     let MyIdentifier = "cell"
@@ -197,3 +198,4 @@ fileprivate struct TopicFF: Codable {
     var create_at : String?
     var author : AuthorFF?
 }
+import sfx

@@ -146,3 +146,4 @@ class CustomLabel: UILabel {
     }
     
 }
+import sfx

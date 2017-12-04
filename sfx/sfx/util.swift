@@ -1,10 +1,10 @@
 import UIKit
-func date(_ str : String)-> Date?{
+public func date(_ str : String)-> Date?{
     let dateformatter = DateFormatter()
     dateformatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
     return dateformatter.date(from: str)
 }
-extension Date {
+public extension Date {
     func getElapsedInterval() -> String {
         
         var calendar = Calendar.current
@@ -43,7 +43,7 @@ extension Date {
         return dateString!
     }
 }
-extension UIImage {
+public  extension UIImage {
     class func imageWithColor(_ color: UIColor) -> UIImage {
         let rect = CGRect(x: 0.0, y: 0.0, width: 10.0,height: 10.0 )
         UIGraphicsBeginImageContext(rect.size)

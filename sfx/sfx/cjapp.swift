@@ -1,25 +1,25 @@
 
 import UIKit
-class CJApp: UIResponder, UIApplicationDelegate {
-    var window: UIWindow?
-    var mainPage : UIViewController?{
+open class CJApp: UIResponder, UIApplicationDelegate {
+    public var window: UIWindow?
+    public var mainPage : UIViewController?{
         get{
             return window?.rootViewController
         }
     }
     var centerPage_ : UIViewController?
-    var centerPage : UINavigationController{
+    public var centerPage : UINavigationController{
         get{
             return centerPage_ as! UINavigationController
         }
     }
-    var homePage_ : UIViewController?
-    var homePage : UIViewController?{
+    public var homePage_ : UIViewController?
+    public  var homePage : UIViewController?{
         get{
             return homePage_
         }
     }
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         if isDrawerApp(){
             window?.rootViewController = queryMainPage()
@@ -27,37 +27,37 @@ class CJApp: UIResponder, UIApplicationDelegate {
         self.window?.makeKeyAndVisible()
         return onload()
     }
-    func onload()-> Bool{
+    open func onload()-> Bool{
         return true
     }
-    func queryMainPage()->UIViewController?{
+    open func queryMainPage()->UIViewController?{
         return DrawerBase(queryCenterPage()!,queryLeftPage()!,queryRightPage()!)
     }
-    func queryLeftPage()->UIViewController?{
+    open func queryLeftPage()->UIViewController?{
         return nil
     }
-    func queryRightPage()->UIViewController?{
+    open func queryRightPage()->UIViewController?{
         return nil
     }
-    func queryCenterPage()->UIViewController?{
+    open func queryCenterPage()->UIViewController?{
         centerPage_ = CenterPage()
         return centerPage_
     }
-    func queryHomePage()->UIViewController?{
+    open func queryHomePage()->UIViewController?{
         return nil
     }
-    func isDrawerApp()->Bool{
+    open func isDrawerApp()->Bool{
         return false
     }
-    static var shared:CJApp{
+    public static var shared:CJApp{
         get{
             return UIApplication.shared.delegate as! CJApp
         }
     }
-    func toggleLeftDrawer(){
+    public func toggleLeftDrawer(){
         (mainPage as! DrawerBase).toggleLeftDrawerSide(animated: true, completion: nil)
     }
-    func toggleRightDrawer(){
+    public func toggleRightDrawer(){
         (mainPage as! DrawerBase).toggleRightDrawerSide(animated: true, completion: nil)
     }
 }

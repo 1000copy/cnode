@@ -53,7 +53,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
     func like(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            cnode.like(id!,t){_ in
+            sfx.like(id!,t){_ in
                 self.refreshButtons()
             }
         }
@@ -61,7 +61,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
     func unlike(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            cnode.unlike(id!,t){_ in
+            sfx.unlike(id!,t){_ in
                 self.refreshButtons()
             }
         }
@@ -353,7 +353,7 @@ fileprivate class Bar{
     class func likes(done:@escaping (_ done : [String])->Void){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
-            cnode.likes((token?.loginname)!, done)
+            sfx.likes((token?.loginname)!, done)
         }
     }
    
@@ -403,3 +403,4 @@ fileprivate struct ReplyFF: Codable {
     var created : String?
 }
 import UIKit
+import sfx

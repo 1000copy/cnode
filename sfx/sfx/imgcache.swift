@@ -1,10 +1,10 @@
 import UIKit
-extension UIImageView{
+public extension UIImageView{
     func setImage2(_ urlstr : String){
         ImageCache.shared.setImage(self,urlstr)
     }
 }
-class ImageCache{
+public class ImageCache{
     static let shared = ImageCache()
     func setImage(_ image : UIImageView,_ urlstr : String){
         let cacheData = self.hit(urlstr)

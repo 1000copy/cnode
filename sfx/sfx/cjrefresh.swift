@@ -1,4 +1,4 @@
-class DefaultGTMRefreshHeader: GTMRefreshHeader, SubGTMRefreshHeaderProtocol {
+public class DefaultGTMRefreshHeader: GTMRefreshHeader, SubGTMRefreshHeaderProtocol {
 //    var pullDownToRefresh = GTMRLocalize("pullDownToRefresh")
 //    var releaseToRefresh = GTMRLocalize("releaseToRefresh")
 //    var refreshSuccess = GTMRLocalize("refreshSuccess")
@@ -32,7 +32,7 @@ class DefaultGTMRefreshHeader: GTMRefreshHeader, SubGTMRefreshHeaderProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     // MARK: Layout
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         let center = CGPoint(x: frame.width * 0.5 - 70 - 20, y: frame.height * 0.5)
         loaddingIndicator.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
@@ -43,31 +43,31 @@ class DefaultGTMRefreshHeader: GTMRefreshHeader, SubGTMRefreshHeaderProtocol {
     /// 控件的高度
     ///
     /// - Returns: 控件的高度
-    func contentHeight() -> CGFloat {
+    public func contentHeight() -> CGFloat {
         return 60.0
     }
-    func toNormalState() {
+    public func toNormalState() {
         self.loaddingIndicator.isHidden = true
         self.loaddingIndicator.stopAnimating()
         messageLabel.text =  self.pullDownToRefresh
     }
-    func toRefreshingState() {
+    public func toRefreshingState() {
         self.loaddingIndicator.isHidden = false
         self.loaddingIndicator.startAnimating()
         messageLabel.text = self.refreshing
     }
-    func toPullingState() {
+    public func toPullingState() {
         self.loaddingIndicator.isHidden = true
         messageLabel.text = self.pullDownToRefresh
     }
-    func toWillRefreshState() {
+    public func toWillRefreshState() {
         messageLabel.text = self.releaseToRefresh
         self.loaddingIndicator.isHidden = true
     }
-    func changePullingPercent(percent: CGFloat) {
+    public func changePullingPercent(percent: CGFloat) {
         // here do nothing
     }
-    func willBeginEndRefershing(isSuccess: Bool) {
+    public func willBeginEndRefershing(isSuccess: Bool) {
         self.loaddingIndicator.isHidden = true
         if isSuccess {
             messageLabel.text =  self.refreshSuccess
@@ -75,10 +75,10 @@ class DefaultGTMRefreshHeader: GTMRefreshHeader, SubGTMRefreshHeaderProtocol {
             messageLabel.text =  self.refreshFailure
         }
     }
-    func willCompleteEndRefershing() {
+    public  func willCompleteEndRefershing() {
     }
 }
-class DefaultGTMLoadMoreFooter: GTMLoadMoreFooter, SubGTMLoadMoreFooterProtocol {
+public class DefaultGTMLoadMoreFooter: GTMLoadMoreFooter, SubGTMLoadMoreFooterProtocol {
     var pullUpToRefreshText: String = GTMRLocalize("pullUpToRefresh")
     public var loaddingText: String = GTMRLocalize("loadMore")
     public var noMoreDataText: String = GTMRLocalize("noMoreData")
@@ -105,14 +105,14 @@ class DefaultGTMLoadMoreFooter: GTMLoadMoreFooter, SubGTMLoadMoreFooterProtocol 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    override func willMove(toSuperview newSuperview: UIView?) {
+    public override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         guard newSuperview != nil else {
             return
         }
     }
     // MARK: Layout
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         let center = CGPoint(x: frame.width * 0.5 - 70 - 30, y: frame.height * 0.5)
         loaddingIndicator.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
@@ -123,29 +123,29 @@ class DefaultGTMLoadMoreFooter: GTMLoadMoreFooter, SubGTMLoadMoreFooterProtocol 
     /// 控件的高度
     ///
     /// - Returns: 控件的高度
-    func contentHeith() -> CGFloat {
+    public func contentHeith() -> CGFloat {
         return 50.0
     }
-    func toNormalState() {
+    public func toNormalState() {
         self.loaddingIndicator.isHidden = true
         self.loaddingIndicator.stopAnimating()
         messageLabel.text =  self.pullUpToRefreshText
     }
-    func toNoMoreDataState() {
+    public func toNoMoreDataState() {
         self.loaddingIndicator.isHidden = true
         self.loaddingIndicator.stopAnimating()
         messageLabel.text =  self.noMoreDataText
     }
-    func toWillRefreshState() {
+    public func toWillRefreshState() {
         messageLabel.text =  self.releaseLoadMoreText
     }
-    func toRefreshingState() {
+    public func toRefreshingState() {
         self.loaddingIndicator.isHidden = false
         self.loaddingIndicator.startAnimating()
         messageLabel.text =  self.loaddingText
     }
 }
-extension UIScrollView {
+public extension UIScrollView {
     internal var gtmHeader: GTMRefreshHeader? {
         get {
             return objc_getAssociatedObject(self, &GTMRefreshConstant.associatedObjectGtmHeader) as? GTMRefreshHeader
@@ -222,7 +222,7 @@ extension UIScrollView {
         self.gtmFooter?.endLoadMore(isNoMoreData: isNoMoreData)
     }
 }
-extension UIScrollView {
+public extension UIScrollView {
     var mj_insetT: CGFloat {
         get { return contentInset.top }
         set {
@@ -288,7 +288,7 @@ extension UIScrollView {
         }
     }
 }
-extension UIView {
+public extension UIView {
     var mj_x: CGFloat {
         get { return frame.origin.x }
         set {

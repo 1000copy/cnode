@@ -1,5 +1,5 @@
 import Foundation
-func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
+public func likes(_ loginname : String ,_ done:@escaping (_ t : [String])->Void){
 //    let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
 //    let params :[String:Any] = [:]
 //    Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
@@ -28,7 +28,7 @@ fileprivate struct ResultFF: Codable {
     var success: Bool?
     var error_message : String?
 }
-func like(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
+public  func like(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
 //    let URL = "https://cnodejs.org/api/v1/topic_collect/collect"
 //    var params :[String:Any] = [:]
 //    params["accesstoken"] = token
@@ -49,7 +49,7 @@ func like(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
 //        }
 //    }
 }
-func unlike(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
+public func unlike(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
 //    let URL = "https://cnodejs.org/api/v1/topic_collect/de_collect"
 //    var params :[String:Any] = [:]
 //    params["accesstoken"] = token
@@ -70,7 +70,7 @@ func unlike(_ id : String,_ token : String,done:@escaping (_ t : Any)->Void){
 //        }
 //    }
 }
-func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
+public func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
 //    let URL = "https://cnodejs.org/api/v1/topic_collect/\(loginname)"
 //    let params :[String:Any] = [:]
 //    Alamofire.request(URL, method: .get, parameters: params, encoding: URLEncoding.default, headers: nil).responseJSON() {
@@ -96,12 +96,12 @@ func like(_ loginname : String ,done:@escaping (_ t : Any)->Void){
 ////            done(response.data!)
 ////    }
 //}
-func postParameter(_ url : String,_ params:[String:String],done:@escaping (_ data : Data)-> Void){
+public func postParameter(_ url : String,_ params:[String:String],done:@escaping (_ data : Data)-> Void){
     callPost(URL(string:url)!, params){ message,data in
             done(data!)
     }
 }
-func getPostString(params:[String:Any]) -> String
+public func getPostString(params:[String:Any]) -> String
 {
     var data = [String]()
     for(key, value) in params
@@ -111,7 +111,7 @@ func getPostString(params:[String:Any]) -> String
     return data.map { String($0) }.joined(separator: "&")
 }
 
-func callPost(_ url:URL, _ params:[String:String], finish: @escaping ((message:String, data:Data?)) -> Void)
+public func callPost(_ url:URL, _ params:[String:String], finish: @escaping ((message:String, data:Data?)) -> Void)
 {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
@@ -138,7 +138,7 @@ func callPost(_ url:URL, _ params:[String:String], finish: @escaping ((message:S
 }
 
 
-func getJson(_ url : String ,done:@escaping (_ data : Data)->Void){
+public func getJson(_ url : String ,done:@escaping (_ data : Data)->Void){
     let task = URLSession.shared.dataTask(with: URL(string:url)!) { (data, response, error) in
         if error != nil {
             print(error!)
