@@ -20,11 +20,11 @@ class TopicsPage : TJTablePage{
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image1, style: .plain, target: self, action: #selector(ltap))
         reload("all")
     }
-    func ltap(){
+    @objc func ltap(){
         
         CJApp.shared.toggleLeftDrawer()
     }
-    func rtap(){
+    @objc func rtap(){
         let t = CreatePage()
         self.navigationController?.pushViewController(t, animated: true)
     }

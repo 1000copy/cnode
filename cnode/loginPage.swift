@@ -36,13 +36,13 @@ class LoginPage: UIViewController {
             $3.height == 30
         }
     }
-    func scan(_ sender:UIButton!){
+    @objc func scan(_ sender:UIButton!){
         QRScanner.Run(self){
             self._title.placeholder = ""
             self._title.text =  $0
         }
     }
-    func login(_ sender:UIButton!){
+    @objc func login(_ sender:UIButton!){
         Bar.foo (_title.text){
             let token = $0
             token.saveToKC()

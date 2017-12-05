@@ -16,10 +16,10 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         super.viewDidLoad()
         view.backgroundColor = UIColor.blue
         captureSession = AVCaptureSession()
-        let videoCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        let videoCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video)
         let videoInput: AVCaptureDeviceInput
         do {
-            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice!)
         } catch {
             return
         }
@@ -33,14 +33,14 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         if (captureSession.canAddOutput(metadataOutput)) {
             captureSession.addOutput(metadataOutput)
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         } else {
             failed()
             return
         }
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
         previewLayer.frame = view.layer.bounds;
-        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
         view.layer.addSublayer(previewLayer);
         captureSession.startRunning();
     }
@@ -67,7 +67,7 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         if let metadataObject = metadataObjects.first {
             let readableObject = metadataObject as! AVMetadataMachineReadableCodeObject;
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            found(code: readableObject.stringValue);
+            found(code: readableObject.stringValue!);
         }
         dismiss(animated: true)
     }

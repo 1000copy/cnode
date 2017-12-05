@@ -61,7 +61,7 @@ class CreatePage: UIViewController ,UIPickerViewDataSource,UIPickerViewDelegate{
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 200
     }
-    func buttonAction(_ sender:UIButton!){
+    @objc func buttonAction(_ sender:UIButton!){
         print(_title.text)
         print(_content.text)
         let tab = b[self._picker.selectedRow(inComponent: 0)]

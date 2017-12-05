@@ -72,7 +72,7 @@ class Top: UIView{
             avatar.setImage2(url)
         }
     }
-    func buttonAction(_ sender:UIButton!){
+    @objc func buttonAction(_ sender:UIButton!){
         if button.titleLabel?.text == "登出"{
             let token = AccessToken("","","","")
             token.saveToKC()

@@ -39,7 +39,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         }
     }
     var count : Int = 0
-    func reply(){
+    @objc func reply(){
         let ip = tableView.indexPathForSelectedRow
         let p = ReplyPage()
         p.topicId = id
@@ -50,7 +50,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
         }
         CJApp.shared.centerPage.pushViewController(p, animated: true)
     }
-    func like(){
+    @objc func like(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
             sfx.like(id!,t){_ in
@@ -58,7 +58,7 @@ class TopicPage : UITableViewController,UIWebViewDelegate{
             }
         }
     }
-    func unlike(){
+    @objc func unlike(){
         let token = AccessToken.loadFromKC()
         if let t = token?.accesstoken ,t != ""{
             sfx.unlike(id!,t){_ in

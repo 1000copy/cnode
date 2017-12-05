@@ -14,7 +14,7 @@ class RightPage: UIViewController {
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         view.addSubview(button)
     }
-    func buttonAction(_ sender:UIButton!){
+    @objc func buttonAction(_ sender:UIButton!){
         CJApp.shared.toggleRightDrawer()
     }
 }

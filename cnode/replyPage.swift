@@ -33,7 +33,7 @@ class ReplyPage: UIViewController {
             _content.placeholder = ""
         }
     }
-    func buttonAction(_ sender:UIButton!){
+    @objc func buttonAction(_ sender:UIButton!){
         print(_content.text)
         Bar.foo (topicId,replyId,_content.text){
             print("done")

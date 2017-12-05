@@ -49,9 +49,9 @@ class AboutPage: UIViewController {
         let attributedString = NSMutableAttributedString(string: homepage, attributes: nil)
         let linkRange = NSMakeRange(0, homepage.utf8.count)
         
-        let linkAttributes: [String : AnyObject] = [
-            NSForegroundColorAttributeName : UIColor.blue, NSUnderlineStyleAttributeName : NSUnderlineStyle.styleSingle.rawValue as AnyObject,
-            NSLinkAttributeName: homepage as AnyObject]
+        let linkAttributes: [NSAttributedStringKey : AnyObject] = [
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.blue, NSAttributedStringKey(rawValue: NSAttributedStringKey.underlineStyle.rawValue) : NSUnderlineStyle.styleSingle.rawValue as AnyObject,
+            NSAttributedStringKey(rawValue: NSAttributedStringKey.link.rawValue): homepage as AnyObject]
         attributedString.setAttributes(linkAttributes, range:linkRange)
         
         site.attributedText = attributedString
@@ -65,7 +65,7 @@ class AboutPage: UIViewController {
             }
         }
     }
-    func buttonAction(_ sender:UIButton!){
+    @objc func buttonAction(_ sender:UIButton!){
         CJApp.shared.centerPage.popViewController(animated: true)
     }
 }
@@ -130,7 +130,7 @@ class CustomLabel: UILabel {
         textContainer.size = bounds.size
     }
     
-    func labelTapped(_ gesture: UITapGestureRecognizer) {
+    @objc func labelTapped(_ gesture: UITapGestureRecognizer) {
         guard gesture.state == .ended else {
             return
         }
