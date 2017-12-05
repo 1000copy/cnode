@@ -8,5 +8,5 @@ Pod::Spec.new do |s|
   s.author           = { '1000copy' => '1000copy@gmail.com' }
   s.source           = { :git => 'https://github.com/1000copy/cnode' }
   s.ios.deployment_target = '10.0'
-  s.source_files = 'sfx/sfx/*'
+  s.source_files = 'sfx/**/*'
 end
