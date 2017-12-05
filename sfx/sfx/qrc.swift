@@ -1,3 +1,7 @@
+// QRScanner.Run(self){
+//    self._title.placeholder = ""
+//    self._title.text =  $0
+// }
 import AVFoundation
 import UIKit
 public typealias OnFind = (_ code : String)-> Void
@@ -16,7 +20,7 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         super.viewDidLoad()
         view.backgroundColor = UIColor.blue
         captureSession = AVCaptureSession()
-        let videoCaptureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+        let videoCaptureDevice = AVCaptureDevice.default(for: .video)
         let videoInput: AVCaptureDeviceInput
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice!)
@@ -33,14 +37,14 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         if (captureSession.canAddOutput(metadataOutput)) {
             captureSession.addOutput(metadataOutput)
             metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+            metadataOutput.metadataObjectTypes = [.qr]
         } else {
             failed()
             return
         }
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession);
         previewLayer.frame = view.layer.bounds;
-        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill;
+        previewLayer.videoGravity = .resizeAspectFill;
         view.layer.addSublayer(previewLayer);
         captureSession.startRunning();
     }
@@ -82,3 +86,4 @@ public class QRScanner: UIViewController, AVCaptureMetadataOutputObjectsDelegate
         return .portrait
     }
 }
+
