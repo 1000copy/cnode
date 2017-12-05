@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/1000copy/cnode'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { '1000copy' => '1000copy@gmail.com' }
-  s.source           = { :path => '~/github/pod/cnode' }
+  s.source           = { :git => 'https://github.com/1000copy/cnode' }
   s.ios.deployment_target = '10.0'
-  s.source_files = '*'
+  s.source_files = 'sfx/sfx/*'
 end
