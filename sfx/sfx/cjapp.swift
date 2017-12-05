@@ -21,9 +21,7 @@ open class CJApp: UIResponder, UIApplicationDelegate {
     }
     public func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        if isDrawerApp(){
-            window?.rootViewController = queryMainPage()
-        }
+        window?.rootViewController = queryMainPage()
         self.window?.makeKeyAndVisible()
         return onload()
     }
