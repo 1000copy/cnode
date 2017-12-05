@@ -1,4 +1,44 @@
 
+## cnode库
+
+最初只是开发了一个cnodejs的客户端，随后，我把这个客户端的可共享的代码分离出来，作为一个框架。
+此框架可以简化swift应用开发，并且内置了若干组件。
+
+## 使用方法
+
+    pod init
+
+然后贴入如下内容
+    
+    pod 'cnode',:git=> 'https://github.com/1000copy/cnode.git'
+
+随后更新代码库：
+
+    pod install --verbose --no-repo-update
+
+## 替换代码
+
+你的AppDelegate为：
+
+
+    import UIKit
+    import cnode
+    @UIApplicationMain
+    class App: CJApp{
+        override func queryMainPage()->UIViewController?{
+            let v = UIViewController()
+            v.view.backgroundColor = .blue
+            return v
+        }
+        override func isDrawerApp()->Bool{
+            return false
+        }
+    }
+
+-----
+
+以下为老的readme
+
 ## cnodejs-swift 发布
 
 全部使用 Swift 3.0 开发，IDE版本为8.2.1
