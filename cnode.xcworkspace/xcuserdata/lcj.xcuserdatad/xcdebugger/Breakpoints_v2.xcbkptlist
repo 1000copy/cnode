@@ -105,22 +105,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "cnode/aboutPage.swift"
-            timestampString = "534148552.118897"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "145"
-            endingLineNumber = "145"
-            landmarkName = "labelTapped(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "cnode/leftPage.swift"
             timestampString = "534148552.243376"
             startingColumnNumber = "9223372036854775807"
@@ -330,55 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243754"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
-            landmarkName = "reload(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (cnode.(Topics in _E70792FB0435A43D23CD33411BB26DDD)) -&gt; () in cnode.TopicsPage.reload(Swift.String) -&gt; ()"
-                  moduleName = "cnode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lcj/github/cnode/cnode/topicsPage.swift"
-                  timestampString = "532944758.4258"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "248">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #1 (cnode.(Topics in _E70792FB0435A43D23CD33411BB26DDD)) -&gt; () in cnode.TopicsPage.reload(Swift.String) -&gt; ()"
-                  moduleName = "cnode"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lcj/github/cnode/cnode/topicsPage.swift"
-                  timestampString = "532944758.42724"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "168">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243801"
+            timestampString = "534233960.466588"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
@@ -394,7 +330,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243842"
+            timestampString = "534233960.466656"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "49"
@@ -410,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243882"
+            timestampString = "534233960.466702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
             <Locations>
@@ -458,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243922"
+            timestampString = "534233960.466743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "8"
@@ -490,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.243976"
+            timestampString = "534233960.466797"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "foo(_:_:done:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -506,11 +442,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.244017"
+            timestampString = "534233960.466839"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "foo(_:_:done:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,23 +458,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.244057"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "reload(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.244096"
+            timestampString = "534233960.466878"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
@@ -554,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.244134"
+            timestampString = "534233960.466917"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,7 +506,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cnode/topicsPage.swift"
-            timestampString = "534148552.244212"
+            timestampString = "534233960.466973"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "24"

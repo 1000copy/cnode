@@ -3,7 +3,7 @@ class AboutPage: UIViewController {
     var avatar = UIImageView()
     var name = UILabel()
     var slogan = UITextView()
-    var site = CustomLabel()
+    var site = URLLabel()
     var dismiss = UIButton()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,16 +46,10 @@ class AboutPage: UIViewController {
         avatar.setImage2(url)
         //
         let homepage : String = "https://lcj.sxl.cn"
-        let attributedString = NSMutableAttributedString(string: homepage, attributes: nil)
-        let linkRange = NSMakeRange(0, homepage.utf8.count)
+       
         
-        let linkAttributes: [NSAttributedStringKey : AnyObject] = [
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue) : UIColor.blue, NSAttributedStringKey(rawValue: NSAttributedStringKey.underlineStyle.rawValue) : NSUnderlineStyle.styleSingle.rawValue as AnyObject,
-            NSAttributedStringKey(rawValue: NSAttributedStringKey.link.rawValue): homepage as AnyObject]
-        attributedString.setAttributes(linkAttributes, range:linkRange)
-        
-        site.attributedText = attributedString
-        
+//        site.attributedText = getAttributedText(homepage)
+        site.url = homepage
         site.onCharacterTapped = { label, characterIndex in
             let url = URL(string: homepage)!
             if #available(iOS 10.0, *) {
@@ -65,85 +59,10 @@ class AboutPage: UIViewController {
             }
         }
     }
+
     @objc func buttonAction(_ sender:UIButton!){
         CJApp.shared.centerPage.popViewController(animated: true)
     }
 }
-import UIKit
-
-
-class CustomLabel: UILabel {
-    
-    let layoutManager = NSLayoutManager()
-    let textContainer = NSTextContainer(size: CGSize.zero)
-    var textStorage = NSTextStorage() {
-        didSet {
-            textStorage.addLayoutManager(layoutManager)
-        }
-    }
-    var onCharacterTapped: ((_ label: UILabel, _ characterIndex: Int) -> Void)?
-    
-    let tapGesture = UITapGestureRecognizer()
-    
-    override var attributedText: NSAttributedString? {
-        didSet {
-            if let attributedText = attributedText {
-                textStorage = NSTextStorage(attributedString: attributedText)
-            } else {
-                textStorage = NSTextStorage()
-            }
-        }
-    }
-    override var lineBreakMode: NSLineBreakMode {
-        didSet {
-            textContainer.lineBreakMode = lineBreakMode
-        }
-    }
-    
-    override var numberOfLines: Int {
-        didSet {
-            textContainer.maximumNumberOfLines = numberOfLines
-        }
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setUp()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setUp()
-    }
-    func setUp() {
-        isUserInteractionEnabled = true
-        layoutManager.addTextContainer(textContainer)
-        textContainer.lineFragmentPadding = 0
-        textContainer.lineBreakMode = lineBreakMode
-        textContainer.maximumNumberOfLines = numberOfLines
-        tapGesture.addTarget(self, action: #selector(CustomLabel.labelTapped(_:)))
-        addGestureRecognizer(tapGesture)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        textContainer.size = bounds.size
-    }
-    
-    @objc func labelTapped(_ gesture: UITapGestureRecognizer) {
-        guard gesture.state == .ended else {
-            return
-        }
-        let locationOfTouch = gesture.location(in: gesture.view)
-        let textBoundingBox = layoutManager.usedRect(for: textContainer)
-        let textContainerOffset = CGPoint(x: (bounds.width - textBoundingBox.width) / 2 - textBoundingBox.minX,
-                                          y: (bounds.height - textBoundingBox.height) / 2 - textBoundingBox.minY)
-        let locationOfTouchInTextContainer = CGPoint(x: locationOfTouch.x - textContainerOffset.x, y: locationOfTouch.y - textContainerOffset.y)
-        let indexOfCharacter = layoutManager.characterIndex(for: locationOfTouchInTextContainer,
-                                                            in: textContainer,  fractionOfDistanceBetweenInsertionPoints: nil)
-        
-        onCharacterTapped?(self, indexOfCharacter)
-    }
-    
-}
 import sfx
+import UIKit

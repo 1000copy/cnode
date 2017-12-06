@@ -49,15 +49,7 @@ class TopicsPage : TJTablePage{
         self.tab = tab
         Bar.foo(tab,1){
             self.arr = $0
-            //            print(self.arr?.data?[0].top)
-            //不套一个外壳调用，会慢得惊人，并且xcode会提示：
-            //Main Thread Checker: UI API called on a background thread: -[UIApplication applicationState]
-//            self.tableView.reloadData()
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
             self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: true)
-//            }
-            
         }
     }
     func up(_ cb : @escaping Callback){

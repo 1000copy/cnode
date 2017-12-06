@@ -1,7 +1,5 @@
-
 import UIKit
 import sfx
-//var homePage : TopicsPage!
 @UIApplicationMain
 class App: CJApp{
     override func queryHomePage()->UIViewController?{
