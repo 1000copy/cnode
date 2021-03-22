@@ -388,7 +388,7 @@ fileprivate struct DataFF : Codable{
     var author_id : String?
     var tab : String?
     var last_reply_at : String?
-    var good : Int?
+    var good : Bool?
     var top : Bool?
     var reply_count : Int?
     var visit_count : Int?

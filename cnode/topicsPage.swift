@@ -183,7 +183,8 @@ fileprivate struct TopicFF: Codable {
     var content : String?
     var title : String?
     var last_reply_at : String?
-    var good : Int?
+//    var good : Int?
+    var good : Bool?
     var top : Bool?
     var reply_count : Int?
     var visit_count : Int?
